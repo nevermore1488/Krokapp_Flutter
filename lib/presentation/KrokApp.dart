@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/presentation/PlaceListMapPage.dart';
+import 'package:krokapp_multiplatform/presentation/ListMapPage.dart';
 
 class KrokApp extends StatelessWidget {
   @override
@@ -10,7 +10,7 @@ class KrokApp extends StatelessWidget {
       /*home: PlaceListPage(
         _createPlaces(),
       ),*/
-      home: PlaceListMapPage(),
+      home: ListMapPage(),
     );
   }
 }
