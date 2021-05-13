@@ -24,10 +24,7 @@ class PlaceItem extends StatelessWidget {
                   Row(
                     children: [
                       _createLogo(),
-                      Text(
-                          _place.title,
-                          style: TextStyle(fontSize: 15)
-                      ),
+                      Text(_place.title, style: TextStyle(fontSize: 15)),
                     ],
                   ),
                   Expanded(

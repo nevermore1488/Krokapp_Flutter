@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/data/Place.dart';
 import 'package:krokapp_multiplatform/presentation/list/PlaceItem.dart';
+import 'package:provider/provider.dart';
+
+import 'PlaceListModel.dart';
 
 class PlaceListPage extends StatelessWidget {
-  final List<Place> _items;
-  final Function(Place) onPlaceClick;
-  final Function(Place) onPlaceFavoriteClick;
-
-  PlaceListPage(
-    this._items, {
-    this.onPlaceClick,
-    this.onPlaceFavoriteClick,
-  });
-
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: ListView(
-          children: _createPlaceItems(),
-          padding: EdgeInsets.only(bottom: 32),
+  Widget build(BuildContext context) => Consumer<PlaceListModel>(
+        builder: (context, model, child) => Scaffold(
+          body: ListView(
+            children: _createPlaceItems(model),
+            padding: EdgeInsets.only(bottom: 32),
+          ),
         ),
       );
 
-  List<Widget> _createPlaceItems() =>
-      _items.map((e) => PlaceItem(e, onPlaceClick, onPlaceClick)).toList();
+  List<Widget> _createPlaceItems(PlaceListModel model) => model.places
+      .map((e) => PlaceItem(e, model.onPlaceFavoriteClick, model.onPlaceClick))
+      .toList();
 }
