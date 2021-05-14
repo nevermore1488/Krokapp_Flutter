@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:krokapp_multiplatform/presentation/map/MarkerInfo.dart';
+import 'package:krokapp_multiplatform/data/marker_info.dart';
 
 class MapModel extends ChangeNotifier {
   static const _MINSK_RAILROAD_LOCATION = LatLng(53.891178, 27.551021);

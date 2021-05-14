@@ -7,9 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:krokapp_multiplatform/main.dart';
-import 'package:krokapp_multiplatform/presentation/KrokApp.dart';
+import 'package:krokapp_multiplatform/presentation/krok_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

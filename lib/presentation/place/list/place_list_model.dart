@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:krokapp_multiplatform/data/Place.dart';
+import 'package:krokapp_multiplatform/data/place.dart';
 
 class PlaceListModel extends ChangeNotifier {
   List<Place> places;
@@ -9,15 +10,15 @@ class PlaceListModel extends ChangeNotifier {
     places = _createPlaces();
   }
 
-  void onPlaceClick(Place place) {}
+  void onPlaceClick(BuildContext context, Place place) {}
 
-  void onPlaceFavoriteClick(Place place) {}
+  void onPlaceFavoriteClick(BuildContext context, Place place) {}
 
   List<Place> _createPlaces() => List.generate(
         20,
         (index) => Place(
           index,
-          "The Place",
+          "The Place " + (index + 1).toString(),
           "https://krokapp.by/media/place_logo/54b818aa-f116-4610-ae4a-e625c56c426f.png",
           true,
           false,

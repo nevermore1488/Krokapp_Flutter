@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/data/Place.dart';
+import 'package:krokapp_multiplatform/data/place.dart';
 
 class PlaceItem extends StatelessWidget {
-  final Place _place;
-  final Function(Place) _onItemClick;
-  final Function(Place) _onFavoriteClick;
+  final Place place;
+  final Function(BuildContext, Place) onItemClick;
+  final Function(BuildContext, Place) onFavoriteClick;
 
-  PlaceItem(
-    this._place,
-    this._onItemClick,
-    this._onFavoriteClick,
-  );
+  PlaceItem({
+    this.place,
+    this.onItemClick,
+    this.onFavoriteClick,
+  });
 
   @override
   Widget build(BuildContext context) => InkWell(
-      onTap: () => this._onItemClick(_place),
+      onTap: () => this.onItemClick(context, place),
       child: Column(
         children: [
           Stack(
@@ -24,14 +24,14 @@ class PlaceItem extends StatelessWidget {
                   Row(
                     children: [
                       _createLogo(),
-                      Text(_place.title, style: TextStyle(fontSize: 15)),
+                      Text(place.title, style: TextStyle(fontSize: 15)),
                     ],
                   ),
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.only(right: 16),
                       alignment: Alignment.centerRight,
-                      child: _createFavoriteClickableIcon(),
+                      child: _createFavoriteClickableIcon(context),
                     ),
                   ),
                 ],
@@ -47,23 +47,19 @@ class PlaceItem extends StatelessWidget {
         child: SizedBox(
           width: 60,
           height: 60,
-          child: Image.network(_place.logo),
+          child: Image.network(place.logo),
         ),
       );
 
-  Widget _createFavoriteClickableIcon() => InkWell(
-        customBorder: CircleBorder(),
-        onTap: () => this._onFavoriteClick(_place),
-        child: Container(
-          padding: EdgeInsets.all(8),
-          child: _createFavoriteIcon(),
-        ),
+  Widget _createFavoriteClickableIcon(BuildContext context) => IconButton(
+        onPressed: () => this.onFavoriteClick(context, place),
+        icon: _createFavoriteIcon(),
       );
 
-  Widget _createFavoriteIcon() => _place.isShowFavorite
+  Widget _createFavoriteIcon() => place.isShowFavorite
       ? Icon(
-          _place.isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: _place.isFavorite ? Colors.red : null,
+          place.isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: place.isFavorite ? Colors.red : null,
         )
       : null;
 

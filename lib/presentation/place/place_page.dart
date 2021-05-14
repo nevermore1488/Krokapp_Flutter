@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:krokapp_multiplatform/data/place_type.dart';
+import 'package:krokapp_multiplatform/presentation/place/list/place_list_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/map/map_page.dart';
 
-class SwitchablePage extends StatefulWidget {
+class PlacePage extends StatefulWidget {
+  final PlaceType placeType;
   final Widget title;
-  final Widget firstPage;
-  final Widget secondPage;
-  final Widget firstIcon;
-  final Widget secondIcon;
+  final extraId;
+  final Widget drawer;
 
-  SwitchablePage({
+  PlacePage({
+    @required this.placeType,
     @required this.title,
-    @required this.firstPage,
-    @required this.secondPage,
-    @required this.firstIcon,
-    @required this.secondIcon,
+    this.extraId,
+    this.drawer,
   });
 
   @override
-  State<SwitchablePage> createState() => _SwitchablePageState();
+  State<PlacePage> createState() => _PlacePageState();
 }
 
-class _SwitchablePageState extends State<SwitchablePage> {
+class _PlacePageState extends State<PlacePage> {
   var _isFirstPage = true;
 
   @override
@@ -33,10 +34,11 @@ class _SwitchablePageState extends State<SwitchablePage> {
           child: _createCurrentPage(),
           transitionBuilder: _createCurrentSwitchAnimation,
         ),
+        drawer: widget.drawer,
       );
 
   Widget _createSwitchIcon() => IconButton(
-        icon: _isFirstPage ? widget.firstIcon : widget.secondIcon,
+        icon: Icon(_isFirstPage ? Icons.map_outlined : Icons.list_alt),
         onPressed: _onSwitchIconClick,
       );
 
@@ -46,7 +48,11 @@ class _SwitchablePageState extends State<SwitchablePage> {
     });
   }
 
-  Widget _createCurrentPage() => _isFirstPage ? widget.firstPage : widget.secondPage;
+  Widget _createCurrentPage() => _isFirstPage ? _createFirstPage() : _createSecondPage();
+
+  Widget _createFirstPage() => PlaceListPage();
+
+  Widget _createSecondPage() => MapPage();
 
   Widget _createCurrentSwitchAnimation(Widget child, Animation<double> animation) =>
       SlideTransition(
