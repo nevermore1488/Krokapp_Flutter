@@ -38,9 +38,9 @@ class NavigationMenuDrawer extends StatelessWidget {
         ),
       );
 
-  Widget _createMenuItem(String name, IconData iconData, Function onTap) => ListTile(
+  Widget _createMenuItem(String name, IconData iconData, Function? onClick) => ListTile(
         title: Text(name),
         leading: Icon(iconData),
-        onTap: onTap,
+        onTap: () => onClick,
       );
 }

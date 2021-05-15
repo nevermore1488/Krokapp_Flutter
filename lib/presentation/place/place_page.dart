@@ -7,11 +7,11 @@ class PlacePage extends StatefulWidget {
   final PlaceType placeType;
   final Widget title;
   final extraId;
-  final Widget drawer;
+  final Widget? drawer;
 
   PlacePage({
-    @required this.placeType,
-    @required this.title,
+    required this.placeType,
+    required this.title,
     this.extraId,
     this.drawer,
   });

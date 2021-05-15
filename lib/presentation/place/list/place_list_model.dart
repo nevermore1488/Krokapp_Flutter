@@ -3,18 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:krokapp_multiplatform/data/place.dart';
 
 class PlaceListModel extends ChangeNotifier {
-  List<Place> places;
-  bool isLoading;
-
-  PlaceListModel() {
-    places = _createPlaces();
-  }
+  List<Place> places = _createPlaces();
+  var isLoading = false;
 
   void onPlaceClick(BuildContext context, Place place) {}
 
   void onPlaceFavoriteClick(BuildContext context, Place place) {}
 
-  List<Place> _createPlaces() => List.generate(
+  static List<Place> _createPlaces() => List.generate(
         20,
         (index) => Place(
           index,

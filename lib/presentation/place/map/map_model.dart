@@ -5,17 +5,16 @@ import 'package:krokapp_multiplatform/data/marker_info.dart';
 class MapModel extends ChangeNotifier {
   static const _MINSK_RAILROAD_LOCATION = LatLng(53.891178, 27.551021);
 
-  List<MarkerInfo> markers;
-  List<LatLng> route;
-  LatLng startLocation;
+  List<MarkerInfo> markers= _createMarkers();
+  List<LatLng> route = List.empty();
+  LatLng startLocation = LatLng(0, 0);
 
   MapModel() {
-    markers = _createMarkers();
     route = markers.map((e) => LatLng(e.lat, e.lng)).toList();
     startLocation = LatLng(markers.first.lat, markers.first.lng);
   }
 
-  List<MarkerInfo> _createMarkers() => List.generate(
+  static List<MarkerInfo> _createMarkers() => List.generate(
         20,
         (index) => MarkerInfo(
           index.toString(),

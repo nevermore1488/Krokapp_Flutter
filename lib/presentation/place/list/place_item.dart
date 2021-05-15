@@ -7,9 +7,9 @@ class PlaceItem extends StatelessWidget {
   final Function(BuildContext, Place) onFavoriteClick;
 
   PlaceItem({
-    this.place,
-    this.onItemClick,
-    this.onFavoriteClick,
+    required this.place,
+    required this.onItemClick,
+    required this.onFavoriteClick,
   });
 
   @override
@@ -67,7 +67,7 @@ class PlaceItem extends StatelessWidget {
           place.isFavorite ? Icons.favorite : Icons.favorite_border,
           color: place.isFavorite ? Colors.red : Colors.black45,
         )
-      : null;
+      : SizedBox.shrink();
 
   Widget _createDividerWithPadding() => Container(
         padding: EdgeInsets.only(left: 16, right: 16),
