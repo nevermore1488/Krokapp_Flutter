@@ -28,6 +28,7 @@ class _PlacePageState extends State<PlacePage> {
         appBar: AppBar(
           title: widget.title,
           actions: [_createSwitchIcon()],
+          brightness: Brightness.dark,
         ),
         body: AnimatedSwitcher(
           duration: Duration(milliseconds: 300),
@@ -40,6 +41,7 @@ class _PlacePageState extends State<PlacePage> {
   Widget _createSwitchIcon() => IconButton(
         icon: Icon(_isFirstPage ? Icons.map_outlined : Icons.list_alt),
         onPressed: _onSwitchIconClick,
+        tooltip: "Switch mode",
       );
 
   void _onSwitchIconClick() {

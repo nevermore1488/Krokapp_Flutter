@@ -11,8 +11,8 @@ class NavigationMenuDrawer extends StatelessWidget {
                 color: Colors.orange,
               ),
               child: Text(
-                'KrokApp, your guide.',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+                'KrokApp, your guide',
+                style: TextStyle(color: Colors.white, fontSize: 21),
               ),
             ),
             _createMenuGroupTitle("Settings"),
@@ -32,7 +32,10 @@ class NavigationMenuDrawer extends StatelessWidget {
 
   Widget _createMenuGroupTitle(String title) => Padding(
         padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-        child: Text(title),
+        child: Text(
+          title,
+          style: TextStyle(color: Colors.black54),
+        ),
       );
 
   Widget _createMenuItem(String name, IconData iconData, Function onTap) => ListTile(

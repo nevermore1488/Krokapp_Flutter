@@ -24,7 +24,13 @@ class PlaceItem extends StatelessWidget {
                   Row(
                     children: [
                       _createLogo(),
-                      Text(place.title, style: TextStyle(fontSize: 15)),
+                      Text(
+                        place.title,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black87,
+                        ),
+                      ),
                     ],
                   ),
                   Expanded(
@@ -59,7 +65,7 @@ class PlaceItem extends StatelessWidget {
   Widget _createFavoriteIcon() => place.isShowFavorite
       ? Icon(
           place.isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: place.isFavorite ? Colors.red : null,
+          color: place.isFavorite ? Colors.red : Colors.black45,
         )
       : null;
 
