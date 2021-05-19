@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/data/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
 
 class PlaceItem extends StatelessWidget {
   final Place place;

@@ -11,3 +11,5 @@ class MarkerInfo {
     this.lng,
   );
 }
+
+enum PlaceType { cities, points, detail, favorite, excursion }

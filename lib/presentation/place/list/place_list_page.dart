@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/data/place.dart';
-import 'package:krokapp_multiplatform/data/place_type.dart';
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_item.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_page.dart';
 import 'package:provider/provider.dart';

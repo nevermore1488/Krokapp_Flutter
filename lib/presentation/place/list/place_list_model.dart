@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:krokapp_multiplatform/data/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
 
 class PlaceListModel extends ChangeNotifier {
   List<Place> places = _createPlaces();
