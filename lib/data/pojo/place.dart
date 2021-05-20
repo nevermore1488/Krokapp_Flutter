@@ -8,10 +8,10 @@ class Place {
   Place(
     this.id,
     this.title,
-    this.logo,
-    this.isShowFavorite,
-    this.isFavorite,
-  );
+    this.logo, [
+    this.isShowFavorite = false,
+    this.isFavorite = false,
+  ]);
 }
 
 enum PlaceType { cities, points, detail, favorite, excursion }

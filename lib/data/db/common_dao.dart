@@ -29,7 +29,7 @@ abstract class CommonDaoImpl<T> implements CommonDao<T> {
   @override
   Future<List<T>> selectAll() async {
     List<Map<String, Object?>> query =
-        await (await _dbFuture).rawQuery("SELECT * FROM $_tableName");
+        await (await _dbFuture).rawQuery("SELECT * FROM $_tableName where lang = 1");
 
     return jsonToEntities(query);
   }

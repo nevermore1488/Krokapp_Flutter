@@ -51,8 +51,8 @@ class PlaceItem extends StatelessWidget {
   Widget _createLogo() => Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
         child: SizedBox(
-          width: 60,
-          height: 60,
+          width: 56,
+          height: 56,
           child: Image.network(place.logo),
         ),
       );
