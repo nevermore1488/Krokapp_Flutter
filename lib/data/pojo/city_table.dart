@@ -11,7 +11,7 @@ const String _VISIBLE = "visible";
 const String _UNIQUE_ID_API = "id_locale";
 const String _PLACE_ID_API = "id";
 
-const String CITIES_TABLE_CREATE = 'CREATE TABLE $CITIES_TABLE_NAME('
+const String CREATE_CITIES_TABLE_CLAUSE = 'CREATE TABLE $CITIES_TABLE_NAME('
     '$_UNIQUE_ID INTEGER PRIMARY KEY,'
     ' $_PLACE_ID INTEGER,'
     ' $_NAME TEXT,'

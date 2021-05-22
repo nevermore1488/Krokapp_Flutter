@@ -7,13 +7,15 @@ import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
 const _KROK_API = "http://krokapp.by/api/";
 
 abstract class CitiesApi {
-  Future<List<CityTable>> getCities();
+  Future<List<CityTable>> getCities(int languageId);
 }
 
 class CitiesApiImpl implements CitiesApi {
   @override
-  Future<List<CityTable>> getCities() async =>
-      (await _getRequest('get_cities/1')).map((e) => CityTable.fromJson(e, isApi: true)).toList();
+  Future<List<CityTable>> getCities(int languageId) async =>
+      (await _getRequest('get_cities/$languageId'))
+          .map((e) => CityTable.fromJson(e, isApi: true))
+          .toList();
 }
 
 Future<List<dynamic>> _getRequest(String path) async {

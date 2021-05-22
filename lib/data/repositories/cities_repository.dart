@@ -14,13 +14,19 @@ class CitiesRepository {
 
   Future<List<Place>> getCities() async {
     List<CityTable> savedCities =
-        await _dao.selectAll().onError((error, stackTrace) => throw error!);
+        await _dao.selectLocalized().onError((error, stackTrace) => throw error!);
 
     if (savedCities.isEmpty) {
+      int currentLanguageId = await _dao.getCurrentLanguageId();
+
       List<CityTable> citiesFromRemote =
-          await _api.getCities().onError((error, stackTrace) => throw error!);
+          await _api.getCities(currentLanguageId).onError((error, stackTrace) => throw error!);
+
       _dao.insertWithReplace(citiesFromRemote);
-      return convertTablesToPlaces(citiesFromRemote.where((element) => element.lang == 1).toList());
+
+      return convertTablesToPlaces(
+        citiesFromRemote.where((element) => element.lang == currentLanguageId).toList(),
+      );
     }
     return convertTablesToPlaces(savedCities);
   }

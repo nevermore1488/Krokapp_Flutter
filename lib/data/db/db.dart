@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:krokapp_multiplatform/data/db/localized_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,9 +17,11 @@ Future<Database> createDb() async {
     // When the database is first created, create a table to store dogs.
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
-      return db.execute(
-        CITIES_TABLE_CREATE,
-      );
+      Batch batch = db.batch();
+      batch.execute(CREATE_CURRENT_LANGUAGE_TABLE_CLAUSE);
+      batch.execute(CREATE_CITIES_TABLE_CLAUSE);
+      batch.insert(CURRENT_LANGUAGE_TABLE_NAME, {CURRENT_LANGUAGE_ID_COLUMN_NAME: 1});
+      batch.commit();
     },
     // Set the version. This executes the onCreate function and provides a
     // path to perform database upgrades and downgrades.
@@ -28,3 +31,4 @@ Future<Database> createDb() async {
   // Define a function that inserts dogs into the database
   return database;
 }
+//batch.insert(CURRENT_LANGUAGE_TABLE_NAME, {CURRENT_LANGUAGE_ID_COLUMN_NAME: languageId});
