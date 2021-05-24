@@ -12,25 +12,15 @@ class CitiesRepository {
     this._dao,
   );
 
-  Future<List<Place>> getCities() async {
-    List<CityTable> savedCities =
-        await _dao.selectLocalized().onError((error, stackTrace) => throw error!);
+  Stream<List<Place>> getCities() => _dao.selectLocalized().asyncMap((event) async {
+        if (event.isNotEmpty) return event;
 
-    if (savedCities.isEmpty) {
-      int currentLanguageId = await _dao.getCurrentLanguageId();
+        int currentLanguageId = await _dao.getCurrentLanguageId();
 
-      List<CityTable> citiesFromRemote =
-          await _api.getCities(currentLanguageId).onError((error, stackTrace) => throw error!);
+        List<CityTable> citiesFromRemote =
+            await _api.getCities(currentLanguageId).onError((error, stackTrace) => throw error!);
 
-      _dao.insertWithReplace(citiesFromRemote);
-
-      return convertTablesToPlaces(
-        citiesFromRemote.where((element) => element.lang == currentLanguageId).toList(),
-      );
-    }
-    return convertTablesToPlaces(savedCities);
-  }
+        _dao.replaceBy(citiesFromRemote);
+        return citiesFromRemote;
+      }).map((event) => event.map((e) => e.toPlace()).toList());
 }
-
-List<Place> convertTablesToPlaces(List<CityTable> tables) =>
-    tables.map((e) => Place(e.placeId, e.name, e.logo)).toList();

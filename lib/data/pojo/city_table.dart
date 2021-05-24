@@ -1,3 +1,6 @@
+import 'package:krokapp_multiplatform/data/json_converter.dart';
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
+
 const String CITIES_TABLE_NAME = "cities";
 
 const String _UNIQUE_ID = "unique_id";
@@ -65,4 +68,18 @@ class CityTable {
     map[_VISIBLE] = isApi ? visible : (visible ? 1 : 0);
     return map;
   }
+
+  Place toPlace() => Place(placeId, name, logo);
+}
+
+class CitiesJsonConverter implements JsonConverter<CityTable> {
+  bool isApi;
+
+  CitiesJsonConverter({this.isApi = false});
+
+  @override
+  CityTable fromJson(Map<String, Object?> json) => CityTable.fromJson(json, isApi: isApi);
+
+  @override
+  Map<String, Object?> toJson(CityTable pojo) => pojo.toJson(isApi: isApi);
 }
