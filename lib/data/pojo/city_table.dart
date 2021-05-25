@@ -1,30 +1,31 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 
-const String CITIES_TABLE_NAME = "cities";
-
-const String _UNIQUE_ID = "unique_id";
-const String _PLACE_ID = "place_id";
-const String _NAME = "name";
-const String _LANG = "lang";
-const String _LOGO = "logo";
-const String _LAST_EDIT_TIME = "last_edit_time";
-const String _VISIBLE = "visible";
-
-const String _UNIQUE_ID_API = "id_locale";
-const String _PLACE_ID_API = "id";
-
-const String CREATE_CITIES_TABLE_CLAUSE = 'CREATE TABLE $CITIES_TABLE_NAME('
-    '$_UNIQUE_ID INTEGER PRIMARY KEY,'
-    ' $_PLACE_ID INTEGER,'
-    ' $_NAME TEXT,'
-    ' $_LANG INTEGER,'
-    ' $_LOGO TEXT,'
-    ' $_LAST_EDIT_TIME INTEGER,'
-    ' $_VISIBLE INTEGER'
-    ')';
-
 class CityTable {
+  static const String TABLE_NAME = "cities";
+
+  static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
+      '$COLUMN_UNIQUE_ID INTEGER PRIMARY KEY,'
+      ' $COLUMN_PLACE_ID INTEGER,'
+      ' $COLUMN_NAME TEXT,'
+      ' $COLUMN_LANG INTEGER,'
+      ' $COLUMN_LOGO TEXT,'
+      ' $COLUMN_LAST_EDIT_TIME INTEGER,'
+      ' $COLUMN_VISIBLE INTEGER'
+      ')';
+
+  static const String _API_UNIQUE_ID = "id_locale";
+  static const String _API_PLACE_ID = "id";
+
+  static const String COLUMN_UNIQUE_ID = "unique_id";
+  static const String COLUMN_PLACE_ID = "place_id";
+
+  static const String COLUMN_NAME = "name";
+  static const String COLUMN_LANG = "lang";
+  static const String COLUMN_LOGO = "logo";
+  static const String COLUMN_LAST_EDIT_TIME = "last_edit_time";
+  static const String COLUMN_VISIBLE = "visible";
+
   int uniqueId = 0;
   int placeId = 0;
   String name = "";
@@ -44,28 +45,28 @@ class CityTable {
   );
 
   CityTable.fromJson(dynamic json, {isApi = false}) {
-    String uniqueIdName = isApi ? _UNIQUE_ID_API : _UNIQUE_ID;
-    String placeIdName = isApi ? _PLACE_ID_API : _PLACE_ID;
-    uniqueId = json[uniqueIdName];
-    placeId = json[placeIdName];
-    name = json[_NAME];
-    lang = json[_LANG];
-    logo = json[_LOGO];
-    lastEditTime = json[_LAST_EDIT_TIME];
-    visible = isApi ? json[_VISIBLE] : (json[_VISIBLE] == 1);
+    uniqueId = json[isApi ? _API_UNIQUE_ID : COLUMN_UNIQUE_ID];
+    placeId = json[isApi ? _API_PLACE_ID : COLUMN_PLACE_ID];
+
+    name = json[COLUMN_NAME];
+    lang = json[COLUMN_LANG];
+    logo = json[COLUMN_LOGO];
+    lastEditTime = json[COLUMN_LAST_EDIT_TIME];
+    visible = isApi ? json[COLUMN_VISIBLE] : (json[COLUMN_VISIBLE] == 1);
   }
 
   Map<String, dynamic> toJson({isApi = false}) {
-    String uniqueIdName = isApi ? _UNIQUE_ID_API : _UNIQUE_ID;
-    String placeIdName = isApi ? _PLACE_ID_API : _PLACE_ID;
     var map = <String, dynamic>{};
-    map[uniqueIdName] = uniqueId;
-    map[placeIdName] = placeId;
-    map[_NAME] = name;
-    map[_LANG] = lang;
-    map[_LOGO] = logo;
-    map[_LAST_EDIT_TIME] = lastEditTime;
-    map[_VISIBLE] = isApi ? visible : (visible ? 1 : 0);
+
+    map[isApi ? _API_UNIQUE_ID : COLUMN_UNIQUE_ID] = uniqueId;
+    map[isApi ? _API_PLACE_ID : COLUMN_PLACE_ID] = placeId;
+
+    map[COLUMN_NAME] = name;
+    map[COLUMN_LANG] = lang;
+    map[COLUMN_LOGO] = logo;
+    map[COLUMN_LAST_EDIT_TIME] = lastEditTime;
+    map[COLUMN_VISIBLE] = isApi ? visible : (visible ? 1 : 0);
+
     return map;
   }
 

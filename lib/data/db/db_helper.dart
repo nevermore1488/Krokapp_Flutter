@@ -29,7 +29,7 @@ class DbHelper {
         // Run the CREATE TABLE statement on the database.
         Batch batch = db.batch();
         batch.execute(CREATE_CURRENT_LANGUAGE_TABLE_CLAUSE);
-        batch.execute(CREATE_CITIES_TABLE_CLAUSE);
+        batch.execute(CityTable.CREATE_TABLE_CLAUSE);
         batch.insert(CURRENT_LANGUAGE_TABLE_NAME, {CURRENT_LANGUAGE_ID_COLUMN_NAME: 1});
         batch.commit();
       },

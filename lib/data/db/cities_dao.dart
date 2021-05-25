@@ -8,7 +8,7 @@ class CitiesDaoImpl extends LocalizedDaoImpl<CityTable> implements CitiesDao {
   CitiesDaoImpl(ObservableDatabaseExecutor obsDbExecutor)
       : super(
           obsDbExecutor,
-          CITIES_TABLE_NAME,
+          CityTable.TABLE_NAME,
           CitiesJsonConverter(),
           "lang",
         );

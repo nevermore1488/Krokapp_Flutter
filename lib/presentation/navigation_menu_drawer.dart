@@ -34,7 +34,7 @@ class NavigationMenuDrawer extends StatelessWidget {
         padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
         child: Text(
           title,
-          style: TextStyle(color: Colors.black54),
+          style: TextStyle(color: Colors.black54, fontSize: 15),
         ),
       );
 

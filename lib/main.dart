@@ -23,7 +23,7 @@ Widget _onDbCreating(BuildContext context, AsyncSnapshot<Database> snapshot) {
         alignment: Alignment.center,
         child: Text(
           "KrokApp",
-          style: TextStyle(color: Colors.white, fontSize: 24),
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
       ),
     );
