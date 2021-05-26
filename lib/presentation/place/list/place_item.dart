@@ -12,49 +12,40 @@ class PlaceItem extends StatelessWidget {
     required this.onFavoriteClick,
   });
 
-  @override
   Widget build(BuildContext context) => InkWell(
-      onTap: () => this.onItemClick(context, place),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Row(
+        onTap: () => this.onItemClick(context, place),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      _createLogo(),
-                      Text(
+                  _createLogo(),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+                      child: Text(
                         place.title,
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.black87,
                         ),
                       ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(right: 16),
-                      alignment: Alignment.centerRight,
-                      child: _createFavoriteClickableIcon(context),
                     ),
                   ),
+                  _createFavoriteClickableIcon(context),
                 ],
               ),
-            ],
-          ),
-          _createDividerWithPadding(),
-        ],
-      ));
-
-  Widget _createLogo() => Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-        child: SizedBox(
-          width: 56,
-          height: 56,
-          child: Image.network(place.logo),
+            ),
+            _createDividerWithPadding(),
+          ],
         ),
+      );
+
+  Widget _createLogo() => SizedBox(
+        width: 56,
+        height: 56,
+        child: Image.network(place.logo),
       );
 
   Widget _createFavoriteClickableIcon(BuildContext context) => IconButton(
