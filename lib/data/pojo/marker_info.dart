@@ -1,15 +1,13 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class MarkerInfo {
   final String id;
   final String title;
-  final double lat;
-  final double lng;
+  final LatLng latLng;
 
   MarkerInfo(
     this.id,
     this.title,
-    this.lat,
-    this.lng,
+    this.latLng,
   );
 }
-
-enum PlaceType { cities, points, detail, favorite, excursion }

@@ -3,11 +3,11 @@ import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 
-class PlaceListUseCase {
+class PlaceUseCase {
   CitiesRepository _citiesRepository;
   PointsRepository _pointsRepository;
 
-  PlaceListUseCase(
+  PlaceUseCase(
     this._citiesRepository,
     this._pointsRepository,
   );

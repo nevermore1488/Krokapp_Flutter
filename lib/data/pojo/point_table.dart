@@ -12,8 +12,8 @@ class PointTable {
       ' $COLUMN_SOUND TEXT,'
       ' $COLUMN_LANG INTEGER,'
       ' $COLUMN_LAST_EDIT_TIME INTEGER,'
-      ' $COLUMN_LAT NUM,'
-      ' $COLUMN_LNG NUM,'
+      ' $COLUMN_LAT REAL,'
+      ' $COLUMN_LNG REAL,'
       ' $COLUMN_LOGO TEXT,'
       ' $COLUMN_PHOTO TEXT,'
       ' $COLUMN_CITY_ID INTEGER,'
@@ -135,7 +135,7 @@ class PointTable {
     return map;
   }
 
-  Place toPlace() => Place(placeId, name, logo);
+  Place toPlace() => Place(placeId, name, logo, lat: lat, lng: lng);
 }
 
 class PointsJsonConverter extends JsonConverter<PointTable> {

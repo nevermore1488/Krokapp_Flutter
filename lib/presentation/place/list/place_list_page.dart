@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_item.dart';
-import 'package:krokapp_multiplatform/presentation/place/list/place_list_use_case.dart';
-import 'package:krokapp_multiplatform/presentation/place/list/place_list_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
+import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PlaceListPage extends StatelessWidget {
   final PlaceMode placeMode;
-  late final PlaceListViewModel vm;
 
   PlaceListPage({
     required this.placeMode,
@@ -16,18 +14,15 @@ class PlaceListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    vm = PlaceListViewModel(
-      placeMode,
-      PlaceListUseCase(Provider.of(context), Provider.of(context)),
-      context,
-    );
+    PlaceListViewModel vm = Provider.of(context);
+
     return Scaffold(
       body: StreamBuilder<List<Place>>(
-        stream: vm.places,
+        stream: vm.getPlaces(),
         builder: (context, placesSnap) {
           if (placesSnap.hasData) {
             return ListView(
-              children: _createPlaceItems(placesSnap.data!),
+              children: _createPlaceItems(vm, placesSnap.data!),
               padding: EdgeInsets.only(
                 top: 8,
                 bottom: 32,
@@ -46,7 +41,7 @@ class PlaceListPage extends StatelessWidget {
     );
   }
 
-  List<Widget> _createPlaceItems(List<Place> places) => places
+  List<Widget> _createPlaceItems(PlaceListViewModel vm, List<Place> places) => places
       .map((e) => PlaceItem(
             place: e,
             onItemClick: (_, place) => vm.onPlaceClick(place),

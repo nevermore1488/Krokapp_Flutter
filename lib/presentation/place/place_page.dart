@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
+import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_list_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/map/map_use_case.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
+import 'package:krokapp_multiplatform/presentation/place/place_use_case.dart';
+import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PlacePage extends StatefulWidget {
   final PlaceMode placeMode;
@@ -20,18 +26,36 @@ class _PlacePageState extends State<PlacePage> {
   var _isFirstPage = true;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: _getTitle(),
-          actions: [_createSwitchIcon()],
-          brightness: Brightness.dark,
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          ProxyProvider2<CitiesRepository, PointsRepository, PlaceViewModel>(
+            update: (context, cityRep, pointsRep, previous) => PlaceViewModel(
+              widget.placeMode,
+              PlaceUseCase(cityRep, pointsRep),
+              MapUseCase(pointsRep),
+              context,
+            ),
+          ),
+          ProxyProvider<PlaceViewModel, PlaceListViewModel>(
+            update: (_, value, __) => value,
+          ),
+          ProxyProvider<PlaceViewModel, MapViewModel>(
+            update: (_, value, __) => value,
+          ),
+        ],
+        child: Scaffold(
+          appBar: AppBar(
+            title: _getTitle(),
+            actions: [_createSwitchIcon()],
+            brightness: Brightness.dark,
+          ),
+          body: AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: _createCurrentPage(),
+            transitionBuilder: _createCurrentSwitchAnimation,
+          ),
+          drawer: widget.drawer,
         ),
-        body: AnimatedSwitcher(
-          duration: Duration(milliseconds: 300),
-          child: _createCurrentPage(),
-          transitionBuilder: _createCurrentSwitchAnimation,
-        ),
-        drawer: widget.drawer,
       );
 
   Widget _createSwitchIcon() => IconButton(
