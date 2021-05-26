@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_list_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 
 class PlacePage extends StatefulWidget {
-  final PlaceType placeType;
-  final Widget title;
-  final extraId;
+  final PlaceMode placeMode;
   final Widget? drawer;
 
   PlacePage({
-    required this.placeType,
-    required this.title,
-    this.extraId,
+    required this.placeMode,
     this.drawer,
   });
 
@@ -26,7 +22,7 @@ class _PlacePageState extends State<PlacePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: widget.title,
+          title: _getTitle(),
           actions: [_createSwitchIcon()],
           brightness: Brightness.dark,
         ),
@@ -50,9 +46,22 @@ class _PlacePageState extends State<PlacePage> {
     });
   }
 
+  Widget _getTitle() {
+    switch (widget.placeMode.runtimeType) {
+      case CitiesMode:
+        return Text("Cities");
+      case PointsMode:
+        return Text("Points");
+      case DetailMode:
+        return Text("Detailed");
+      default:
+        throw Exception("no such mode");
+    }
+  }
+
   Widget _createCurrentPage() => _isFirstPage ? _createFirstPage() : _createSecondPage();
 
-  Widget _createFirstPage() => PlaceListPage();
+  Widget _createFirstPage() => PlaceListPage(placeMode: widget.placeMode);
 
   Widget _createSecondPage() => MapPage();
 

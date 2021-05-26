@@ -16,7 +16,7 @@ abstract class LocalizedDao<T> extends CommonDao<T> {
 
   Future<void> setCurrentLanguageId(int languageId);
 
-  Stream<List<T>> selectLocalized();
+  Stream<List<T>> getAllWithCurrentLanguage();
 }
 
 abstract class LocalizedDaoImpl<T> extends CommonDaoImpl<T> implements LocalizedDao<T> {
@@ -46,12 +46,12 @@ abstract class LocalizedDaoImpl<T> extends CommonDaoImpl<T> implements Localized
       );
 
   @override
-  Stream<List<T>> selectLocalized() {
-    String query =
-        "SELECT * FROM $tableName where $_langColumnName = ($SELECT_CURRENT_LANGUAGE_TABLE_CLAUSE)";
+  Stream<List<T>> getAllWithCurrentLanguage() =>
+      query(getLocalizedSelectQuery(), getLocalizedEngagedTables());
 
-    return obsDbExecutor.observableRawQuery(query, [tableName, CURRENT_LANGUAGE_TABLE_NAME]).map(
-      (event) => event.map((e) => converter.fromJson(e)).toList(),
-    );
-  }
+  String getLocalizedSelectQuery() =>
+      "${getCommonSelectQuery()} WHERE $_langColumnName = ($SELECT_CURRENT_LANGUAGE_TABLE_CLAUSE)";
+
+  List<String> getLocalizedEngagedTables() =>
+      getCommonEngagedTables() + [CURRENT_LANGUAGE_TABLE_NAME];
 }

@@ -27,6 +27,6 @@ class ObservableDatabaseExecutor {
     });
     await batch.commit();
 
-    _changedTables.add(tableName);
+    _changedTables.add([tableName]);
   }
 }

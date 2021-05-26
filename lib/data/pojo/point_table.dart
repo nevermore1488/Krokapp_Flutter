@@ -1,4 +1,5 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
 
 class PointTable {
   static const String TABLE_NAME = "points";
@@ -11,13 +12,13 @@ class PointTable {
       ' $COLUMN_SOUND TEXT,'
       ' $COLUMN_LANG INTEGER,'
       ' $COLUMN_LAST_EDIT_TIME INTEGER,'
-      ' $COLUMN_LAT REAL,'
-      ' $COLUMN_LNG REAL,'
+      ' $COLUMN_LAT NUM,'
+      ' $COLUMN_LNG NUM,'
       ' $COLUMN_LOGO TEXT,'
       ' $COLUMN_PHOTO TEXT,'
       ' $COLUMN_CITY_ID INTEGER,'
-      ' $COLUMN_VISIBLE INTEGER'
-      ' $COLUMN_IS_EXCURSION INTEGER'
+      ' $COLUMN_VISIBLE INTEGER,'
+      ' $COLUMN_IS_EXCURSION INTEGER,'
       ' $COLUMN_IMAGES TEXT'
       ')';
 
@@ -99,8 +100,11 @@ class PointTable {
 
     tags = json[_API_ONLY_TAGS] != null ? json[_API_ONLY_TAGS].cast<int>() : [];
     images = isApi
-        ? (json[COLUMN_IMAGES] != null ? json[COLUMN_IMAGES].cast<int>() : [])
-        : (json[COLUMN_IMAGES] as String).split(',').where((element) => element.isNotEmpty);
+        ? (json[COLUMN_IMAGES] != null ? json[COLUMN_IMAGES].cast<String>() : [])
+        : (json[COLUMN_IMAGES] as String)
+            .split(',')
+            .where((element) => element.isNotEmpty)
+            .toList();
   }
 
   Map<String, dynamic> toJson({isApi = false}) {
@@ -122,14 +126,19 @@ class PointTable {
     map[COLUMN_VISIBLE] = isApi ? visible : (visible ? 1 : 0);
     map[COLUMN_IS_EXCURSION] = isApi ? isExcursion : (isExcursion ? 1 : 0);
 
-    map[_API_ONLY_TAGS] = tags;
+    if (isApi) {
+      map[_API_ONLY_TAGS] = tags;
+    }
+
     map[COLUMN_IMAGES] = isApi ? images : images.join(',');
 
     return map;
   }
+
+  Place toPlace() => Place(placeId, name, logo);
 }
 
-class PointsJsonConverter implements JsonConverter<PointTable> {
+class PointsJsonConverter extends JsonConverter<PointTable> {
   bool isApi;
 
   PointsJsonConverter({this.isApi = false});

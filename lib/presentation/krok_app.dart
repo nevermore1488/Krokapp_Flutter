@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/presentation/navigation_menu_drawer.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 
 class KrokApp extends StatelessWidget {
   @override
@@ -17,8 +17,7 @@ class KrokApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => PlacePage(
-              placeType: PlaceType.cities,
-              title: Text("Cities"),
+              placeMode: CitiesMode(),
               drawer: NavigationMenuDrawer(),
             ),
       },

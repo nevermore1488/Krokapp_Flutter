@@ -4,7 +4,7 @@ import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 
 abstract class CommonDao<T> {
-  Stream<List<T>> selectAll();
+  Stream<List<T>> getAll();
 
   Future<void> replaceBy(List<T> entities);
 }
@@ -22,14 +22,17 @@ class CommonDaoImpl<T> implements CommonDao<T> {
 
   @override
   Future<void> replaceBy(List<T> entities) =>
-      obsDbExecutor.replaceBy(tableName, entities.map((e) => converter.toJson(e)).toList());
+      obsDbExecutor.replaceBy(tableName, converter.toJsonList(entities));
 
   @override
-  Stream<List<T>> selectAll() {
-    String query = "SELECT * FROM $tableName where lang = 1";
+  Stream<List<T>> getAll() => query(getCommonSelectQuery(), getCommonEngagedTables());
 
-    return obsDbExecutor.observableRawQuery(query, [tableName]).map(
-      (event) => event.map((e) => converter.fromJson(e)).toList(),
-    );
-  }
+  Stream<List<T>> query(String query, List<String> engagedTables) =>
+      obsDbExecutor.observableRawQuery(query, engagedTables).map(
+            (event) => converter.fromJsonList(event),
+          );
+
+  String getCommonSelectQuery() => "SELECT * FROM $tableName";
+
+  List<String> getCommonEngagedTables() => [tableName];
 }

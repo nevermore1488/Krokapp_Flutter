@@ -73,7 +73,7 @@ class CityTable {
   Place toPlace() => Place(placeId, name, logo);
 }
 
-class CitiesJsonConverter implements JsonConverter<CityTable> {
+class CitiesJsonConverter extends JsonConverter<CityTable> {
   bool isApi;
 
   CitiesJsonConverter({this.isApi = false});

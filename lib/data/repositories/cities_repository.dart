@@ -12,15 +12,15 @@ class CitiesRepository {
     this._dao,
   );
 
-  Stream<List<Place>> getCities() => _dao.selectLocalized().asyncMap((event) async {
-        if (event.isNotEmpty) return event;
+  Stream<List<Place>> getCities() => _dao.getAllWithCurrentLanguage().asyncMap((event) async {
+        if (event.isEmpty) {
+          int currentLanguageId = await _dao.getCurrentLanguageId();
 
-        int currentLanguageId = await _dao.getCurrentLanguageId();
+          List<CityTable> citiesFromRemote = await _api.getCities(currentLanguageId).first;
 
-        List<CityTable> citiesFromRemote =
-            await _api.getCities(currentLanguageId).onError((error, stackTrace) => throw error!);
+          _dao.replaceBy(citiesFromRemote);
+        }
 
-        _dao.replaceBy(citiesFromRemote);
-        return citiesFromRemote;
+        return event;
       }).map((event) => event.map((e) => e.toPlace()).toList());
 }

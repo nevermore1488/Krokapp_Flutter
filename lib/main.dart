@@ -3,7 +3,9 @@ import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/cities_dao.dart';
 import 'package:krokapp_multiplatform/data/db/db_helper.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
+import 'package:krokapp_multiplatform/data/db/points_dao.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
+import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/krok_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -41,6 +43,12 @@ Widget _onDbCreated(BuildContext context, Database db) => MultiProvider(
           update: (context, value, previous) => CitiesRepository(
             CitiesApiImpl(),
             CitiesDaoImpl(value),
+          ),
+        ),
+        ProxyProvider<ObservableDatabaseExecutor, PointsRepository>(
+          update: (context, value, previous) => PointsRepository(
+            PointsApiImpl(),
+            PointsDaoImpl(value),
           ),
         ),
       ],

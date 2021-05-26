@@ -13,5 +13,3 @@ class Place {
     this.isFavorite = false,
   ]);
 }
-
-enum PlaceType { cities, points, detail, favorite, excursion }
