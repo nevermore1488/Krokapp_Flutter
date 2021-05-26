@@ -5,6 +5,8 @@ import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
 
 abstract class PointsDao extends LocalizedDao<PointTable> {
   Stream<List<PointTable>> getPointsOfCity(int cityId);
+
+  Stream<List<PointTable>> getPointById(int pointId);
 }
 
 class PointsDaoImpl extends LocalizedDaoImpl<PointTable> implements PointsDao {
@@ -20,5 +22,11 @@ class PointsDaoImpl extends LocalizedDaoImpl<PointTable> implements PointsDao {
   Stream<List<PointTable>> getPointsOfCity(int cityId) => query(
         "${getLocalizedSelectQuery()} and ${PointTable.COLUMN_CITY_ID} = $cityId",
         getLocalizedEngagedTables() + [CityTable.TABLE_NAME],
+      );
+
+  @override
+  Stream<List<PointTable>> getPointById(int pointId) => query(
+        "${getLocalizedSelectQuery()} and ${PointTable.COLUMN_PLACE_ID} = $pointId",
+        getLocalizedEngagedTables(),
       );
 }

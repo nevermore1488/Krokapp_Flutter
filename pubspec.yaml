@@ -30,6 +30,7 @@ dependencies:
   sqflite: ^2.0.0+3
   path: ^1.8.0
   rxdart: ^0.27.0
+  flutter_widget_from_html: ^0.6.1
 
 dev_dependencies:
 

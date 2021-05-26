@@ -17,13 +17,13 @@ class PlaceItem extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+              padding: _getItemPadding(),
               child: Row(
                 children: [
                   _createLogo(),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+                      padding: _getItemPadding(),
                       child: Text(
                         place.title,
                         style: TextStyle(
@@ -41,6 +41,8 @@ class PlaceItem extends StatelessWidget {
           ],
         ),
       );
+
+  EdgeInsets _getItemPadding() => EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8);
 
   Widget _createLogo() => SizedBox(
         width: 56,

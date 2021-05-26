@@ -1,5 +1,6 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 
 class PointTable {
   static const String TABLE_NAME = "points";
@@ -135,7 +136,10 @@ class PointTable {
     return map;
   }
 
-  Place toPlace() => Place(placeId, name, logo, lat: lat, lng: lng);
+  Place toPlace() => toPlaceDetail();
+
+  PlaceDetail toPlaceDetail() =>
+      PlaceDetail(placeId, name, logo, text, sound, tags, images, lat: lat, lng: lng);
 }
 
 class PointsJsonConverter extends JsonConverter<PointTable> {

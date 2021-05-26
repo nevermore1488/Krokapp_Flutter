@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_model.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_use_case.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_page.dart';
@@ -21,7 +22,11 @@ abstract class MapViewModel {
   void onMarkerHintClick(MarkerInfo marker);
 }
 
-class PlaceViewModel implements PlaceListViewModel, MapViewModel {
+abstract class DetailViewModel {
+  Stream<PlaceDetail> getPlaceDetail(int placeId);
+}
+
+class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewModel {
   PlaceMode _placeMode;
   PlaceUseCase _placeUseCase;
   MapUseCase _mapUseCase;
@@ -60,6 +65,11 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel {
 
   @override
   void onMarkerHintClick(MarkerInfo marker) => _pushByPlaceId(int.parse(marker.id));
+
+  // detail
+
+  @override
+  Stream<PlaceDetail> getPlaceDetail(int placeId) => _placeUseCase.getPlaceDetail(placeId);
 
   // impl
 

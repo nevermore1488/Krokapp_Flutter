@@ -26,10 +26,13 @@ class MapUseCase {
           places = _pointsRepository.getPointsOfCity((placeMode as PointsMode).cityId!);
           break;
         }
-      default:
+      case DetailMode:
         {
-          throw Exception("no such place mode");
+          places = _pointsRepository.getPointById((placeMode as DetailMode).pointId);
+          break;
         }
+      default:
+        throw Exception("no such place mode");
     }
     return places.map((event) => MapModel(
           markers: event.map((e) => e.toMarker()).toList(),

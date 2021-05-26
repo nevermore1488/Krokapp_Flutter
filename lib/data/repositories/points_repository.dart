@@ -1,6 +1,7 @@
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/points_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
 
 class PointsRepository {
@@ -36,4 +37,17 @@ class PointsRepository {
 
         return event;
       }).map((event) => event.map((e) => e.toPlace()).toList());
+
+  Stream<List<PlaceDetail>> getPointById(int pointId) =>
+      _dao.getPointById(pointId).asyncMap((event) async {
+        if (event.isEmpty) {
+          int currentLanguageId = await _dao.getCurrentLanguageId();
+
+          List<PointTable> pointsFromRemote = await _api.getPoints(currentLanguageId).first;
+
+          _dao.replaceBy(pointsFromRemote);
+        }
+
+        return event;
+      }).map((event) => event.map((e) => e.toPlaceDetail()).toList());
 }

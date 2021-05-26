@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
+import 'package:krokapp_multiplatform/presentation/place/detail/place_detail_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_list_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_use_case.dart';
@@ -40,6 +41,9 @@ class _PlacePageState extends State<PlacePage> {
             update: (_, value, __) => value,
           ),
           ProxyProvider<PlaceViewModel, MapViewModel>(
+            update: (_, value, __) => value,
+          ),
+          ProxyProvider<PlaceViewModel, DetailViewModel>(
             update: (_, value, __) => value,
           ),
         ],
@@ -85,7 +89,19 @@ class _PlacePageState extends State<PlacePage> {
 
   Widget _createCurrentPage() => _isFirstPage ? _createFirstPage() : _createSecondPage();
 
-  Widget _createFirstPage() => PlaceListPage(placeMode: widget.placeMode);
+  Widget _createFirstPage() {
+    switch (widget.placeMode.runtimeType) {
+      case CitiesMode:
+      case PointsMode:
+        return PlaceListPage(placeMode: widget.placeMode);
+
+      case DetailMode:
+        return PlaceDetailPage(placeId: (widget.placeMode as DetailMode).pointId);
+
+      default:
+        throw Exception("no such mode");
+    }
+  }
 
   Widget _createSecondPage() => MapPage();
 
