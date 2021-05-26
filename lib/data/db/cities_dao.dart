@@ -17,7 +17,7 @@ class CitiesDaoImpl extends LocalizedDaoImpl<CityTable> implements CitiesDao {
 
   @override
   Stream<List<CityTable>> getCityById(int cityId) => query(
-        "${getLocalizedSelectQuery()} and ${CityTable.COLUMN_PLACE_ID} = $cityId",
-        getLocalizedEngagedTables(),
-      );
+    "${getLocalizedSelectQuery()} and ${CityTable.COLUMN_PLACE_ID} = $cityId",
+    getLocalizedEngagedTables(),
+  );
 }

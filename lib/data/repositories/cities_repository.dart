@@ -24,7 +24,8 @@ class CitiesRepository {
         return event;
       }).map((event) => event.map((e) => e.toPlace()).toList());
 
-  Stream<List<Place>> getCityById(int cityId) => _dao.getCityById(cityId).asyncMap((event) async {
+  Stream<List<Place>> getCityById(int cityId) =>
+      _dao.getCityById(cityId).asyncMap((event) async {
         if (event.isEmpty) {
           int currentLanguageId = await _dao.getCurrentLanguageId();
 

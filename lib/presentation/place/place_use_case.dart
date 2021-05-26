@@ -37,7 +37,7 @@ class PlaceUseCase {
             .map((event) => event.first.title);
 
       case DetailMode:
-        return _pointsRepository
+        return  _pointsRepository
             .getPointById((placeMode as DetailMode).pointId)
             .map((event) => event.first.title);
 
