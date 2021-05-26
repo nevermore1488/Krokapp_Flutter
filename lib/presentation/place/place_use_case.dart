@@ -29,6 +29,23 @@ class PlaceUseCase {
     }
   }
 
+  Stream<String> getTitle(PlaceMode placeMode) {
+    switch (placeMode.runtimeType) {
+      case PointsMode:
+        return _citiesRepository
+            .getCityById((placeMode as PointsMode).cityId!)
+            .map((event) => event.first.title);
+
+      case DetailMode:
+        return _pointsRepository
+            .getPointById((placeMode as DetailMode).pointId)
+            .map((event) => event.first.title);
+
+      default:
+        throw Exception("no such place mode");
+    }
+  }
+
   Stream<PlaceDetail> getPlaceDetail(int placeId) =>
       _pointsRepository.getPointById(placeId).map((event) => event.first);
 }

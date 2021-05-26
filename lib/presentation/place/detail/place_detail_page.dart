@@ -21,7 +21,7 @@ class PlaceDetailPage extends StatelessWidget {
         builder: (context, placesSnap) {
           if (placesSnap.hasData) {
             var place = placesSnap.data!;
-            return Column(
+            return ListView(
               children: [
                 Container(
                   // TODO: Must wrap!

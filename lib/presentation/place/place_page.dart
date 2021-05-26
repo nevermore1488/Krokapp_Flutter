@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
@@ -37,6 +38,9 @@ class _PlacePageState extends State<PlacePage> {
               context,
             ),
           ),
+          ProxyProvider<PlaceViewModel, PlaceViewModel>(
+            update: (_, value, __) => value,
+          ),
           ProxyProvider<PlaceViewModel, PlaceListViewModel>(
             update: (_, value, __) => value,
           ),
@@ -47,18 +51,20 @@ class _PlacePageState extends State<PlacePage> {
             update: (_, value, __) => value,
           ),
         ],
-        child: Scaffold(
-          appBar: AppBar(
-            title: _getTitle(),
-            actions: [_createSwitchIcon()],
-            brightness: Brightness.dark,
+        child: Consumer<PlaceViewModel>(
+          builder: (context, vm, child) => Scaffold(
+            appBar: AppBar(
+              title: _getTitle(vm),
+              actions: [_createSwitchIcon()],
+              brightness: Brightness.dark,
+            ),
+            body: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: _createCurrentPage(),
+              transitionBuilder: _createCurrentSwitchAnimation,
+            ),
+            drawer: widget.drawer,
           ),
-          body: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            child: _createCurrentPage(),
-            transitionBuilder: _createCurrentSwitchAnimation,
-          ),
-          drawer: widget.drawer,
         ),
       );
 
@@ -74,18 +80,15 @@ class _PlacePageState extends State<PlacePage> {
     });
   }
 
-  Widget _getTitle() {
-    switch (widget.placeMode.runtimeType) {
-      case CitiesMode:
-        return Text("Cities");
-      case PointsMode:
-        return Text("Points");
-      case DetailMode:
-        return Text("Detailed");
-      default:
-        throw Exception("no such mode");
-    }
-  }
+  Widget _getTitle(PlaceViewModel vm) => StreamBuilder<String>(
+        stream: vm.getTitle(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return AutoSizeText(snapshot.data!, maxLines: 2);
+          } else
+            return SizedBox.shrink();
+        },
+      );
 
   Widget _createCurrentPage() => _isFirstPage ? _createFirstPage() : _createSecondPage();
 

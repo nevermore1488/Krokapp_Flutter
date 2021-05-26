@@ -45,6 +45,16 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
     _mapModel = _mapUseCase.getMapModel(_placeMode);
   }
 
+  Stream<String> getTitle() {
+    switch (_placeMode.runtimeType) {
+      case CitiesMode:
+        return Future.value("Cities").asStream();
+
+      default:
+        return _placeUseCase.getTitle(_placeMode);
+    }
+  }
+
   // list
 
   @override

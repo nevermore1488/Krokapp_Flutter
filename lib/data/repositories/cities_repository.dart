@@ -23,4 +23,16 @@ class CitiesRepository {
 
         return event;
       }).map((event) => event.map((e) => e.toPlace()).toList());
+
+  Stream<List<Place>> getCityById(int cityId) => _dao.getCityById(cityId).asyncMap((event) async {
+        if (event.isEmpty) {
+          int currentLanguageId = await _dao.getCurrentLanguageId();
+
+          List<CityTable> pointsFromRemote = await _api.getCities(currentLanguageId).first;
+
+          _dao.replaceBy(pointsFromRemote);
+        }
+
+        return event;
+      }).map((event) => event.map((e) => e.toPlace()).toList());
 }
