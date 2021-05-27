@@ -84,3 +84,9 @@ class CitiesJsonConverter extends JsonConverter<CityTable> {
   @override
   Map<String, Object?> toJson(CityTable pojo) => pojo.toJson(isApi: isApi);
 }
+
+extension CitiesStreamMaping on Stream<List<CityTable>> {
+  Stream<List<Place>> asPlaces() {
+    return this.map((event) => event.map((e) => e.toPlace()).toList());
+  }
+}

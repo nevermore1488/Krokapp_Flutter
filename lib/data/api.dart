@@ -24,7 +24,7 @@ class CommonApi<T> {
 }
 
 abstract class CitiesApi {
-  Stream<List<CityTable>> getCities(int languageId);
+  Stream<List<CityTable>> getCities(int weirdParam);
 }
 
 class CitiesApiImpl extends CommonApi<CityTable> implements CitiesApi {
@@ -35,7 +35,7 @@ class CitiesApiImpl extends CommonApi<CityTable> implements CitiesApi {
 }
 
 abstract class PointsApi {
-  Stream<List<PointTable>> getPoints(int languageId);
+  Stream<List<PointTable>> getPoints(int weirdParam);
 }
 
 class PointsApiImpl extends CommonApi<PointTable> implements PointsApi {

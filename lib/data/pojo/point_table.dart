@@ -138,8 +138,17 @@ class PointTable {
 
   Place toPlace() => toPlaceDetail();
 
-  PlaceDetail toPlaceDetail() =>
-      PlaceDetail(placeId, name, logo, text, sound, tags, images, lat: lat, lng: lng);
+  PlaceDetail toPlaceDetail() => PlaceDetail(
+        placeId,
+        name,
+        logo,
+        text,
+        sound,
+        tags,
+        images,
+        lat: lat,
+        lng: lng,
+      );
 }
 
 class PointsJsonConverter extends JsonConverter<PointTable> {
@@ -152,4 +161,11 @@ class PointsJsonConverter extends JsonConverter<PointTable> {
 
   @override
   Map<String, Object?> toJson(PointTable pojo) => pojo.toJson(isApi: isApi);
+}
+
+extension PointsStreamMaping on Stream<List<PointTable>> {
+  Stream<List<PlaceDetail>> asPlaceDetails() =>
+      this.map((event) => event.map((e) => e.toPlaceDetail()).toList());
+
+  Stream<List<Place>> asPlaces() => this.asPlaceDetails();
 }

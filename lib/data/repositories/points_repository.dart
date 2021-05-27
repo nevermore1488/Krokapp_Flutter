@@ -3,51 +3,61 @@ import 'package:krokapp_multiplatform/data/db/points_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
+import 'package:krokapp_multiplatform/data/repositories/data_provider.dart';
 
 class PointsRepository {
   PointsApi _api;
   PointsDao _dao;
 
+  late DataProvider<List<PointTable>> pointsProvider;
+
+  Map<int, DataProvider<List<PointTable>>> pointsByIdProviders = Map();
+  Map<int, DataProvider<List<PointTable>>> pointsOfCityProviders = Map();
+
   PointsRepository(
     this._api,
     this._dao,
-  );
+  ) {
+    pointsProvider = _createDefaultDataProvider(
+      () => _dao.getAllWithCurrentLanguage(),
+    );
+  }
 
-  Stream<List<Place>> getAllPoints() => _dao.getAllWithCurrentLanguage().asyncMap((event) async {
-        if (event.isEmpty) {
-          int currentLanguageId = await _dao.getCurrentLanguageId();
+  DataProvider<List<PointTable>> _createDefaultDataProvider(
+    Stream<List<PointTable>> Function() _getData,
+  ) =>
+      DataProvider(
+        _getData,
+        (data) => _dao.replaceBy(data),
+        () => _api.getPoints(1).first,
+        (data) => data.isNotEmpty,
+      );
 
-          List<PointTable> pointsFromRemote = await _api.getPoints(currentLanguageId).first;
+  Stream<List<Place>> getPoints() => pointsProvider.getData().asPlaces();
 
-          _dao.replaceBy(pointsFromRemote);
-        }
+  Stream<List<PlaceDetail>> getPointById(int pointId) {
+    DataProvider<List<PointTable>>? provider = pointsByIdProviders[pointId];
 
-        return event;
-      }).map((event) => event.map((e) => e.toPlace()).toList());
+    if (provider == null) {
+      provider = _createDefaultDataProvider(
+        () => _dao.getPointById(pointId),
+      );
+      pointsByIdProviders[pointId] = provider;
+    }
 
-  Stream<List<Place>> getPointsOfCity(int cityId) =>
-      _dao.getPointsOfCity(cityId).asyncMap((event) async {
-        if (event.isEmpty) {
-          int currentLanguageId = await _dao.getCurrentLanguageId();
+    return provider.getData().asPlaceDetails();
+  }
 
-          List<PointTable> pointsFromRemote = await _api.getPoints(currentLanguageId).first;
+  Stream<List<Place>> getPointsOfCity(int cityId) {
+    DataProvider<List<PointTable>>? provider = pointsOfCityProviders[cityId];
 
-          _dao.replaceBy(pointsFromRemote);
-        }
+    if (provider == null) {
+      provider = _createDefaultDataProvider(
+        () => _dao.getPointsOfCity(cityId),
+      );
+      pointsOfCityProviders[cityId] = provider;
+    }
 
-        return event;
-      }).map((event) => event.map((e) => e.toPlace()).toList());
-
-  Stream<List<PlaceDetail>> getPointById(int pointId) =>
-      _dao.getPointById(pointId).asyncMap((event) async {
-        if (event.isEmpty) {
-          int currentLanguageId = await _dao.getCurrentLanguageId();
-
-          List<PointTable> pointsFromRemote = await _api.getPoints(currentLanguageId).first;
-
-          _dao.replaceBy(pointsFromRemote);
-        }
-
-        return event;
-      }).map((event) => event.map((e) => e.toPlaceDetail()).toList());
+    return provider.getData().asPlaces();
+  }
 }

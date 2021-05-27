@@ -23,9 +23,8 @@ class PlaceDetailPage extends StatelessWidget {
             var place = placesSnap.data!;
             return ListView(
               children: [
-                Container(
-                  // TODO: Must wrap!
-                  height: 300,
+                AspectRatio(
+                  aspectRatio: 1.5,
                   child: PageView(
                     controller: PageController(),
                     children: place.images.map((e) => Image.network(e)).toList(),

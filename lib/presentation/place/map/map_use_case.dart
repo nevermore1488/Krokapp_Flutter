@@ -18,7 +18,7 @@ class MapUseCase {
     switch (placeMode.runtimeType) {
       case CitiesMode:
         {
-          places = _pointsRepository.getAllPoints();
+          places = _pointsRepository.getPoints();
           break;
         }
       case PointsMode:
