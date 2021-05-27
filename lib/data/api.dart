@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
 
 const _KROK_API = "http://krokapp.by/api/";
@@ -31,7 +32,7 @@ class CitiesApiImpl extends CommonApi<CityTable> implements CitiesApi {
   CitiesApiImpl() : super(CitiesJsonConverter(isApi: true));
 
   @override
-  Stream<List<CityTable>> getCities(int languageId) => get('get_cities/$languageId');
+  Stream<List<CityTable>> getCities(int weirdParam) => get('get_cities/$weirdParam');
 }
 
 abstract class PointsApi {
@@ -42,5 +43,16 @@ class PointsApiImpl extends CommonApi<PointTable> implements PointsApi {
   PointsApiImpl() : super(PointsJsonConverter(isApi: true));
 
   @override
-  Stream<List<PointTable>> getPoints(int languageId) => get('get_points/$languageId');
+  Stream<List<PointTable>> getPoints(int weirdParam) => get('get_points/$weirdParam');
+}
+
+abstract class LanguagesApi {
+  Stream<List<LanguageTable>> getLanguages();
+}
+
+class LanguagesApiImpl extends CommonApi<LanguageTable> implements LanguagesApi {
+  LanguagesApiImpl() : super(LanguagesJsonConverter());
+
+  @override
+  Stream<List<LanguageTable>> getLanguages() => get('get_languages');
 }

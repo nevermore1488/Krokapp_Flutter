@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/data/db/localized_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -31,6 +32,7 @@ class DbHelper {
           txn.execute(CREATE_CURRENT_LANGUAGE_TABLE_CLAUSE);
           txn.execute(CityTable.CREATE_TABLE_CLAUSE);
           txn.execute(PointTable.CREATE_TABLE_CLAUSE);
+          txn.execute(LanguageTable.CREATE_TABLE_CLAUSE);
           txn.insert(CURRENT_LANGUAGE_TABLE_NAME, {CURRENT_LANGUAGE_ID_COLUMN_NAME: 1});
         });
       },
