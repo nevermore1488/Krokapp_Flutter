@@ -33,7 +33,7 @@ class _PlacePageState extends State<PlacePage> {
           ProxyProvider2<CitiesRepository, PointsRepository, PlaceViewModel>(
             update: (context, cityRep, pointsRep, previous) => PlaceViewModel(
               widget.placeMode,
-              PlaceUseCase(cityRep, pointsRep, context),
+              PlaceUseCase(cityRep, pointsRep),
               MapUseCase(pointsRep),
               context,
             ),

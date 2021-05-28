@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
@@ -41,17 +42,43 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
     this._mapUseCase,
     this._context,
   ) {
-    _places = _placeUseCase.getPlaces(_placeMode);
+    _places = _getPlacesByMode(_placeMode);
     _mapModel = _mapUseCase.getMapModel(_placeMode);
+  }
+
+  Stream<List<Place>> _getPlacesByMode(PlaceMode placeMode) {
+    switch (placeMode.runtimeType) {
+      case CitiesMode:
+        return _placeUseCase.getCities();
+
+      case PointsMode:
+        return _placeUseCase.getPointsOfCity((placeMode as PointsMode).cityId!);
+
+      case DetailMode:
+        return Future<List<Place>>(() => List.empty()).asStream();
+
+      default:
+        throw Exception("no such place mode");
+    }
   }
 
   Stream<String> getTitle() {
     switch (_placeMode.runtimeType) {
       case CitiesMode:
-        return Future.value("Cities").asStream();
+        return Future.value(AppLocalizations.of(_context)!.cities_title).asStream();
+
+      case PointsMode:
+        return _placeUseCase
+            .getCityById((_placeMode as PointsMode).cityId!)
+            .map((event) => event.first.title);
+
+      case DetailMode:
+        return _placeUseCase
+            .getPointById((_placeMode as DetailMode).pointId)
+            .map((event) => event.first.title);
 
       default:
-        return _placeUseCase.getTitle(_placeMode);
+        throw Exception("no such place mode");
     }
   }
 
