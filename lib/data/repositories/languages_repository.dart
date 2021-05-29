@@ -1,5 +1,5 @@
 import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/languages_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/languages_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
 import 'package:krokapp_multiplatform/data/repositories/data_provider.dart';
 

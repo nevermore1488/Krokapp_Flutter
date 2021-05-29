@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/place/detail/place_detail_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_list_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_page.dart';
-import 'package:krokapp_multiplatform/presentation/place/map/map_use_case.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_use_case.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
 import 'package:provider/provider.dart';
 

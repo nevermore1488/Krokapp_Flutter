@@ -1,5 +1,5 @@
 import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/points_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
@@ -19,7 +19,7 @@ class PointsRepository {
     this._dao,
   ) {
     pointsProvider = _createDefaultDataProvider(
-      () => _dao.getAllWithCurrentLanguage(),
+      () => _dao.getAll(),
     );
   }
 

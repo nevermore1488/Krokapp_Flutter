@@ -25,14 +25,14 @@ class CommonDaoImpl<T> implements CommonDao<T> {
       obsDbExecutor.replaceBy(tableName, converter.toJsonList(entities));
 
   @override
-  Stream<List<T>> getAll() => query(getCommonSelectQuery(), getCommonEngagedTables());
+  Stream<List<T>> getAll() => query(getSelectQuery(), getEngagedTables());
 
   Stream<List<T>> query(String query, List<String> engagedTables) =>
       obsDbExecutor.observableRawQuery(query, engagedTables).map(
             (event) => converter.fromJsonList(event),
           );
 
-  String getCommonSelectQuery() => "SELECT * FROM $tableName";
+  String getSelectQuery() => "SELECT * FROM $tableName";
 
-  List<String> getCommonEngagedTables() => [tableName];
+  List<String> getEngagedTables() => [tableName];
 }

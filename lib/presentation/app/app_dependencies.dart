@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/cities_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
-import 'package:krokapp_multiplatform/data/db/points_dao.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:krokapp_multiplatform/data/db/localized_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/languages_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
@@ -7,13 +7,13 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
-  Database? _db;
+  Database? db;
 
   Future<Database> obtainDb() async {
-    if (_db == null) {
-      _db = await _createDb();
+    if (db == null) {
+      db = await _createDb();
     }
-    return _db!;
+    return db!;
   }
 
   Future<Database> _createDb() async {

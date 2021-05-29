@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
+import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_model.dart';
-import 'package:krokapp_multiplatform/presentation/place/map/map_use_case.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_use_case.dart';
 
 abstract class PlaceListViewModel {
   Stream<List<Place>> getPlaces();
@@ -33,18 +33,12 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
   MapUseCase _mapUseCase;
   BuildContext _context;
 
-  late Stream<List<Place>> _places;
-  late Stream<MapModel> _mapModel;
-
   PlaceViewModel(
     this._placeMode,
     this._placeUseCase,
     this._mapUseCase,
     this._context,
-  ) {
-    _places = _getPlacesByMode(_placeMode);
-    _mapModel = _mapUseCase.getMapModel(_placeMode);
-  }
+  );
 
   Stream<List<Place>> _getPlacesByMode(PlaceMode placeMode) {
     switch (placeMode.runtimeType) {
@@ -85,7 +79,7 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
   // list
 
   @override
-  Stream<List<Place>> getPlaces() => _places;
+  Stream<List<Place>> getPlaces() => _getPlacesByMode(_placeMode);
 
   @override
   void onPlaceClick(Place place) {
@@ -98,7 +92,7 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
   // map
 
   @override
-  Stream<MapModel> getMapModel() => _mapModel;
+  Stream<MapModel> getMapModel() => _mapUseCase.getMapModel(_placeMode);
 
   @override
   void onMarkerHintClick(MarkerInfo marker) => _pushByPlaceId(int.parse(marker.id));

@@ -12,7 +12,6 @@ class KrokApp extends StatelessWidget {
           primaryColor: Colors.orange,
           primaryColorBrightness: Brightness.dark,
         ),
-        title: "KrokApp",
         initialRoute: '/',
         routes: {
           '/': (BuildContext context) => PlacePage(

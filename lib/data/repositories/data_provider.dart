@@ -4,23 +4,19 @@ class DataProvider<T> {
   Future<T> Function() _loadDataFromRemote;
   bool Function(T) _isDataValid;
 
-  late Stream<T> _data;
-
   DataProvider(
     this._getData,
     this._setData,
     this._loadDataFromRemote,
     this._isDataValid,
-  ) {
-    _data = _getData();
-  }
+  );
 
   Stream<T> getData() {
-    loadData();
-    return _data;
+    loadDataIfNeeded();
+    return _getData();
   }
 
-  void loadData() async {
+  void loadDataIfNeeded() async {
     T currentData = await _getData().first;
     if (_isDataValid(currentData)) return;
 
