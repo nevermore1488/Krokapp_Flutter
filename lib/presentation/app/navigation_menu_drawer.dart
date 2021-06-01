@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/strings.dart';
 
 class NavigationMenuDrawer extends StatelessWidget {
   @override
@@ -10,22 +11,38 @@ class NavigationMenuDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.orange,
               ),
-              child: Text(
-                'KrokApp, your guide',
-                style: TextStyle(color: Colors.white, fontSize: 21),
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: Image.asset('drawables/krok_icon.png', color: Colors.white),
+                    ),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.nav_menu_title,
+                    style: TextStyle(color: Colors.white, fontSize: 21),
+                  ),
+                ],
               ),
             ),
-            _createMenuGroupTitle("Settings"),
-            _createMenuItem("Languages", Icons.language, () {}),
-            _createMenuItem("Excursion Setting", Icons.settings, () {}),
+            _createMenuGroupTitle(AppLocalizations.of(context)!.nav_menu_group_settings),
+            _createMenuItem(
+              AppLocalizations.of(context)!.nav_menu_item_language,
+              Icons.language,
+              () {},
+            ),
+            /* _createMenuItem("Excursion Setting", Icons.settings, () {}),*/
             Divider(),
-            _createMenuGroupTitle("Personal"),
+            /*  _createMenuGroupTitle("Personal"),
             _createMenuItem("Bookmarks", Icons.favorite_outline, () {}),
             _createMenuItem("Downloads", Icons.download_outlined, () {}),
             _createMenuItem("Visited", Icons.check_circle_outline, () {}),
             Divider(),
             _createMenuGroupTitle("Info"),
-            _createMenuItem("About Us", Icons.info_outline, () {}),
+            _createMenuItem("About Us", Icons.info_outline, () {}),*/
           ],
         ),
       );

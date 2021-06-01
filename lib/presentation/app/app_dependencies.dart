@@ -8,7 +8,7 @@ import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
-import 'package:krokapp_multiplatform/presentation/app/splash_screen.dart';
+import 'package:krokapp_multiplatform/ui/rotating_widget.dart';
 import 'package:provider/provider.dart';
 
 class AppDependencies extends StatelessWidget {
@@ -24,8 +24,22 @@ class AppDependencies extends StatelessWidget {
         else if (snapshot.hasError)
           return MaterialApp(home: Text(snapshot.error!.toString()));
         else
-          return SplashScreen();
+          return _createSplashScreen();
       });
+
+  Widget _createSplashScreen() => MaterialApp(
+        home: Container(
+          color: Colors.white,
+          alignment: Alignment.center,
+          child: RotatingWidget(
+            child: SizedBox(
+              width: 200,
+              height: 200,
+              child: Image(image: AssetImage('drawables/krok_icon.png')),
+            ),
+          ),
+        ),
+      );
 
   Widget _createApp(BuildContext context) => MultiProvider(
         providers: [
