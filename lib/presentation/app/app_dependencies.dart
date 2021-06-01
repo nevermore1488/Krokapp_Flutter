@@ -10,7 +10,6 @@ import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
 import 'package:krokapp_multiplatform/presentation/app/splash_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AppDependencies extends StatelessWidget {
   final _appInitializer = AppInitializer();
@@ -30,10 +29,7 @@ class AppDependencies extends StatelessWidget {
 
   Widget _createApp(BuildContext context) => MultiProvider(
         providers: [
-          Provider<DatabaseExecutor>(create: (context) => _appInitializer.dbExecutor),
-          ProxyProvider<DatabaseExecutor, ObservableDatabaseExecutor>(
-            update: (context, value, previous) => ObservableDatabaseExecutor(value),
-          ),
+          Provider<ObservableDatabaseExecutor>(create: (context) => _appInitializer.dbExecutor),
           ProxyProvider<ObservableDatabaseExecutor, CitiesRepository>(
             update: (context, value, previous) => CitiesRepository(
               CitiesApiImpl(),

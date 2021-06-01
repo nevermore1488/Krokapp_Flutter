@@ -8,7 +8,11 @@ class LocaleHelper {
   LocaleHelper(this._languagesRepository);
 
   Future<Locale> getLocale(List<Locale> systemLocales) async {
-    List<LanguageTable> languages = await _languagesRepository.getLanguages().first;
+    List<LanguageTable> languages = await _languagesRepository.loadLanguagesFromStorage().first;
+    if (languages.isEmpty) {
+      languages = await _languagesRepository.loadLanguagesFromRemote().first;
+      _languagesRepository.setLanguages(languages);
+    }
     int? langId = await _languagesRepository.getCurrentLanguageId();
 
     if (langId == null) {
