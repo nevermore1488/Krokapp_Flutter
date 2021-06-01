@@ -1,26 +1,36 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:krokapp_multiplatform/business/init/app_initializer.dart';
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
 import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
+import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
+import 'package:krokapp_multiplatform/presentation/app/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppDependencies extends StatelessWidget {
-  final Widget child;
-  final DatabaseExecutor dbExecutor;
-
-  AppDependencies({
-    required this.child,
-    required this.dbExecutor,
-  });
+  final _appInitializer = AppInitializer();
 
   @override
-  Widget build(BuildContext context) => MultiProvider(
+  Widget build(BuildContext context) => FutureBuilder<bool>(
+      future: _appInitializer.initApp(),
+      initialData: null,
+      builder: (context, snapshot) {
+        if (snapshot.hasData)
+          return _createApp(context);
+        else if (snapshot.hasError)
+          return MaterialApp(home: Text(snapshot.error!.toString()));
+        else
+          return SplashScreen();
+      });
+
+  Widget _createApp(BuildContext context) => MultiProvider(
         providers: [
-          Provider<DatabaseExecutor>(create: (context) => dbExecutor),
+          Provider<DatabaseExecutor>(create: (context) => _appInitializer.dbExecutor),
           ProxyProvider<DatabaseExecutor, ObservableDatabaseExecutor>(
             update: (context, value, previous) => ObservableDatabaseExecutor(value),
           ),
@@ -37,6 +47,6 @@ class AppDependencies extends StatelessWidget {
             ),
           ),
         ],
-        child: child,
+        child: KrokApp(_appInitializer.selectedLocale),
       );
 }

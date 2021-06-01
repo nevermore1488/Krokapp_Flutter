@@ -12,7 +12,7 @@ const String CREATE_CURRENT_LANGUAGE_TABLE_CLAUSE = 'CREATE TABLE $CURRENT_LANGU
     ')';
 
 abstract class LanguagesDao extends CommonDao<LanguageTable> {
-  Future<int> getCurrentLanguageId();
+  Future<int?> getCurrentLanguageId();
 
   Future<void> setCurrentLanguageId(int languageId);
 }
@@ -26,11 +26,11 @@ class LanguagesDaoImpl extends CommonDaoImpl<LanguageTable> implements Languages
         );
 
   @override
-  Future<int> getCurrentLanguageId() async {
+  Future<int?> getCurrentLanguageId() async {
     List<Map<String, Object?>> result = await obsDbExecutor.rawQuery(
       SELECT_CURRENT_LANGUAGE_TABLE_CLAUSE,
     );
-    return result.first[CURRENT_LANGUAGE_ID_COLUMN_NAME] as int;
+    return result.isNotEmpty ? result.first[CURRENT_LANGUAGE_ID_COLUMN_NAME] as int : null;
   }
 
   @override

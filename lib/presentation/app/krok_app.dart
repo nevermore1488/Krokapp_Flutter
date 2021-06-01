@@ -6,6 +6,10 @@ import 'package:krokapp_multiplatform/presentation/place/place_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 
 class KrokApp extends StatelessWidget {
+  final Locale selectedLocale;
+
+  KrokApp(this.selectedLocale);
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         theme: ThemeData(
@@ -19,6 +23,7 @@ class KrokApp extends StatelessWidget {
                 drawer: NavigationMenuDrawer(),
               ),
         },
+        locale: selectedLocale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
       );

@@ -1,4 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:krokapp_multiplatform/presentation/app/app_initialization.dart';
+import 'package:krokapp_multiplatform/presentation/app/app_dependencies.dart';
 
-void main() => runApp(AppInitialization());
+void main() => runApp(AppDependencies());

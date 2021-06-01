@@ -22,4 +22,8 @@ class LanguagesRepository {
   }
 
   Stream<List<LanguageTable>> getLanguages() => languagesProvider.getData();
+
+  Future<int?> getCurrentLanguageId() => _dao.getCurrentLanguageId();
+
+  Future<void> setCurrentLanguageId(int langId) => _dao.setCurrentLanguageId(langId);
 }
