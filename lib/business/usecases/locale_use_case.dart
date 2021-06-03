@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
 import 'package:krokapp_multiplatform/data/repositories/languages_repository.dart';
 
-class LocaleHelper {
+class LocaleUseCase {
   LanguagesRepository _languagesRepository;
 
-  LocaleHelper(this._languagesRepository);
+  LocaleUseCase(this._languagesRepository);
 
   Future<Locale> getLocale(List<Locale> systemLocales) async {
     List<LanguageTable> languages = await _languagesRepository.loadLanguagesFromStorage().first;
