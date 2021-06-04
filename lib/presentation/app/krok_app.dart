@@ -19,20 +19,15 @@ class KrokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     KrokAppViewModel vm = Provider.of(context);
+    vm.applySystemLocales(WidgetsBinding.instance!.window.locales);
 
-    return FutureBuilder<bool>(
-        future: vm.initApp(),
-        initialData: null,
-        builder: (context, snapshot) {
-          if (snapshot.hasData)
-            return _createMainScreenDependencies(
-              _createMainScreen(vm.selectedLocale),
-            );
-          else if (snapshot.hasError)
-            return _createErrorScreen(snapshot.error!.toString());
-          else
-            return createSplashScreen();
-        });
+    return StreamBuilder<Locale>(
+      stream: vm.getCurrentLocale(),
+      builder: (context, snapshot) => createScreenFromSnapshot<Locale>(
+        snapshot,
+        (value) => _createMainScreenDependencies(_createMainScreen(value)),
+      ),
+    );
   }
 
   Widget _createMainScreenDependencies(Widget child) => MultiProvider(
@@ -70,7 +65,17 @@ class KrokApp extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
       );
 
-  Widget _createErrorScreen(String errorMessage) => MaterialApp(
+  static Widget createScreenFromSnapshot<T>(
+      AsyncSnapshot<T> snapshot, Widget Function(T) onHasData) {
+    if (snapshot.hasData) {
+      return onHasData(snapshot.data!);
+    } else if (snapshot.hasError) {
+      return createErrorScreen(snapshot.error.toString());
+    } else
+      return createSplashScreen();
+  }
+
+  static Widget createErrorScreen(String errorMessage) => MaterialApp(
         home: Center(child: Text(errorMessage)),
       );
 
@@ -80,8 +85,8 @@ class KrokApp extends StatelessWidget {
           alignment: Alignment.center,
           child: RotatingWidget(
             child: SizedBox(
-              width: 200,
-              height: 200,
+              width: 160,
+              height: 160,
               child: Image(image: AssetImage('drawables/krok_icon.png')),
             ),
           ),

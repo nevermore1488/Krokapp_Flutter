@@ -79,7 +79,8 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
   // list
 
   @override
-  Stream<List<Place>> getPlaces() => _getPlacesByMode(_placeMode);
+  Stream<List<Place>> getPlaces() =>
+      _getPlacesByMode(_placeMode).where((event) => event.isNotEmpty);
 
   @override
   void onPlaceClick(Place place) {

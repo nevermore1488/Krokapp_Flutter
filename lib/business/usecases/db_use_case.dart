@@ -1,6 +1,6 @@
-import 'package:krokapp_multiplatform/data/db/dao/languages_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/current_language_id_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
 import 'package:path/path.dart';
@@ -22,10 +22,10 @@ class DbUseCase {
         join(await getDatabasesPath(), KROK_DB_NAME),
         onCreate: (db, version) {
           db.transaction((txn) async {
-            txn.execute(CREATE_CURRENT_LANGUAGE_TABLE_CLAUSE);
+            txn.execute(CurrentLanguageIdTable.CREATE_TABLE_CLAUSE);
+            txn.execute(LanguageTable.CREATE_TABLE_CLAUSE);
             txn.execute(CityTable.CREATE_TABLE_CLAUSE);
             txn.execute(PointTable.CREATE_TABLE_CLAUSE);
-            txn.execute(LanguageTable.CREATE_TABLE_CLAUSE);
           });
         },
         version: 1,

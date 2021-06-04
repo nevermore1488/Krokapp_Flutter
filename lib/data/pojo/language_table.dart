@@ -1,4 +1,5 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
+import 'package:krokapp_multiplatform/data/pojo/language.dart';
 
 class LanguageTable {
   static const String TABLE_NAME = "languages";
@@ -32,6 +33,8 @@ class LanguageTable {
     map[COLUMN_NAME] = name;
     return map;
   }
+
+  Language toLanguage() => Language(id: id, key: key, name: name);
 }
 
 class LanguagesJsonConverter extends JsonConverter<LanguageTable> {
@@ -40,4 +43,10 @@ class LanguagesJsonConverter extends JsonConverter<LanguageTable> {
 
   @override
   Map<String, Object?> toJson(LanguageTable pojo) => pojo.toJson();
+}
+
+extension LanguagesStreamMaping on Stream<List<LanguageTable>> {
+  Stream<List<Language>> asLanguages() {
+    return this.map((event) => event.map((e) => e.toLanguage()).toList());
+  }
 }

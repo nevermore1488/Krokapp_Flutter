@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/business/usecases/locale_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
 
 class KrokAppViewModel {
-  LocaleUseCase _localeUseCase;
+  LanguageUseCase _localeUseCase;
 
   KrokAppViewModel(this._localeUseCase);
 
-  late Locale selectedLocale;
+  Stream<Locale> getCurrentLocale() => _localeUseCase
+      .getCurrentLanguage()
+      .where((event) => event != null)
+      .map((event) => Locale(event!.key));
 
-  Future<bool> initApp() async {
-    selectedLocale = await _localeUseCase.getLocale(WidgetsBinding.instance!.window.locales);
-    return true;
-  }
+  void applySystemLocales(List<Locale> systemLocales) =>
+      _localeUseCase.applySystemLocales(systemLocales);
 }
