@@ -2,7 +2,7 @@ import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
-import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
 import 'package:krokapp_multiplatform/data/repositories/data_provider.dart';
 
 class PointsRepository {

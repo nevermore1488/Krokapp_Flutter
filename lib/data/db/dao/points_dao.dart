@@ -1,8 +1,8 @@
 import 'package:krokapp_multiplatform/data/db/dao/common_dao.dart';
 import 'package:krokapp_multiplatform/data/db/dao/localized_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
-import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
 
 abstract class PointsDao extends CommonDao<PointTable> {
   Stream<List<PointTable>> getPointsOfCity(int cityId);

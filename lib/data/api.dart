@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:krokapp_multiplatform/data/json_converter.dart';
-import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/language_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
 
 const _KROK_API = "http://krokapp.by/api/";
 

@@ -1,8 +1,8 @@
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
-import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/current_language_id_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/language_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/point_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/current_language_id_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/language_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

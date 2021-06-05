@@ -1,6 +1,6 @@
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
-import 'package:krokapp_multiplatform/data/pojo/city_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/repositories/data_provider.dart';
 
