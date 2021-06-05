@@ -14,8 +14,7 @@ class InitApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FutureBuilder<ObservableDatabaseExecutor>(
         future: DbUseCase().obtainDbExecutor(),
-        builder: (context, snapshot) =>
-            KrokApp.createScreenFromSnapshot<ObservableDatabaseExecutor>(
+        builder: (context, snapshot) => KrokApp.createAppSnapshotView<ObservableDatabaseExecutor>(
           snapshot,
           (value) => _createAppDependencies(snapshot.data!, KrokApp()),
         ),

@@ -11,20 +11,20 @@ import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
 import 'package:provider/provider.dart';
 
-class PlacePage extends StatefulWidget {
+class PlacesPage extends StatefulWidget {
   final PlaceMode placeMode;
   final Widget? drawer;
 
-  PlacePage({
+  PlacesPage({
     required this.placeMode,
     this.drawer,
   });
 
   @override
-  State<PlacePage> createState() => _PlacePageState();
+  State<PlacesPage> createState() => _PlacesPageState();
 }
 
-class _PlacePageState extends State<PlacePage> {
+class _PlacesPageState extends State<PlacesPage> {
   var _isFirstPage = true;
 
   @override

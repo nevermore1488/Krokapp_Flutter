@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class RotatingWidget extends StatefulWidget {
+class RotateContainer extends StatefulWidget {
   final Widget child;
 
-  RotatingWidget({required this.child});
+  RotateContainer({required this.child});
 
   @override
-  State<RotatingWidget> createState() => _RotatingWidgetState();
+  State<RotateContainer> createState() => _RotateContainerState();
 }
 
-class _RotatingWidgetState extends State<RotatingWidget> with TickerProviderStateMixin {
+class _RotateContainerState extends State<RotateContainer> with TickerProviderStateMixin {
   late AnimationController animationController;
 
   @override

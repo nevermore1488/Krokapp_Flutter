@@ -8,10 +8,8 @@ class KrokAppViewModel {
 
   KrokAppViewModel(this._localeUseCase);
 
-  Stream<Locale> getCurrentLocale() => _localeUseCase
-      .getCurrentLanguage()
-      .where((event) => event != null)
-      .map((event) => Locale(event!.key));
+  Stream<Locale> getCurrentLocale() =>
+      _localeUseCase.getCurrentLanguage().map((event) => Locale(event.key));
 
   void applySystemLocales(List<Locale> systemLocales) =>
       _localeUseCase.applySystemLocales(systemLocales);

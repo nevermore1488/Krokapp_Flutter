@@ -10,9 +10,10 @@ import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_page.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
-import 'package:krokapp_multiplatform/ui/rotating_widget.dart';
+import 'package:krokapp_multiplatform/presentation/place/places_page.dart';
+import 'package:krokapp_multiplatform/ui/rotate_container.dart';
+import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
 class KrokApp extends StatelessWidget {
@@ -23,7 +24,7 @@ class KrokApp extends StatelessWidget {
 
     return StreamBuilder<Locale>(
       stream: vm.getCurrentLocale(),
-      builder: (context, snapshot) => createScreenFromSnapshot<Locale>(
+      builder: (context, snapshot) => createAppSnapshotView<Locale>(
         snapshot,
         (value) => _createMainScreenDependencies(_createMainScreen(value)),
       ),
@@ -55,7 +56,7 @@ class KrokApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (BuildContext context) => PlacePage(
+          '/': (BuildContext context) => PlacesPage(
                 placeMode: CitiesMode(),
                 drawer: NavigationMenuDrawer(),
               ),
@@ -65,25 +66,24 @@ class KrokApp extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
       );
 
-  static Widget createScreenFromSnapshot<T>(
-      AsyncSnapshot<T> snapshot, Widget Function(T) onHasData) {
-    if (snapshot.hasData) {
-      return onHasData(snapshot.data!);
-    } else if (snapshot.hasError) {
-      return createErrorScreen(snapshot.error.toString());
-    } else
-      return createSplashScreen();
-  }
-
-  static Widget createErrorScreen(String errorMessage) => MaterialApp(
-        home: Center(child: Text(errorMessage)),
+  static createAppSnapshotView<T>(AsyncSnapshot<T> snapshot, Widget Function(T) onHasData) =>
+      MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.orange,
+          primaryColorBrightness: Brightness.dark,
+        ),
+        home: SnapshotView(
+          snapshot: snapshot,
+          onHasData: onHasData,
+          onLoading: createSplashScreen,
+        ),
       );
 
   static Widget createSplashScreen() => MaterialApp(
         home: Container(
           color: Colors.white,
           alignment: Alignment.center,
-          child: RotatingWidget(
+          child: RotateContainer(
             child: SizedBox(
               width: 160,
               height: 160,

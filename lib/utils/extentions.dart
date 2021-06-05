@@ -1,5 +1,9 @@
-extension StreamExtentions<T> on Stream<List<T>> {
-  Stream<T?> firstOrNull() => this.map((event) => event.firstOrNull());
+extension StreamExtentions<T> on Stream<T?> {
+  Stream<T> whereNotNull() => this.where((event) => event != null).map((event) => event!);
+}
+
+extension ListStreamExtentions<T> on Stream<List<T?>> {
+  Stream<T?> mapFirstOrNull() => this.map((event) => event.firstOrNull());
 }
 
 extension ListExtentions<T> on List<T> {

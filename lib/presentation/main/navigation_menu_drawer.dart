@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
+import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog.dart';
+import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog_view_model.dart';
+import 'package:provider/provider.dart';
 
 class NavigationMenuDrawer extends StatelessWidget {
   @override
@@ -7,33 +10,9 @@ class NavigationMenuDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.orange,
-              ),
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 16),
-                      child: Image.asset('drawables/krok_icon.png', color: Colors.white),
-                    ),
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.nav_menu_title,
-                    style: TextStyle(color: Colors.white, fontSize: 21),
-                  ),
-                ],
-              ),
-            ),
+            _createHeader(context),
             _createMenuGroupTitle(AppLocalizations.of(context)!.nav_menu_group_settings),
-            _createMenuItem(
-              AppLocalizations.of(context)!.nav_menu_item_language,
-              Icons.language,
-              () {},
-            ),
+            _createChooseLanguageItem(context),
             /* _createMenuItem("Excursion Setting", Icons.settings, () {}),*/
             Divider(),
             /*  _createMenuGroupTitle("Personal"),
@@ -47,6 +26,45 @@ class NavigationMenuDrawer extends StatelessWidget {
         ),
       );
 
+  Widget _createHeader(BuildContext context) => DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.orange,
+        ),
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 16),
+                child: Image.asset('drawables/krok_icon.png', color: Colors.white),
+              ),
+            ),
+            Text(
+              AppLocalizations.of(context)!.nav_menu_title,
+              style: TextStyle(color: Colors.white, fontSize: 21),
+            ),
+          ],
+        ),
+      );
+
+  Widget _createChooseLanguageItem(BuildContext context) => _createMenuItem(
+        AppLocalizations.of(context)!.nav_menu_item_language,
+        Icons.language,
+        () {
+          Navigator.push(
+            context,
+            DialogRoute(
+              context: context,
+              builder: (_) => Provider(
+                create: (_) => ChooseLanguageDialogViewModel(Provider.of(context), context),
+                child: ChooseLanguageDialog(),
+              ),
+            ),
+          );
+        },
+      );
+
   Widget _createMenuGroupTitle(String title) => Padding(
         padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
         child: Text(
@@ -55,9 +73,9 @@ class NavigationMenuDrawer extends StatelessWidget {
         ),
       );
 
-  Widget _createMenuItem(String name, IconData iconData, Function? onClick) => ListTile(
+  Widget _createMenuItem(String name, IconData iconData, Function()? onClick) => ListTile(
         title: Text(name),
         leading: Icon(iconData),
-        onTap: () => onClick,
+        onTap: onClick,
       );
 }
