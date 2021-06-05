@@ -18,7 +18,7 @@ class LanguageUseCase {
   Future<void> applySystemLocales(List<Locale> systemLocales) async {
     Language? currentLanguage = await _languagesRepository.getCurrentLanguage().first;
 
-    if (systemLocales.contains(currentLanguage?.key)) return;
+    if (currentLanguage != null) return;
 
     List<Language> languages = await _languagesRepository.loadLanguages();
 
