@@ -8,6 +8,7 @@ import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
+import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
@@ -60,6 +61,7 @@ class KrokApp extends StatelessWidget {
                 placeMode: CitiesMode(),
                 drawer: NavigationMenuDrawer(),
               ),
+          '/about_us': (BuildContext context) => AboutUsPage(),
         },
         locale: selectedLocale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
