@@ -28,5 +28,7 @@
   "excursion_time": "%s h: %s min",
   "how_much_time": "How much time do you have?",
   "excursion_select_all_tags": "Select all tags",
-  "apply": "Apply"
+  "apply": "Apply",
+  "ok": "Oк",
+  "cancel": "CANCEL"
 }

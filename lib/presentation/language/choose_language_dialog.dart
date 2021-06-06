@@ -24,7 +24,7 @@ class ChooseLanguageDialog extends StatelessWidget {
                       title: Text(e.name),
                       value: e,
                       groupValue: data.selectedLanguage,
-                      selected: data.selectedLanguage.id == e.id,
+                      selected: data.selectedLanguage == e,
                       onChanged: (value) {
                         if (value != null) vm.onNewLanguageSelected(value);
                       },
@@ -35,12 +35,12 @@ class ChooseLanguageDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          child: Text("Cancel"),
-          onPressed: () => vm.onCancelPressed,
+          child: Text(AppLocalizations.of(context)!.cancel),
+          onPressed: vm.onCancelPressed,
         ),
         TextButton(
-          child: Text("OK"),
-          onPressed: () => vm.onOkPressed(),
+          child: Text(AppLocalizations.of(context)!.ok),
+          onPressed: vm.onOkPressed,
         ),
       ],
     );

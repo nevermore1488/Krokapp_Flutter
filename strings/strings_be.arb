@@ -28,5 +28,7 @@
   "excursion_time": "%s г: %s мін",
   "how_much_time": "Колькі вы маеце вольнага часу?",
   "apply": "Прымяніць",
-  "excursion_select_all_tags": "Выбраць усе тэгі"
+  "excursion_select_all_tags": "Выбраць усе тэгі",
+  "ok": "ОК",
+  "cancel": "АДМЕНА"
 }

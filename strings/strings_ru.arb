@@ -28,5 +28,7 @@
   "excursion_time": "%s ч: %s мин",
   "how_much_time": "Сколько у вас свободного времени?",
   "apply": "Применить",
-  "excursion_select_all_tags": "Выбрать все тэги"
+  "excursion_select_all_tags": "Выбрать все тэги",
+  "ok": "ОК",
+  "cancel": "ОТМЕНА"
 }
