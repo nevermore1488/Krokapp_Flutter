@@ -9,7 +9,7 @@ class FeatureTable {
       ' $COLUMN_IS_VISITED INTEGER'
       ')';
 
-  static const String COLUMN_PLACE_ID = "place_id";
+  static const String COLUMN_PLACE_ID = "featured_place_id";
   static const String COLUMN_IS_FAVORITE = "is_favorite";
   static const String COLUMN_IS_VISITED = "is_visited";
 
@@ -24,7 +24,7 @@ class FeatureTable {
   );
 
   FeatureTable.fromJson(dynamic json) {
-    placeId = json[COLUMN_PLACE_ID];
+    placeId = json[COLUMN_PLACE_ID] ?? 0;
     isFavorite = json[COLUMN_IS_FAVORITE] ?? 0;
     isVisited = json[COLUMN_IS_VISITED] ?? 0;
   }
@@ -36,15 +36,6 @@ class FeatureTable {
     map[COLUMN_IS_VISITED] = isVisited;
     return map;
   }
-
-  @override
-  bool operator ==(Object other) {
-    if (other is FeatureTable) return this.placeId == other.placeId;
-    return super == other;
-  }
-
-  @override
-  int get hashCode => placeId;
 }
 
 class FeaturesJsonConverter extends JsonConverter<FeatureTable> {

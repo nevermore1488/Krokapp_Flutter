@@ -21,19 +21,8 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable> implements 
         );
 
   @override
-  Future<void> add(List<FeaturedPointTable> entities) async {
-    obsDbExecutor.add(
-      PointTable.TABLE_NAME,
-      PointsJsonConverter().toJsonList(
-        entities.map((e) => e.pointTable).toList(),
-      ),
-    );
-    obsDbExecutor.add(
-      FeatureTable.TABLE_NAME,
-      FeaturesJsonConverter().toJsonList(
-        entities.map((e) => e.featureTable).toSet().toList(),
-      ),
-    );
+  Future<void> add(List<FeaturedPointTable> entities) {
+    throw Exception("Use combination of PointsDao and FeatureDao instead.");
   }
 
   @override

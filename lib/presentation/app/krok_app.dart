@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
-import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
-import 'package:krokapp_multiplatform/data/db/dao/featured_points_dao.dart';
-import 'package:krokapp_multiplatform/data/db/dao/features_dao.dart';
-import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
-import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
-import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
@@ -26,60 +19,31 @@ class KrokApp extends StatelessWidget {
 
     return StreamBuilder<Locale>(
       stream: vm.getCurrentLocale(),
-      builder: (context, snapshot) => createAppSnapshotView<Locale>(
-        snapshot,
-        (value) => _createMainScreenDependencies(_createMainScreen(value)),
+      builder: (context, snapshot) => SnapshotView<Locale>(
+        snapshot: snapshot,
+        onHasData: (value) => _createMainScreen(value),
+        onLoading: createSplashScreen,
       ),
     );
   }
 
-  Widget _createMainScreenDependencies(Widget child) => MultiProvider(
-        providers: [
-          ProxyProvider<ObservableDatabaseExecutor, CitiesRepository>(
-            update: (context, value, previous) => CitiesRepository(
-              CitiesApiImpl(),
-              CitiesDaoImpl(value),
-            ),
+  Widget _createMainScreen(Locale selectedLocale) => Container(
+        child: MaterialApp(
+          theme: ThemeData(
+            primaryColor: Colors.orange,
+            primaryColorBrightness: Brightness.dark,
           ),
-          ProxyProvider<ObservableDatabaseExecutor, PointsRepository>(
-            update: (context, value, previous) => PointsRepository(
-              PointsApiImpl(),
-              FeatureDaoImpl(value),
-              FeaturedPointsDaoImpl(value),
-            ),
-          ),
-        ],
-        child: child,
-      );
-
-  Widget _createMainScreen(Locale selectedLocale) => MaterialApp(
-        theme: ThemeData(
-          primaryColor: Colors.orange,
-          primaryColorBrightness: Brightness.dark,
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (BuildContext context) => PlacesPage(
-                placeMode: CitiesMode(),
-                drawer: NavigationMenuDrawer(),
-              ),
-          '/about_us': (BuildContext context) => AboutUsPage(),
-        },
-        locale: selectedLocale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-      );
-
-  static createAppSnapshotView<T>(AsyncSnapshot<T> snapshot, Widget Function(T) onHasData) =>
-      MaterialApp(
-        theme: ThemeData(
-          primaryColor: Colors.orange,
-          primaryColorBrightness: Brightness.dark,
-        ),
-        home: SnapshotView(
-          snapshot: snapshot,
-          onHasData: onHasData,
-          onLoading: createSplashScreen,
+          initialRoute: '/',
+          routes: {
+            '/': (BuildContext context) => PlacesPage(
+                  placeMode: CitiesMode(),
+                  drawer: NavigationMenuDrawer(),
+                ),
+            '/about_us': (BuildContext context) => AboutUsPage(),
+          },
+          locale: selectedLocale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         ),
       );
 

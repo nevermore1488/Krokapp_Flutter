@@ -2,15 +2,26 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
+import 'package:rxdart/rxdart.dart';
 
 class KrokAppViewModel {
-  LanguageUseCase _localeUseCase;
+  LanguageUseCase _langageUseCase;
+  PlaceUseCase _placeUseCase;
 
-  KrokAppViewModel(this._localeUseCase);
+  var _isAppInited = PublishSubject();
 
-  Stream<Locale> getCurrentLocale() =>
-      _localeUseCase.getCurrentLanguage().map((event) => Locale(event.key));
+  KrokAppViewModel(
+    this._langageUseCase,
+    this._placeUseCase,
+  );
 
-  void applySystemLocales(List<Locale> systemLocales) =>
-      _localeUseCase.applySystemLocales(systemLocales);
+  Stream<Locale> getCurrentLocale() => _isAppInited.stream
+      .switchMap((value) => _langageUseCase.getCurrentLanguage().map((event) => Locale(event.key)));
+
+  void applySystemLocales(List<Locale> systemLocales) async {
+    await _langageUseCase.applySystemLocales(systemLocales);
+    await _placeUseCase.loadPlacesIfNeeded();
+    _isAppInited.add(true);
+  }
 }

@@ -9,12 +9,12 @@ import 'package:krokapp_multiplatform/utils//extentions.dart';
 class LanguagesRepository {
   LanguagesApi _api;
   LanguagesDao _languagesDao;
-  CurrentLanguageIdDao _currLangDao;
+  CurrentLanguageIdDao _currentLanguageIdDao;
 
   LanguagesRepository(
     this._api,
     this._languagesDao,
-    this._currLangDao,
+    this._currentLanguageIdDao,
   );
 
   Stream<Language?> getCurrentLanguage() =>
@@ -32,5 +32,5 @@ class LanguagesRepository {
   }
 
   Future<void> setCurrentLanguage(Language language) =>
-      _currLangDao.add([CurrentLanguageIdTable(language.id)]);
+      _currentLanguageIdDao.add([CurrentLanguageIdTable(language.id)]);
 }
