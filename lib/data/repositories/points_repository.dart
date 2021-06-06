@@ -1,63 +1,81 @@
 import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/featured_points_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/features_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/feature_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/featured_point_table.dart';
 import 'package:krokapp_multiplatform/data/repositories/data_provider.dart';
 
 class PointsRepository {
   PointsApi _api;
-  PointsDao _dao;
+  FeatureDaoImpl _featureDao;
+  FeaturedPointsDaoImpl _featurePointsDao;
 
-  late DataProvider<List<PointTable>> pointsProvider;
+  late DataProvider<List<FeaturedPointTable>> pointsProvider;
 
-  Map<int, DataProvider<List<PointTable>>> pointsByIdProviders = Map();
-  Map<int, DataProvider<List<PointTable>>> pointsOfCityProviders = Map();
+  Map<int, DataProvider<List<FeaturedPointTable>>> pointsByIdProviders = Map();
+  Map<int, DataProvider<List<FeaturedPointTable>>> pointsOfCityProviders = Map();
 
   PointsRepository(
     this._api,
-    this._dao,
+    this._featureDao,
+    this._featurePointsDao,
   ) {
     pointsProvider = _createDefaultDataProvider(
-      () => _dao.getAll(),
+      () => _featurePointsDao.getAll(),
     );
   }
 
-  DataProvider<List<PointTable>> _createDefaultDataProvider(
-    Stream<List<PointTable>> Function() _getData,
+  DataProvider<List<FeaturedPointTable>> _createDefaultDataProvider(
+    Stream<List<FeaturedPointTable>> Function() _getData,
   ) =>
       DataProvider(
         _getData,
-        (data) => _dao.replaceBy(data),
-        () => _api.getPoints(1).first,
+        (data) => _featurePointsDao.add(data),
+        () => _api
+            .getPoints(1)
+            .map((event) => event.map((e) => FeaturedPointTable(pointTable: e)).toList())
+            .first,
         (data) => data.isNotEmpty,
       );
 
   Stream<List<Place>> getPoints() => pointsProvider.getData().asPlaces();
 
   Stream<List<PlaceDetail>> getPointById(int pointId) {
-    DataProvider<List<PointTable>>? provider = pointsByIdProviders[pointId];
+    DataProvider<List<FeaturedPointTable>>? provider = pointsByIdProviders[pointId];
 
     if (provider == null) {
       provider = _createDefaultDataProvider(
-        () => _dao.getPointById(pointId),
+        () => _featurePointsDao.getPointById(pointId),
       );
       pointsByIdProviders[pointId] = provider;
     }
 
-    return provider.getData().asPlaceDetails();
+    return provider.getData().asPlaces();
   }
 
   Stream<List<Place>> getPointsOfCity(int cityId) {
-    DataProvider<List<PointTable>>? provider = pointsOfCityProviders[cityId];
+    DataProvider<List<FeaturedPointTable>>? provider = pointsOfCityProviders[cityId];
 
     if (provider == null) {
       provider = _createDefaultDataProvider(
-        () => _dao.getPointsOfCity(cityId),
+        () => _featurePointsDao.getPointsOfCity(cityId),
       );
       pointsOfCityProviders[cityId] = provider;
     }
 
     return provider.getData().asPlaces();
+  }
+
+  Future<void> savePlaceFeature(PlaceFeature placeFeature) async {
+    _featureDao.add([
+      FeatureTable(
+        placeFeature.placeId,
+        placeFeature.isFavorite ? 1 : 0,
+        placeFeature.isVisited ? 1 : 0,
+      )
+    ]);
   }
 }

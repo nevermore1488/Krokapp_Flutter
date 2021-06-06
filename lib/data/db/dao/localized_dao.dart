@@ -21,9 +21,11 @@ abstract class LocalizedDao<T> extends CommonDaoImpl<T> {
         );
 
   @override
-  String getSelectQuery() =>
-      "${super.getSelectQuery()} WHERE $langIdColumnName = ($_SELECT_CURRENT_LANGUAGE_TABLE_CLAUSE)";
+  String getSelectQuery() => "${super.getSelectQuery()} ${beforeWhereStatement()}"
+      " WHERE $langIdColumnName = ($_SELECT_CURRENT_LANGUAGE_TABLE_CLAUSE)";
 
   @override
   List<String> getEngagedTables() => super.getEngagedTables() + [CurrentLanguageIdTable.TABLE_NAME];
+
+  String beforeWhereStatement() => "";
 }

@@ -1,5 +1,6 @@
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 
@@ -22,4 +23,7 @@ class PlaceUseCase {
 
   Stream<PlaceDetail> getPlaceDetail(int placeId) =>
       _pointsRepository.getPointById(placeId).map((event) => event.first);
+
+  Future<void> savePlaceFeature(PlaceFeature placeFeature) =>
+      _pointsRepository.savePlaceFeature(placeFeature);
 }

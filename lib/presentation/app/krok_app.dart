@@ -4,7 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
-import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/featured_points_dao.dart';
+import 'package:krokapp_multiplatform/data/db/dao/features_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
@@ -43,7 +44,8 @@ class KrokApp extends StatelessWidget {
           ProxyProvider<ObservableDatabaseExecutor, PointsRepository>(
             update: (context, value, previous) => PointsRepository(
               PointsApiImpl(),
-              PointsDaoImpl(value),
+              FeatureDaoImpl(value),
+              FeaturedPointsDaoImpl(value),
             ),
           ),
         ],

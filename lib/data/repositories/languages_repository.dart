@@ -26,11 +26,11 @@ class LanguagesRepository {
     List<LanguageTable> languages = await _languagesDao.getVeryAll().first;
     if (languages.isEmpty) {
       languages = await _api.getLanguages().first;
-      _languagesDao.replaceBy(languages);
+      _languagesDao.add(languages);
     }
     return languages.map((e) => e.toLanguage()).toList();
   }
 
   Future<void> setCurrentLanguage(Language language) =>
-      _currLangDao.replaceBy([CurrentLanguageIdTable(language.id)]);
+      _currLangDao.add([CurrentLanguageIdTable(language.id)]);
 }

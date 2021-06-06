@@ -9,3 +9,7 @@ extension ListStreamExtentions<T> on Stream<List<T?>> {
 extension ListExtentions<T> on List<T> {
   T? firstOrNull() => this.isNotEmpty ? this.first : null;
 }
+
+extension NullableListExtentions<T> on List<T?> {
+  List<T> whereNotNull() => this.where((e) => e != null).map((event) => event!).toList();
+}

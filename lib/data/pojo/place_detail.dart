@@ -17,7 +17,9 @@ class PlaceDetail extends Place {
     double lat = 0.0,
     double lng = 0.0,
     bool isShowFavorite = false,
+    bool isShowVisited = false,
     bool isFavorite = false,
+    bool isVisited = false,
   }) : super(
           id,
           title,
@@ -25,6 +27,8 @@ class PlaceDetail extends Place {
           lat: lat,
           lng: lng,
           isShowFavorite: isShowFavorite,
+          isShowVisited: isShowVisited,
           isFavorite: isFavorite,
+          isVisited: isVisited,
         );
 }

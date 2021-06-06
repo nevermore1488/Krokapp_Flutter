@@ -1,7 +1,7 @@
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
 import 'package:krokapp_multiplatform/data/repositories/data_provider.dart';
 
 class CitiesRepository {
@@ -26,7 +26,7 @@ class CitiesRepository {
   ) =>
       DataProvider(
         _getData,
-        (data) => _dao.replaceBy(data),
+        (data) => _dao.add(data),
         () => _api.getCities(1).first,
         (data) => data.isNotEmpty,
       );

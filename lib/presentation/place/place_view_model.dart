@@ -5,6 +5,7 @@ import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_model.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 import 'package:krokapp_multiplatform/presentation/place/places_page.dart';
@@ -88,7 +89,13 @@ class PlaceViewModel implements PlaceListViewModel, MapViewModel, DetailViewMode
   }
 
   @override
-  void onPlaceFavoriteClick(Place place) {}
+  void onPlaceFavoriteClick(Place place) {
+    _placeUseCase.savePlaceFeature(PlaceFeature(
+      placeId: place.id,
+      isFavorite: !place.isFavorite,
+      isVisited: place.isVisited,
+    ));
+  }
 
   // map
 

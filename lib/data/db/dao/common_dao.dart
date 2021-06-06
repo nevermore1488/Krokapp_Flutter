@@ -6,7 +6,7 @@ import 'package:krokapp_multiplatform/data/json_converter.dart';
 abstract class CommonDao<T> {
   Stream<List<T>> getAll();
 
-  Future<void> replaceBy(List<T> entities);
+  Future<void> add(List<T> entities);
 }
 
 class CommonDaoImpl<T> implements CommonDao<T> {
@@ -21,8 +21,8 @@ class CommonDaoImpl<T> implements CommonDao<T> {
   );
 
   @override
-  Future<void> replaceBy(List<T> entities) =>
-      obsDbExecutor.replaceBy(tableName, converter.toJsonList(entities));
+  Future<void> add(List<T> entities) =>
+      obsDbExecutor.add(tableName, converter.toJsonList(entities));
 
   @override
   Stream<List<T>> getAll() => query(getSelectQuery(), getEngagedTables());

@@ -1,6 +1,7 @@
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/current_language_id_table.dart';
+import 'package:krokapp_multiplatform/data/pojo/tables/feature_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/language_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
 import 'package:path/path.dart';
@@ -26,6 +27,7 @@ class DbUseCase {
             txn.execute(LanguageTable.CREATE_TABLE_CLAUSE);
             txn.execute(CityTable.CREATE_TABLE_CLAUSE);
             txn.execute(PointTable.CREATE_TABLE_CLAUSE);
+            txn.execute(FeatureTable.CREATE_TABLE_CLAUSE);
           });
         },
         version: 1,

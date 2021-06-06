@@ -8,7 +8,7 @@ abstract class ObservableDatabaseExecutor {
 
   Stream<List<Map<String, Object?>>> observableRawQuery(String query, List<String> engagedTables);
 
-  Future<void> replaceBy(String tableName, List<Map<String, Object?>> entities);
+  Future<void> add(String tableName, List<Map<String, Object?>> entities);
 }
 
 class ObservableDatabaseExecutorImpl implements ObservableDatabaseExecutor {
@@ -30,11 +30,14 @@ class ObservableDatabaseExecutorImpl implements ObservableDatabaseExecutor {
           .mergeWith([_db.rawQuery(query).asStream()]);
 
   @override
-  Future<void> replaceBy(String tableName, List<Map<String, Object?>> entities) async {
+  Future<void> add(String tableName, List<Map<String, Object?>> entities) async {
     Batch batch = _db.batch();
-    batch.delete(tableName);
     entities.forEach((element) {
-      batch.insert(tableName, element);
+      batch.insert(
+        tableName,
+        element,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     });
     await batch.commit();
 

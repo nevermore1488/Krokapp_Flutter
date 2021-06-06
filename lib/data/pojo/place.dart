@@ -7,8 +7,10 @@ class Place {
   final String logo;
   final double lat;
   final double lng;
-  final bool isShowFavorite;
-  final bool isFavorite;
+  bool isShowFavorite;
+  bool isShowVisited;
+  bool isFavorite;
+  bool isVisited;
 
   Place(
     this.id,
@@ -17,7 +19,9 @@ class Place {
     this.lat = 0.0,
     this.lng = 0.0,
     this.isShowFavorite = false,
+    this.isShowVisited = false,
     this.isFavorite = false,
+    this.isVisited = false,
   });
 
   MarkerInfo toMarker() => MarkerInfo(id.toString(), title, LatLng(lat, lng));
