@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
+import 'package:krokapp_multiplatform/presentation/place/detail/place_detail_view_model.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
 class PlaceDetailPage extends StatelessWidget {
-  final int placeId;
-
-  PlaceDetailPage({
-    required this.placeId,
-  });
-
   @override
   Widget build(BuildContext context) {
-    DetailViewModel vm = Provider.of(context);
+    PlaceDetailViewModel vm = Provider.of(context);
 
     return Scaffold(
       body: StreamBuilder<PlaceDetail>(
-        stream: vm.getPlaceDetail(placeId),
+        stream: vm.getPlaceDetail(),
         builder: (context, snapshot) => SnapshotView<PlaceDetail>(
             snapshot: snapshot,
             onHasData: (data) => ListView(

@@ -19,6 +19,8 @@ class PlaceUseCase {
 
   Stream<List<Place>> getPointsOfCity(int cityId) => _pointsRepository.getPointsOfCity(cityId);
 
+  Stream<List<Place>> getPoints() => _pointsRepository.getPoints();
+
   Stream<List<Place>> getPointById(int pointId) => _pointsRepository.getPointById(pointId);
 
   Stream<PlaceDetail> getPlaceDetail(int placeId) =>

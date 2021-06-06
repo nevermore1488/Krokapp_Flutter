@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_item.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
+import 'package:krokapp_multiplatform/presentation/place/list/place_list_view_model.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
 class PlaceListPage extends StatelessWidget {
-  final PlaceMode placeMode;
-
-  PlaceListPage({
-    required this.placeMode,
-  });
-
   @override
   Widget build(BuildContext context) {
     PlaceListViewModel vm = Provider.of(context);

@@ -1,22 +1,34 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
-import 'package:krokapp_multiplatform/data/repositories/cities_repository.dart';
-import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/presentation/place/detail/place_detail_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/detail/place_detail_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/place/list/place_list_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/list/place_list_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/place/map/map_page.dart';
+import 'package:krokapp_multiplatform/presentation/place/map/map_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 import 'package:krokapp_multiplatform/presentation/place/place_view_model.dart';
 import 'package:provider/provider.dart';
 
+Widget createPlacesPageWithProvider(
+  PlaceMode placeMode,
+  PlaceUseCase placeUseCase, {
+  Widget? drawer,
+}) =>
+    Provider<PlaceViewModel>(
+      create: (context) => PlaceViewModel(
+        placeMode,
+        placeUseCase,
+        context,
+      ),
+      child: PlacesPage(drawer: drawer),
+    );
+
 class PlacesPage extends StatefulWidget {
-  final PlaceMode placeMode;
   final Widget? drawer;
 
   PlacesPage({
-    required this.placeMode,
     this.drawer,
   });
 
@@ -28,44 +40,70 @@ class _PlacesPageState extends State<PlacesPage> {
   var _isFirstPage = true;
 
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          ProxyProvider2<CitiesRepository, PointsRepository, PlaceViewModel>(
-            update: (context, cityRep, pointsRep, previous) => PlaceViewModel(
-              widget.placeMode,
-              PlaceUseCase(cityRep, pointsRep),
-              MapUseCase(pointsRep),
-              context,
-            ),
+  Widget build(BuildContext context) {
+    PlaceViewModel vm = Provider.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: _getTitle(vm),
+        actions: [_createSwitchIcon()],
+        brightness: Brightness.dark,
+      ),
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 300),
+        child: _createCurrentPage(vm.placeMode, context),
+        transitionBuilder: _createCurrentSwitchAnimation,
+      ),
+      drawer: widget.drawer,
+    );
+  }
+
+  Widget _createCurrentPage(
+    PlaceMode placeMode,
+    BuildContext context,
+  ) =>
+      _isFirstPage ? _createFirstPage(placeMode, context) : _createSecondPage(placeMode, context);
+
+  Widget _createFirstPage(
+    PlaceMode placeMode,
+    BuildContext context,
+  ) {
+    switch (placeMode.runtimeType) {
+      case CitiesMode:
+      case PointsMode:
+        return Provider<PlaceListViewModel>(
+          create: (_) => PlaceListViewModel(
+            placeMode,
+            Provider.of(context),
+            context,
           ),
-          ProxyProvider<PlaceViewModel, PlaceViewModel>(
-            update: (_, value, __) => value,
+          child: PlaceListPage(),
+        );
+      case DetailMode:
+        return Provider<PlaceDetailViewModel>(
+          create: (_) => PlaceDetailViewModel(
+            Provider.of(context),
+            (placeMode as DetailMode).pointId,
           ),
-          ProxyProvider<PlaceViewModel, PlaceListViewModel>(
-            update: (_, value, __) => value,
-          ),
-          ProxyProvider<PlaceViewModel, MapViewModel>(
-            update: (_, value, __) => value,
-          ),
-          ProxyProvider<PlaceViewModel, DetailViewModel>(
-            update: (_, value, __) => value,
-          ),
-        ],
-        child: Consumer<PlaceViewModel>(
-          builder: (context, vm, child) => Scaffold(
-            appBar: AppBar(
-              title: _getTitle(vm),
-              actions: [_createSwitchIcon()],
-              brightness: Brightness.dark,
-            ),
-            body: AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
-              child: _createCurrentPage(),
-              transitionBuilder: _createCurrentSwitchAnimation,
-            ),
-            drawer: widget.drawer,
-          ),
+          child: PlaceDetailPage(),
+        );
+
+      default:
+        throw Exception("no such mode");
+    }
+  }
+
+  Widget _createSecondPage(
+    PlaceMode placeMode,
+    BuildContext context,
+  ) =>
+      Provider<MapViewModel>(
+        create: (_) => MapViewModel(
+          placeMode,
+          Provider.of(context),
+          Provider.of(context),
         ),
+        child: MapPage(),
       );
 
   Widget _createSwitchIcon() => IconButton(
@@ -89,24 +127,6 @@ class _PlacesPageState extends State<PlacesPage> {
             return SizedBox.shrink();
         },
       );
-
-  Widget _createCurrentPage() => _isFirstPage ? _createFirstPage() : _createSecondPage();
-
-  Widget _createFirstPage() {
-    switch (widget.placeMode.runtimeType) {
-      case CitiesMode:
-      case PointsMode:
-        return PlaceListPage(placeMode: widget.placeMode);
-
-      case DetailMode:
-        return PlaceDetailPage(placeId: (widget.placeMode as DetailMode).pointId);
-
-      default:
-        throw Exception("no such mode");
-    }
-  }
-
-  Widget _createSecondPage() => MapPage();
 
   Widget _createCurrentSwitchAnimation(Widget child, Animation<double> animation) =>
       SlideTransition(

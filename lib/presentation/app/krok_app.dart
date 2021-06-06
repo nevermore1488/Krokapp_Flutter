@@ -35,8 +35,9 @@ class KrokApp extends StatelessWidget {
           ),
           initialRoute: '/',
           routes: {
-            '/': (BuildContext context) => PlacesPage(
-                  placeMode: CitiesMode(),
+            '/': (BuildContext context) => createPlacesPageWithProvider(
+                  CitiesMode(),
+                  Provider.of(context),
                   drawer: NavigationMenuDrawer(),
                 ),
             '/about_us': (BuildContext context) => AboutUsPage(),

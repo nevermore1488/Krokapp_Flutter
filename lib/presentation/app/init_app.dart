@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/business/usecases/db_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
@@ -55,6 +56,9 @@ class InitApp extends StatelessWidget {
           ),
           ProxyProvider2<LanguageUseCase, PlaceUseCase, KrokAppViewModel>(
             update: (context, languages, places, previous) => KrokAppViewModel(languages, places),
+          ),
+          ProxyProvider<PointsRepository, MapUseCase>(
+            update: (context, value, previous) => MapUseCase(value),
           ),
         ],
         child: child,
