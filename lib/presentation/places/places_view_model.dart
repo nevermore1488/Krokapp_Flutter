@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
+import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
-import 'package:krokapp_multiplatform/presentation/place/places_page.dart';
+import 'package:krokapp_multiplatform/presentation/places/places_page.dart';
 import 'package:provider/provider.dart';
 
-class PlaceListViewModel {
+class PlacesViewModel {
   SelectArgs selectArgs;
   PlaceUseCase _placeUseCase;
   BuildContext _context;
 
-  PlaceListViewModel(
+  PlacesViewModel(
     this.selectArgs,
     this._placeUseCase,
     this._context,
   );
 
+  Stream<String> getTitle() {
+    if (selectArgs.cityId != null) {
+      return _placeUseCase
+          .getPlacesBySelectArgs(SelectArgs(placeType: PlaceType.CITIES, id: selectArgs.cityId))
+          .map((event) => event.first.title);
+    } else if (selectArgs.id != null) {
+      return _placeUseCase.getPlacesBySelectArgs(selectArgs).map((event) => event.first.title);
+    } else if (selectArgs.placeType == PlaceType.CITIES) {
+      return Future.value(AppLocalizations.of(_context)!.cities_title).asStream();
+    } else if (selectArgs.isFavorite == true) {
+      return Future.value(AppLocalizations.of(_context)!.nav_menu_item_bookmarks).asStream();
+    } else if (selectArgs.isVisited == true) {
+      return Future.value(AppLocalizations.of(_context)!.nav_menu_item_visited).asStream();
+    } else
+      throw Exception("no such place mode");
+  }
+
   Stream<List<Place>> getPlaces() => _placeUseCase.getPlacesBySelectArgs(selectArgs);
+
+  Stream<PlaceDetail> getPlaceDetail() =>
+      getPlaces().map((event) => event.first as PlaceDetail).first.asStream();
 
   void onPlaceClick(Place place) {
     _pushByPlaceId(place.id);

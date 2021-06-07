@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
-import 'package:krokapp_multiplatform/presentation/place/map/map_model.dart';
-import 'package:krokapp_multiplatform/presentation/place/map/map_view_model.dart';
+import 'package:krokapp_multiplatform/presentation/map/map_model.dart';
+import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MapPage extends StatelessWidget {

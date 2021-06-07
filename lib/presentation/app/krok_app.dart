@@ -6,7 +6,7 @@ import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
-import 'package:krokapp_multiplatform/presentation/place/places_page.dart';
+import 'package:krokapp_multiplatform/presentation/places/places_page.dart';
 import 'package:krokapp_multiplatform/ui/rotate_container.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';

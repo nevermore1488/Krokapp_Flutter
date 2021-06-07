@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
-import 'package:krokapp_multiplatform/presentation/place/list/place_list_view_model.dart';
+import 'package:krokapp_multiplatform/presentation/places/places_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PlaceItem extends StatelessWidget {
@@ -12,7 +12,7 @@ class PlaceItem extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    PlaceListViewModel vm = Provider.of(context, listen: false);
+    PlacesViewModel vm = Provider.of(context, listen: false);
 
     late TapDownDetails tapDownDetails;
     return InkWell(
@@ -78,7 +78,7 @@ class PlaceItem extends StatelessWidget {
       : SizedBox.shrink();
 
   // https://stackoverflow.com/questions/54300081/flutter-popupmenu-on-long-press
-  void showContextMenu(BuildContext context, PlaceListViewModel vm, Offset position) {
+  void showContextMenu(BuildContext context, PlacesViewModel vm, Offset position) {
     if (!place.isShowVisited) return;
 
     var isVisitedValue = place.isVisited

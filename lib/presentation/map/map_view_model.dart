@@ -2,7 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
-import 'package:krokapp_multiplatform/presentation/place/map/map_model.dart';
+import 'package:krokapp_multiplatform/presentation/map/map_model.dart';
 
 const _MINSK_RAILROAD_LOCATION = LatLng(53.891178, 27.551021);
 
