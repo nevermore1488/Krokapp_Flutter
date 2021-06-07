@@ -2,9 +2,10 @@ import 'package:krokapp_multiplatform/data/db/dao/common_dao.dart';
 import 'package:krokapp_multiplatform/data/db/dao/localized_dao.dart';
 import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
+import 'package:krokapp_multiplatform/data/select_args.dart';
 
 abstract class CitiesDao extends CommonDao<CityTable> {
-  Stream<List<CityTable>> getCityById(int cityId);
+  Stream<List<CityTable>> getCitiesBySelectArgs(SelectArgs selectArgs);
 }
 
 class CitiesDaoImpl extends LocalizedDao<CityTable> implements CitiesDao {
@@ -16,8 +17,18 @@ class CitiesDaoImpl extends LocalizedDao<CityTable> implements CitiesDao {
         );
 
   @override
-  Stream<List<CityTable>> getCityById(int cityId) => query(
-        "${getSelectQuery()} and ${CityTable.COLUMN_PLACE_ID} = $cityId",
-        getEngagedTables(),
-      );
+  Stream<List<CityTable>> getCitiesBySelectArgs(
+    SelectArgs selectionArgs,
+  ) {
+    late String selectionWhere;
+    if (selectionArgs.id != null) {
+      selectionWhere = "${CityTable.COLUMN_PLACE_ID} = ${selectionArgs.id}";
+    } else
+      return getAll();
+
+    return query(
+      "${getSelectQuery()} and $selectionWhere",
+      getEngagedTables(),
+    );
+  }
 }

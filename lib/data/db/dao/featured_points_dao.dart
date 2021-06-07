@@ -5,15 +5,10 @@ import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/feature_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/featured_point_table.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
+import 'package:krokapp_multiplatform/data/select_args.dart';
 
 abstract class FeaturedPointsDao extends CommonDao<FeaturedPointTable> {
-  Stream<List<FeaturedPointTable>> getPointsOfCity(int cityId);
-
-  Stream<List<FeaturedPointTable>> getPointById(int pointId);
-
-  Stream<List<FeaturedPointTable>> getFavorites();
-
-  Stream<List<FeaturedPointTable>> getVisited();
+  Stream<List<FeaturedPointTable>> getPointsBySelectArgs(SelectArgs selectArgs);
 }
 
 class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable> implements FeaturedPointsDao {
@@ -38,26 +33,23 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable> implements 
       " = ${FeatureTable.TABLE_NAME}.${FeatureTable.COLUMN_PLACE_ID}";
 
   @override
-  Stream<List<FeaturedPointTable>> getPointsOfCity(int cityId) => query(
-        "${getSelectQuery()} and ${PointTable.COLUMN_CITY_ID} = $cityId",
-        getEngagedTables() + [CityTable.TABLE_NAME],
-      );
+  Stream<List<FeaturedPointTable>> getPointsBySelectArgs(SelectArgs selectArgs) {
+    late String selectionWhere;
+    if (selectArgs.id != null) {
+      selectionWhere = "${PointTable.COLUMN_PLACE_ID} = ${selectArgs.id}";
+    } else if (selectArgs.cityId != null) {
+      selectionWhere = "${PointTable.COLUMN_CITY_ID} = ${selectArgs.cityId}";
+    } else if (selectArgs.isFavorite) {
+      selectionWhere = "${FeatureTable.COLUMN_IS_FAVORITE} = 1";
+    } else if (selectArgs.isVisited) {
+      selectionWhere = "${FeatureTable.COLUMN_IS_VISITED} = 1";
+    } else
+      return getAll();
 
-  @override
-  Stream<List<FeaturedPointTable>> getPointById(int pointId) => query(
-        "${getSelectQuery()} and ${PointTable.COLUMN_PLACE_ID} = $pointId",
-        getEngagedTables(),
-      );
-
-  @override
-  Stream<List<FeaturedPointTable>> getFavorites() => query(
-        "${getSelectQuery()} and ${FeatureTable.COLUMN_IS_FAVORITE} = 1",
-        getEngagedTables(),
-      );
-
-  @override
-  Stream<List<FeaturedPointTable>> getVisited() => query(
-        "${getSelectQuery()} and ${FeatureTable.COLUMN_IS_VISITED} = 1",
-        getEngagedTables(),
-      );
+    List<String> queryTables = selectArgs.cityId != null ? [CityTable.TABLE_NAME] : [];
+    return query(
+      "${getSelectQuery()} and $selectionWhere",
+      getEngagedTables() + queryTables,
+    );
+  }
 }

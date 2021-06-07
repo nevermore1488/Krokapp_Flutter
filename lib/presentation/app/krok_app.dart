@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
+import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
-import 'package:krokapp_multiplatform/presentation/place/place_path.dart';
 import 'package:krokapp_multiplatform/presentation/place/places_page.dart';
 import 'package:krokapp_multiplatform/ui/rotate_container.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
@@ -36,17 +36,23 @@ class KrokApp extends StatelessWidget {
           initialRoute: '/',
           routes: {
             '/': (BuildContext context) => createPlacesPageWithProvider(
-                  CitiesMode(),
+                  SelectArgs(placeType: PlaceType.CITIES),
                   Provider.of(context),
                   drawer: NavigationMenuDrawer(),
                 ),
             '/about_us': (BuildContext context) => AboutUsPage(),
             '/favorites': (BuildContext context) => createPlacesPageWithProvider(
-                  PointsMode(isFavorite: true),
+                  SelectArgs(
+                    placeType: PlaceType.POINTS,
+                    isFavorite: true,
+                  ),
                   Provider.of(context),
                 ),
             '/visited': (BuildContext context) => createPlacesPageWithProvider(
-                  PointsMode(isVisited: true),
+                  SelectArgs(
+                    placeType: PlaceType.POINTS,
+                    isVisited: true,
+                  ),
                   Provider.of(context),
                 ),
           },

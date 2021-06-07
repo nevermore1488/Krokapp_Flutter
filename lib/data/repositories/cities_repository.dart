@@ -2,6 +2,7 @@ import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/db/dao/cities_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
+import 'package:krokapp_multiplatform/data/select_args.dart';
 
 class CitiesRepository {
   CitiesApi _citiesApi;
@@ -12,6 +13,11 @@ class CitiesRepository {
     this._citiesDao,
   );
 
+  Stream<List<Place>> getCitiesBySelectArgs(
+    SelectArgs selectArgs,
+  ) =>
+      _citiesDao.getCitiesBySelectArgs(selectArgs).asPlaces();
+
   Future<void> loadCitiesIfNeeded() async {
     var cities = await _citiesDao.getAll().first;
     if (cities.isEmpty) {
@@ -19,8 +25,4 @@ class CitiesRepository {
       _citiesDao.add(cities);
     }
   }
-
-  Stream<List<Place>> getCities() => _citiesDao.getAll().asPlaces();
-
-  Stream<List<Place>> getCityById(int cityId) => _citiesDao.getCityById(cityId).asPlaces();
 }
