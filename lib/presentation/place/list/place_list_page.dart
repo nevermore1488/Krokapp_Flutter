@@ -16,21 +16,16 @@ class PlaceListPage extends StatelessWidget {
         builder: (context, snapshot) => SnapshotView<List<Place>>(
             snapshot: snapshot,
             onHasData: (data) => ListView(
-                  children: _createPlaceItems(vm, data),
+                  children: data
+                      .map((e) => PlaceItem(
+                            place: e,
+                          ))
+                      .toList(),
                   padding: EdgeInsets.only(
-                    top: 8,
                     bottom: 32,
                   ),
                 )),
       ),
     );
   }
-
-  List<Widget> _createPlaceItems(PlaceListViewModel vm, List<Place> places) => places
-      .map((e) => PlaceItem(
-            place: e,
-            onItemClick: (_, place) => vm.onPlaceClick(place),
-            onFavoriteClick: (_, place) => vm.onPlaceFavoriteClick(place),
-          ))
-      .toList();
 }

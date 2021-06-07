@@ -59,6 +59,14 @@ class PlaceListViewModel {
     ));
   }
 
+  void onPlaceVisitedClick(Place place) {
+    _placeUseCase.savePlaceFeature(PlaceFeature(
+      placeId: place.id,
+      isFavorite: place.isFavorite,
+      isVisited: !place.isVisited,
+    ));
+  }
+
   void _pushByPlaceId(int placeId) {
     switch (_placeMode.runtimeType) {
       case CitiesMode:

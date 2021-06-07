@@ -1,58 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
+import 'package:krokapp_multiplatform/presentation/place/list/place_list_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PlaceItem extends StatelessWidget {
   final Place place;
-  final Function(BuildContext, Place) onItemClick;
-  final Function(BuildContext, Place) onFavoriteClick;
 
   PlaceItem({
     required this.place,
-    required this.onItemClick,
-    required this.onFavoriteClick,
   });
 
-  Widget build(BuildContext context) => InkWell(
-        onTap: () => this.onItemClick(context, place),
-        child: Column(
-          children: [
-            Container(
-              padding: _getItemPadding(),
-              child: Row(
-                children: [
-                  _createLogo(),
-                  Expanded(
-                    child: Container(
-                      padding: _getItemPadding(),
-                      child: Text(
-                        place.title,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black87,
-                        ),
+  Widget build(BuildContext context) {
+    PlaceListViewModel vm = Provider.of(context, listen: false);
+
+    late TapDownDetails tapDownDetails;
+    return InkWell(
+      onTap: () => vm.onPlaceClick(place),
+      onTapDown: (details) => tapDownDetails = details,
+      onLongPress: () => showContextMenu(context, vm, tapDownDetails.globalPosition),
+      child: Column(
+        children: [
+          Container(
+            padding: _getItemPadding(),
+            child: Row(
+              children: [
+                _createLogo(),
+                Expanded(
+                  child: Container(
+                    padding: _getItemPadding(),
+                    child: Text(
+                      place.title,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black87,
                       ),
                     ),
                   ),
-                  _createFavoriteClickableIcon(context),
-                ],
-              ),
+                ),
+                IconButton(
+                  onPressed: () => vm.onPlaceVisitedClick(place),
+                  icon: _createFavoriteIcon(),
+                ),
+              ],
             ),
-            _createDividerWithPadding(),
-          ],
-        ),
-      );
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Divider(
+              height: 0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   EdgeInsets _getItemPadding() => EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8);
 
   Widget _createLogo() => SizedBox(
         width: 56,
         height: 56,
-        child: Image.network(place.logo),
-      );
-
-  Widget _createFavoriteClickableIcon(BuildContext context) => IconButton(
-        onPressed: () => this.onFavoriteClick(context, place),
-        icon: _createFavoriteIcon(),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: <Widget>[
+            Image.network(place.logo),
+            place.isVisited ? Icon(Icons.check_circle, color: Colors.green) : SizedBox.shrink()
+          ],
+        ),
       );
 
   Widget _createFavoriteIcon() => place.isShowFavorite
@@ -62,10 +77,32 @@ class PlaceItem extends StatelessWidget {
         )
       : SizedBox.shrink();
 
-  Widget _createDividerWithPadding() => Container(
-        padding: EdgeInsets.only(left: 16, right: 16),
-        child: Divider(
-          height: 0,
-        ),
-      );
+  // https://stackoverflow.com/questions/54300081/flutter-popupmenu-on-long-press
+  void showContextMenu(BuildContext context, PlaceListViewModel vm, Offset position) {
+    if (!place.isShowVisited) return;
+
+    var isVisitedValue = place.isVisited
+        ? AppLocalizations.of(context)!.was_not_here
+        : AppLocalizations.of(context)!.was_here;
+
+    final RenderBox overlay = Overlay.of(context)!.context.findRenderObject()! as RenderBox;
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromRect(
+          position & const Size(40, 40), // smaller rect, the touch area
+          Offset.zero & overlay.semanticBounds.size // Bigger rect, the entire screen
+          ),
+      items: [
+        PopupMenuItem<String>(
+          value: isVisitedValue,
+          child: Text(isVisitedValue),
+        )
+      ],
+    ).then((value) {
+      if (value == isVisitedValue) {
+        vm.onPlaceVisitedClick(place);
+      }
+    });
+  }
 }

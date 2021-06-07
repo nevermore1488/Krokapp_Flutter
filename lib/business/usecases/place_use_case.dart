@@ -33,11 +33,10 @@ class PlaceUseCase {
   Future<void> savePlaceFeature(PlaceFeature placeFeature) =>
       _pointsRepository.savePlaceFeature(placeFeature);
 
-  Future<bool> loadPlacesIfNeeded() async {
-    [
-      _citiesRepository.loadCitiesIfNeeded(),
-      _pointsRepository.loadPointsIfNeeded(),
-    ].forEach((element) async => await element);
-    return true;
+  Future<void> loadPlacesIfNeeded() async {
+    var citiesFuture = _citiesRepository.loadCitiesIfNeeded();
+    var pointsFuture = _pointsRepository.loadPointsIfNeeded();
+    await citiesFuture;
+    await pointsFuture;
   }
 }
