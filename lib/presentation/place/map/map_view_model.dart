@@ -30,7 +30,15 @@ class MapViewModel {
         }
       case PointsMode:
         {
-          places = _placeUseCase.getPointsOfCity((placeMode as PointsMode).cityId!);
+          var mode = (placeMode as PointsMode);
+          if (mode.cityId != null) {
+            places = _placeUseCase.getPointsOfCity(mode.cityId!);
+          } else if (mode.isFavorite == true) {
+            places = _placeUseCase.getFavorites();
+          } else if (mode.isVisited == true) {
+            places = _placeUseCase.getVisited();
+          } else
+            throw Exception("no such place mode");
           break;
         }
       case DetailMode:

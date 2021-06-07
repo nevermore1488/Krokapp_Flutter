@@ -10,6 +10,10 @@ abstract class FeaturedPointsDao extends CommonDao<FeaturedPointTable> {
   Stream<List<FeaturedPointTable>> getPointsOfCity(int cityId);
 
   Stream<List<FeaturedPointTable>> getPointById(int pointId);
+
+  Stream<List<FeaturedPointTable>> getFavorites();
+
+  Stream<List<FeaturedPointTable>> getVisited();
 }
 
 class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable> implements FeaturedPointsDao {
@@ -42,6 +46,18 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable> implements 
   @override
   Stream<List<FeaturedPointTable>> getPointById(int pointId) => query(
         "${getSelectQuery()} and ${PointTable.COLUMN_PLACE_ID} = $pointId",
+        getEngagedTables(),
+      );
+
+  @override
+  Stream<List<FeaturedPointTable>> getFavorites() => query(
+        "${getSelectQuery()} and ${FeatureTable.COLUMN_IS_FAVORITE} = 1",
+        getEngagedTables(),
+      );
+
+  @override
+  Stream<List<FeaturedPointTable>> getVisited() => query(
+        "${getSelectQuery()} and ${FeatureTable.COLUMN_IS_VISITED} = 1",
         getEngagedTables(),
       );
 }

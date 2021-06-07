@@ -14,11 +14,11 @@ class NavigationMenuDrawer extends StatelessWidget {
             _createMenuGroupTitle(AppLocalizations.of(context)!.nav_menu_group_settings),
             _createChooseLanguageItem(context),
             /* _createMenuItem("Excursion Setting", Icons.settings, () {}),*/
-          /*  Divider(),
-              _createMenuGroupTitle("Personal"),
-            _createMenuItem("Bookmarks", Icons.favorite_outline, () {}),
-            _createMenuItem("Downloads", Icons.download_outlined, () {}),
-            _createMenuItem("Visited", Icons.check_circle_outline, () {}),*/
+            Divider(),
+            _createMenuGroupTitle(AppLocalizations.of(context)!.nav_menu_group_personal),
+            _createFavoritesItem(context),
+            // _createMenuItem("Downloads", Icons.download_outlined, () {}),
+            _createVisitedItem(context),
             Divider(),
             _createAboutUsItem(context),
           ],
@@ -65,12 +65,28 @@ class NavigationMenuDrawer extends StatelessWidget {
       );
 
   Widget _createAboutUsItem(BuildContext context) => _createMenuItem(
-    AppLocalizations.of(context)!.nav_menu_item_about_us,
-    Icons.info_outline,
+        AppLocalizations.of(context)!.nav_menu_item_about_us,
+        Icons.info_outline,
         () {
-      Navigator.popAndPushNamed(context, "/about_us");
-    },
-  );
+          Navigator.popAndPushNamed(context, "/about_us");
+        },
+      );
+
+  Widget _createFavoritesItem(BuildContext context) => _createMenuItem(
+        AppLocalizations.of(context)!.nav_menu_item_bookmarks,
+        Icons.favorite_outline,
+        () {
+          Navigator.popAndPushNamed(context, "/favorites");
+        },
+      );
+
+  Widget _createVisitedItem(BuildContext context) => _createMenuItem(
+        AppLocalizations.of(context)!.nav_menu_item_visited,
+        Icons.check_circle_outline,
+        () {
+          Navigator.popAndPushNamed(context, "/visited");
+        },
+      );
 
   Widget _createMenuGroupTitle(String title) => Padding(
         padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),

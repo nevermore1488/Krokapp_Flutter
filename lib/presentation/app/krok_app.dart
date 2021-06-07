@@ -41,6 +41,14 @@ class KrokApp extends StatelessWidget {
                   drawer: NavigationMenuDrawer(),
                 ),
             '/about_us': (BuildContext context) => AboutUsPage(),
+            '/favorites': (BuildContext context) => createPlacesPageWithProvider(
+                  PointsMode(isFavorite: true),
+                  Provider.of(context),
+                ),
+            '/visited': (BuildContext context) => createPlacesPageWithProvider(
+                  PointsMode(isVisited: true),
+                  Provider.of(context),
+                ),
           },
           locale: selectedLocale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,

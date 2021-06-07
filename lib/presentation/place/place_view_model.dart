@@ -23,9 +23,15 @@ class PlaceViewModel {
         return Future.value(AppLocalizations.of(_context)!.cities_title).asStream();
 
       case PointsMode:
-        return _placeUseCase
-            .getCityById((placeMode as PointsMode).cityId!)
-            .map((event) => event.first.title);
+        var mode = (placeMode as PointsMode);
+        if (mode.cityId != null) {
+          return _placeUseCase.getPointsOfCity(mode.cityId!).map((event) => event.first.title);
+        } else if (mode.isFavorite == true) {
+          return Future.value(AppLocalizations.of(_context)!.nav_menu_item_bookmarks).asStream();
+        } else if (mode.isVisited == true) {
+          return Future.value(AppLocalizations.of(_context)!.nav_menu_item_visited).asStream();
+        } else
+          throw Exception("no such place mode");
 
       case DetailMode:
         return _placeUseCase

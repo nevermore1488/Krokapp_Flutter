@@ -37,6 +37,10 @@ class PointsRepository {
   Stream<List<Place>> getPointsOfCity(int cityId) =>
       _featurePointsDao.getPointsOfCity(cityId).asPlaces();
 
+  Stream<List<Place>> getFavorites() => _featurePointsDao.getFavorites().asPlaces();
+
+  Stream<List<Place>> getVisited() => _featurePointsDao.getVisited().asPlaces();
+
   Future<void> savePlaceFeature(PlaceFeature placeFeature) async {
     _featureDao.add([
       FeatureTable(

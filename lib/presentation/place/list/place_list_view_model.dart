@@ -23,8 +23,17 @@ class PlaceListViewModel {
         return _placeUseCase.getCities();
 
       case PointsMode:
-        return _placeUseCase.getPointsOfCity((placeMode as PointsMode).cityId!);
-
+        {
+          var mode = (placeMode as PointsMode);
+          if (mode.cityId != null) {
+            return _placeUseCase.getPointsOfCity(mode.cityId!);
+          } else if (mode.isFavorite == true) {
+            return _placeUseCase.getFavorites();
+          } else if (mode.isVisited == true) {
+            return _placeUseCase.getVisited();
+          } else
+            throw Exception("no such place mode");
+        }
       case DetailMode:
         return Future<List<Place>>(() => List.empty()).asStream();
 

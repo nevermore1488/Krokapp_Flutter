@@ -23,6 +23,10 @@ class PlaceUseCase {
 
   Stream<List<Place>> getPointById(int pointId) => _pointsRepository.getPointById(pointId);
 
+  Stream<List<Place>> getFavorites() => _pointsRepository.getFavorites();
+
+  Stream<List<Place>> getVisited() => _pointsRepository.getVisited();
+
   Stream<PlaceDetail> getPlaceDetail(int placeId) =>
       _pointsRepository.getPointById(placeId).map((event) => event.first);
 
