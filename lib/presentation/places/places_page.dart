@@ -26,19 +26,12 @@ Widget createPlacesPageWithProvider(
       child: PlacesPage(drawer: drawer),
     );
 
-class PlacesPage extends StatefulWidget {
+class PlacesPage extends StatelessWidget {
   final Widget? drawer;
 
   PlacesPage({
     this.drawer,
   });
-
-  @override
-  State<PlacesPage> createState() => _PlacesPageState();
-}
-
-class _PlacesPageState extends State<PlacesPage> {
-  var _isFirstPage = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,32 +40,33 @@ class _PlacesPageState extends State<PlacesPage> {
     return Scaffold(
       appBar: AppBar(
         title: _getTitle(vm),
-        actions: [_createSwitchIcon()],
+        actions: [_createSwitchIcon(vm)],
         brightness: Brightness.dark,
       ),
-      body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 300),
-        child: _createCurrentPage(vm, context),
-        transitionBuilder: _createCurrentSwitchAnimation,
+      body: Stack(
+        children: [
+          _createMapPage(context, vm),
+          _createPlacesPage(vm),
+        ],
       ),
-      drawer: widget.drawer,
+      drawer: drawer,
     );
   }
 
-  Widget _createCurrentPage(
-    PlacesViewModel vm,
-    BuildContext context,
-  ) =>
-      _isFirstPage ? _createFirstPage(vm) : _createSecondPage(vm.selectArgs);
+  Widget _createPlacesPage(PlacesViewModel vm) => StreamBuilder<bool>(
+        stream: vm.getIsShowPlaces(),
+        builder: (context, snapshot) => SnapshotView<bool>(
+          snapshot: snapshot,
+          onHasData: (data) {
+            if (!data) return SizedBox.shrink();
 
-  Widget _createFirstPage(
-    PlacesViewModel vm,
-  ) {
-    if (vm.selectArgs.id == null)
-      return _createPlaceListPage(vm);
-    else
-      return _createPlaceDetailPage(vm);
-  }
+            if (vm.selectArgs.id == null)
+              return _createPlaceListPage(vm);
+            else
+              return _createPlaceDetailPage(vm);
+          },
+        ),
+      );
 
   Widget _createPlaceListPage(PlacesViewModel vm) => Scaffold(
         body: StreamBuilder<List<Place>>(
@@ -115,26 +109,36 @@ class _PlacesPageState extends State<PlacesPage> {
         ),
       );
 
-  Widget _createSecondPage(SelectArgs selectArgs) => Provider<MapViewModel>(
-        create: (_) => MapViewModel(
-          selectArgs,
-          Provider.of(context),
-          Provider.of(context),
+  Widget _createMapPage(BuildContext context, PlacesViewModel vm) => StreamBuilder<bool>(
+        stream: vm.getIsShowMap(),
+        builder: (context, snapshot) => SnapshotView<bool>(
+          snapshot: snapshot,
+          onHasData: (data) {
+            if (!data) return SizedBox.shrink();
+
+            return Provider<MapViewModel>(
+              create: (_) => MapViewModel(
+                vm.selectArgs,
+                Provider.of(context),
+                Provider.of(context),
+              ),
+              child: MapPage(),
+            );
+          },
         ),
-        child: MapPage(),
       );
 
-  Widget _createSwitchIcon() => IconButton(
-        icon: Icon(_isFirstPage ? Icons.map_outlined : Icons.list_alt),
-        onPressed: _onSwitchIconClick,
+  Widget _createSwitchIcon(PlacesViewModel vm) => IconButton(
+        icon: StreamBuilder<bool>(
+          stream: vm.getIsShowPlaces(),
+          builder: (context, snapshot) => SnapshotView<bool>(
+            snapshot: snapshot,
+            onHasData: (data) => Icon(data ? Icons.map_outlined : Icons.list_alt),
+          ),
+        ),
+        onPressed: vm.onSwitchIconClicked,
         tooltip: "Switch mode",
       );
-
-  void _onSwitchIconClick() {
-    setState(() {
-      _isFirstPage = !_isFirstPage;
-    });
-  }
 
   Widget _getTitle(PlacesViewModel vm) => StreamBuilder<String>(
         stream: vm.getTitle(),
@@ -144,14 +148,5 @@ class _PlacesPageState extends State<PlacesPage> {
           } else
             return SizedBox.shrink();
         },
-      );
-
-  Widget _createCurrentSwitchAnimation(Widget child, Animation<double> animation) =>
-      SlideTransition(
-        child: child,
-        position: Tween(
-          begin: Offset(_isFirstPage ? -1.0 : 1.0, 0.0),
-          end: Offset(0.0, 0.0),
-        ).animate(animation),
       );
 }

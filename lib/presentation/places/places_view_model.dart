@@ -7,17 +7,33 @@ import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_page.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 class PlacesViewModel {
   SelectArgs selectArgs;
   PlaceUseCase _placeUseCase;
   BuildContext _context;
 
+  var _isShowPlacesController = BehaviorSubject<bool>.seeded(true);
+  var _isShowMapController = BehaviorSubject<bool>.seeded(false);
+
   PlacesViewModel(
     this.selectArgs,
     this._placeUseCase,
     this._context,
   );
+
+  Stream<bool> getIsShowPlaces() => _isShowPlacesController.stream;
+
+  Stream<bool> getIsShowMap() => _isShowMapController.stream;
+
+  void onSwitchIconClicked() {
+    _isShowPlacesController.value = !_isShowPlacesController.value;
+    //for late init of map
+    if (!_isShowMapController.value) {
+      _isShowMapController.value = true;
+    }
+  }
 
   Stream<String> getTitle() {
     if (selectArgs.cityId != null) {
