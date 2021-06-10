@@ -18,7 +18,9 @@ class MapPage extends StatelessWidget {
           var model = snapshot.data!;
 
           return GoogleMap(
-            initialCameraPosition: _createDefaultCameraPosition(model.startLocation),
+            initialCameraPosition: _createDefaultCameraPosition(model.startLocation!),
+            myLocationButtonEnabled: true,
+            myLocationEnabled: model.currentLocation != null,
             markers: _createMarkers(model.markers),
             polylines: _createRoute(model.route),
           );
