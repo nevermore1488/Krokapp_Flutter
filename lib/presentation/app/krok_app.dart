@@ -6,7 +6,7 @@ import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
-import 'package:krokapp_multiplatform/presentation/places/places_page.dart';
+import 'package:krokapp_multiplatform/presentation/places/places_with_map_page.dart';
 import 'package:krokapp_multiplatform/ui/rotate_container.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
@@ -35,20 +35,20 @@ class KrokApp extends StatelessWidget {
           ),
           initialRoute: '/',
           routes: {
-            '/': (BuildContext context) => createPlacesPageWithProvider(
+            '/': (BuildContext context) => createPlacesWithMapPageInProvider(
                   SelectArgs(placeType: PlaceType.CITIES),
                   Provider.of(context),
                   drawer: NavigationMenuDrawer(),
                 ),
             '/about_us': (BuildContext context) => AboutUsPage(),
-            '/favorites': (BuildContext context) => createPlacesPageWithProvider(
+            '/favorites': (BuildContext context) => createPlacesWithMapPageInProvider(
                   SelectArgs(
                     placeType: PlaceType.POINTS,
                     isFavorite: true,
                   ),
                   Provider.of(context),
                 ),
-            '/visited': (BuildContext context) => createPlacesPageWithProvider(
+            '/visited': (BuildContext context) => createPlacesWithMapPageInProvider(
                   SelectArgs(
                     placeType: PlaceType.POINTS,
                     isVisited: true,

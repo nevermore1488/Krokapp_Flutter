@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
+import 'package:krokapp_multiplatform/business/player_model.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
-import 'package:krokapp_multiplatform/presentation/places/places_page.dart';
+import 'package:krokapp_multiplatform/presentation/places/places_with_map_page.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -16,6 +17,8 @@ class PlacesViewModel {
 
   var _isShowPlacesController = BehaviorSubject<bool>.seeded(true);
   var _isShowMapController = BehaviorSubject<bool>.seeded(false);
+
+  PlayerModel? _playerModel;
 
   PlacesViewModel(
     this.selectArgs,
@@ -92,10 +95,15 @@ class PlacesViewModel {
     Navigator.push(
       _context,
       MaterialPageRoute(
-          builder: (context) => createPlacesPageWithProvider(
+          builder: (context) => createPlacesWithMapPageInProvider(
                 selectArgs,
                 Provider.of(context),
               )),
     );
+  }
+
+  PlayerModel getPlayerModel(PlaceDetail place) {
+    _playerModel = PlayerModel(place.sound);
+    return _playerModel!;
   }
 }

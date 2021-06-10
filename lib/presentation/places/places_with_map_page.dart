@@ -9,10 +9,11 @@ import 'package:krokapp_multiplatform/presentation/map/map_page.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/place_item.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_view_model.dart';
+import 'package:krokapp_multiplatform/ui/player_view.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
-Widget createPlacesPageWithProvider(
+Widget createPlacesWithMapPageInProvider(
   SelectArgs selectArgs,
   PlaceUseCase placeUseCase, {
   Widget? drawer,
@@ -23,13 +24,13 @@ Widget createPlacesPageWithProvider(
         placeUseCase,
         context,
       ),
-      child: PlacesPage(drawer: drawer),
+      child: PlacesWithMapPage(drawer: drawer),
     );
 
-class PlacesPage extends StatelessWidget {
+class PlacesWithMapPage extends StatelessWidget {
   final Widget? drawer;
 
-  PlacesPage({
+  PlacesWithMapPage({
     this.drawer,
   });
 
@@ -100,8 +101,12 @@ class PlacesPage extends StatelessWidget {
                           children: data.images.map((e) => Image.network(e)).toList(),
                         ),
                       ),
+                      ChangeNotifierProvider(
+                        create: (context) => vm.getPlayerModel(data),
+                        child: PlayerView(),
+                      ),
                       Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
                         child: HtmlWidget(data.text),
                       ),
                     ],
