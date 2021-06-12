@@ -21,7 +21,7 @@ class KrokAppViewModel {
 
   void applySystemLocales(List<Locale> systemLocales) async {
     await _langageUseCase.applySystemLocales(systemLocales);
-    await _placeUseCase.loadPlacesIfNeeded();
+    await _placeUseCase.loadPlaces();
     _isAppInited.add(true);
   }
 }

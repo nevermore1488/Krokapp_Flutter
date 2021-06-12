@@ -9,6 +9,8 @@ abstract class ObservableDatabaseExecutor {
   Stream<List<Map<String, Object?>>> observableRawQuery(String query, List<String> engagedTables);
 
   Future<void> add(String tableName, List<Map<String, Object?>> entities);
+
+  Future<void> deleteAll(String tableName);
 }
 
 class ObservableDatabaseExecutorImpl implements ObservableDatabaseExecutor {
@@ -41,6 +43,12 @@ class ObservableDatabaseExecutorImpl implements ObservableDatabaseExecutor {
     });
     await batch.commit();
 
+    _changedTables.add([tableName]);
+  }
+
+  @override
+  Future<void> deleteAll(String tableName) async {
+    _db.delete(tableName);
     _changedTables.add([tableName]);
   }
 }

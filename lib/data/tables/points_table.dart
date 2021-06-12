@@ -2,7 +2,7 @@ import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
 
-class PointTable {
+class PointsTable {
   static const String TABLE_NAME = "points";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
@@ -63,7 +63,7 @@ class PointTable {
   List<int> tags = List.empty();
   List<String> images = List.empty();
 
-  PointTable(
+  PointsTable(
     this.uniqueId,
     this.placeId,
     this.name,
@@ -82,7 +82,7 @@ class PointTable {
     this.images,
   );
 
-  PointTable.fromJson(dynamic json, {isApi = false}) {
+  PointsTable.fromJson(dynamic json, {isApi = false}) {
     uniqueId = json[isApi ? _API_UNIQUE_ID : COLUMN_UNIQUE_ID];
     placeId = json[isApi ? _API_PLACE_ID : COLUMN_PLACE_ID];
 
@@ -151,19 +151,19 @@ class PointTable {
       );
 }
 
-class PointsJsonConverter extends JsonConverter<PointTable> {
+class PointsJsonConverter extends JsonConverter<PointsTable> {
   bool isApi;
 
   PointsJsonConverter({this.isApi = false});
 
   @override
-  PointTable fromJson(Map<String, Object?> json) => PointTable.fromJson(json, isApi: isApi);
+  PointsTable fromJson(Map<String, Object?> json) => PointsTable.fromJson(json, isApi: isApi);
 
   @override
-  Map<String, Object?> toJson(PointTable pojo) => pojo.toJson(isApi: isApi);
+  Map<String, Object?> toJson(PointsTable pojo) => pojo.toJson(isApi: isApi);
 }
 
-extension PointsStreamMaping on Stream<List<PointTable>> {
+extension PointsStreamMaping on Stream<List<PointsTable>> {
   Stream<List<PlaceDetail>> asPlaceDetails() =>
       this.map((event) => event.map((e) => e.toPlaceDetail()).toList());
 

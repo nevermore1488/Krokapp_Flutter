@@ -1,7 +1,7 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/language.dart';
 
-class LanguageTable {
+class LanguagesTable {
   static const String TABLE_NAME = "languages";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
@@ -18,9 +18,9 @@ class LanguageTable {
   String key = "";
   String name = "";
 
-  LanguageTable(this.id, this.key, this.name);
+  LanguagesTable(this.id, this.key, this.name);
 
-  LanguageTable.fromJson(dynamic json) {
+  LanguagesTable.fromJson(dynamic json) {
     id = json[COLUMN_ID];
     key = json[COLUMN_KEY];
     name = json[COLUMN_NAME];
@@ -37,15 +37,15 @@ class LanguageTable {
   Language toLanguage() => Language(id: id, key: key, name: name);
 }
 
-class LanguagesJsonConverter extends JsonConverter<LanguageTable> {
+class LanguagesJsonConverter extends JsonConverter<LanguagesTable> {
   @override
-  LanguageTable fromJson(Map<String, Object?> json) => LanguageTable.fromJson(json);
+  LanguagesTable fromJson(Map<String, Object?> json) => LanguagesTable.fromJson(json);
 
   @override
-  Map<String, Object?> toJson(LanguageTable pojo) => pojo.toJson();
+  Map<String, Object?> toJson(LanguagesTable pojo) => pojo.toJson();
 }
 
-extension LanguagesStreamMaping on Stream<List<LanguageTable>> {
+extension LanguagesStreamMaping on Stream<List<LanguagesTable>> {
   Stream<List<Language>> asLanguages() {
     return this.map((event) => event.map((e) => e.toLanguage()).toList());
   }

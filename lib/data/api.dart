@@ -3,9 +3,10 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:krokapp_multiplatform/data/json_converter.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/language_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
+import 'package:krokapp_multiplatform/data/tables/cities_table.dart';
+import 'package:krokapp_multiplatform/data/tables/languages_table.dart';
+import 'package:krokapp_multiplatform/data/tables/points_table.dart';
+import 'package:krokapp_multiplatform/data/tables/tags_table.dart';
 
 const _KROK_API = "http://krokapp.by/api/";
 
@@ -25,34 +26,45 @@ class CommonApi<T> {
 }
 
 abstract class CitiesApi {
-  Stream<List<CityTable>> getCities(int weirdParam);
+  Stream<List<CitiesTable>> getCities(int weirdParam);
 }
 
-class CitiesApiImpl extends CommonApi<CityTable> implements CitiesApi {
+class CitiesApiImpl extends CommonApi<CitiesTable> implements CitiesApi {
   CitiesApiImpl() : super(CitiesJsonConverter(isApi: true));
 
   @override
-  Stream<List<CityTable>> getCities(int weirdParam) => get('get_cities/$weirdParam');
+  Stream<List<CitiesTable>> getCities(int weirdParam) => get('get_cities/$weirdParam');
 }
 
 abstract class PointsApi {
-  Stream<List<PointTable>> getPoints(int weirdParam);
+  Stream<List<PointsTable>> getPoints(int weirdParam);
 }
 
-class PointsApiImpl extends CommonApi<PointTable> implements PointsApi {
+class PointsApiImpl extends CommonApi<PointsTable> implements PointsApi {
   PointsApiImpl() : super(PointsJsonConverter(isApi: true));
 
   @override
-  Stream<List<PointTable>> getPoints(int weirdParam) => get('get_points/$weirdParam');
+  Stream<List<PointsTable>> getPoints(int weirdParam) => get('get_points/$weirdParam');
 }
 
 abstract class LanguagesApi {
-  Stream<List<LanguageTable>> getLanguages();
+  Stream<List<LanguagesTable>> getLanguages();
 }
 
-class LanguagesApiImpl extends CommonApi<LanguageTable> implements LanguagesApi {
+class LanguagesApiImpl extends CommonApi<LanguagesTable> implements LanguagesApi {
   LanguagesApiImpl() : super(LanguagesJsonConverter());
 
   @override
-  Stream<List<LanguageTable>> getLanguages() => get('get_languages');
+  Stream<List<LanguagesTable>> getLanguages() => get('get_languages');
+}
+
+abstract class TagsApi {
+  Stream<List<TagsTable>> getTags();
+}
+
+class TagsApiImpl extends CommonApi<TagsTable> implements TagsApi {
+  TagsApiImpl() : super(TagsJsonConverter());
+
+  @override
+  Stream<List<TagsTable>> getTags() => get('get_tags');
 }

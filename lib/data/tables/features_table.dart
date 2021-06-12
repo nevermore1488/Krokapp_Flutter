@@ -1,6 +1,6 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 
-class FeatureTable {
+class FeaturesTable {
   static const String TABLE_NAME = "Features";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
@@ -17,13 +17,13 @@ class FeatureTable {
   int isFavorite = 0;
   int isVisited = 0;
 
-  FeatureTable(
+  FeaturesTable(
     this.placeId,
     this.isFavorite,
     this.isVisited,
   );
 
-  FeatureTable.fromJson(dynamic json) {
+  FeaturesTable.fromJson(dynamic json) {
     placeId = json[COLUMN_PLACE_ID] ?? 0;
     isFavorite = json[COLUMN_IS_FAVORITE] ?? 0;
     isVisited = json[COLUMN_IS_VISITED] ?? 0;
@@ -38,10 +38,10 @@ class FeatureTable {
   }
 }
 
-class FeaturesJsonConverter extends JsonConverter<FeatureTable> {
+class FeaturesJsonConverter extends JsonConverter<FeaturesTable> {
   @override
-  FeatureTable fromJson(Map<String, Object?> json) => FeatureTable.fromJson(json);
+  FeaturesTable fromJson(Map<String, Object?> json) => FeaturesTable.fromJson(json);
 
   @override
-  Map<String, Object?> toJson(FeatureTable pojo) => pojo.toJson();
+  Map<String, Object?> toJson(FeaturesTable pojo) => pojo.toJson();
 }

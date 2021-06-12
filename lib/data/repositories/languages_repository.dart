@@ -1,9 +1,9 @@
 import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/dao/current_language_id_dao.dart';
-import 'package:krokapp_multiplatform/data/db/dao/languages_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/current_language_id_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/languages_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/language.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/current_language_id_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/language_table.dart';
+import 'package:krokapp_multiplatform/data/tables/current_language_id_table.dart';
+import 'package:krokapp_multiplatform/data/tables/languages_table.dart';
 import 'package:krokapp_multiplatform/utils//extentions.dart';
 
 class LanguagesRepository {
@@ -23,7 +23,7 @@ class LanguagesRepository {
   Stream<List<Language>> getLanguages() => _languagesDao.getVeryAll().asLanguages();
 
   Future<List<Language>> loadLanguages() async {
-    List<LanguageTable> languages = await _languagesDao.getVeryAll().first;
+    List<LanguagesTable> languages = await _languagesDao.getVeryAll().first;
     if (languages.isEmpty) {
       languages = await _api.getLanguages().first;
       _languagesDao.add(languages);

@@ -1,11 +1,11 @@
 import 'package:krokapp_multiplatform/data/api.dart';
-import 'package:krokapp_multiplatform/data/db/dao/featured_points_dao.dart';
-import 'package:krokapp_multiplatform/data/db/dao/features_dao.dart';
-import 'package:krokapp_multiplatform/data/db/dao/points_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/featured_points_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/features_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/feature_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/featured_point_table.dart';
+import 'package:krokapp_multiplatform/data/tables/features_table.dart';
+import 'package:krokapp_multiplatform/data/tables/featured_point_table.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 
 class PointsRepository {
@@ -28,7 +28,7 @@ class PointsRepository {
 
   Future<void> savePointFeature(PlaceFeature placeFeature) async {
     _featureDao.add([
-      FeatureTable(
+      FeaturesTable(
         placeFeature.placeId,
         placeFeature.isFavorite ? 1 : 0,
         placeFeature.isVisited ? 1 : 0,
@@ -36,7 +36,7 @@ class PointsRepository {
     ]);
   }
 
-  Future<void> loadPointsIfNeeded() async {
+  Future<void> loadPoints() async {
     var cities = await _pointsDao.getAll().first;
     if (cities.isEmpty) {
       cities = await _pointsApi.getPoints(1).first;

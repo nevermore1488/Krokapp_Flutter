@@ -1,7 +1,7 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 
-class CityTable {
+class CitiesTable {
   static const String TABLE_NAME = "cities";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
@@ -34,7 +34,7 @@ class CityTable {
   int lastEditTime = 0;
   bool visible = false;
 
-  CityTable(
+  CitiesTable(
     this.uniqueId,
     this.placeId,
     this.name,
@@ -44,7 +44,7 @@ class CityTable {
     this.visible,
   );
 
-  CityTable.fromJson(dynamic json, {isApi = false}) {
+  CitiesTable.fromJson(dynamic json, {isApi = false}) {
     uniqueId = json[isApi ? _API_UNIQUE_ID : COLUMN_UNIQUE_ID];
     placeId = json[isApi ? _API_PLACE_ID : COLUMN_PLACE_ID];
 
@@ -73,19 +73,19 @@ class CityTable {
   Place toPlace() => Place(placeId, name, logo);
 }
 
-class CitiesJsonConverter extends JsonConverter<CityTable> {
+class CitiesJsonConverter extends JsonConverter<CitiesTable> {
   bool isApi;
 
   CitiesJsonConverter({this.isApi = false});
 
   @override
-  CityTable fromJson(Map<String, Object?> json) => CityTable.fromJson(json, isApi: isApi);
+  CitiesTable fromJson(Map<String, Object?> json) => CitiesTable.fromJson(json, isApi: isApi);
 
   @override
-  Map<String, Object?> toJson(CityTable pojo) => pojo.toJson(isApi: isApi);
+  Map<String, Object?> toJson(CitiesTable pojo) => pojo.toJson(isApi: isApi);
 }
 
-extension CitiesStreamMaping on Stream<List<CityTable>> {
+extension CitiesStreamMaping on Stream<List<CitiesTable>> {
   Stream<List<Place>> asPlaces() {
     return this.map((event) => event.map((e) => e.toPlace()).toList());
   }

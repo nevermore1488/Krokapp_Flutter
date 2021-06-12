@@ -1,9 +1,12 @@
-import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/city_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/current_language_id_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/feature_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/language_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
+import 'package:krokapp_multiplatform/data/observable_db_executor.dart';
+import 'package:krokapp_multiplatform/data/tables/cities_table.dart';
+import 'package:krokapp_multiplatform/data/tables/current_language_id_table.dart';
+import 'package:krokapp_multiplatform/data/tables/features_table.dart';
+import 'package:krokapp_multiplatform/data/tables/languages_table.dart';
+import 'package:krokapp_multiplatform/data/tables/points_table.dart';
+import 'package:krokapp_multiplatform/data/tables/selected_tags_table.dart';
+import 'package:krokapp_multiplatform/data/tables/tags_of_places_table.dart';
+import 'package:krokapp_multiplatform/data/tables/tags_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,10 +27,13 @@ class DbUseCase {
         onCreate: (db, version) {
           db.transaction((txn) async {
             txn.execute(CurrentLanguageIdTable.CREATE_TABLE_CLAUSE);
-            txn.execute(LanguageTable.CREATE_TABLE_CLAUSE);
-            txn.execute(CityTable.CREATE_TABLE_CLAUSE);
-            txn.execute(PointTable.CREATE_TABLE_CLAUSE);
-            txn.execute(FeatureTable.CREATE_TABLE_CLAUSE);
+            txn.execute(LanguagesTable.CREATE_TABLE_CLAUSE);
+            txn.execute(CitiesTable.CREATE_TABLE_CLAUSE);
+            txn.execute(PointsTable.CREATE_TABLE_CLAUSE);
+            txn.execute(FeaturesTable.CREATE_TABLE_CLAUSE);
+            txn.execute(TagsTable.CREATE_TABLE_CLAUSE);
+            txn.execute(SelectedTagsTable.CREATE_TABLE_CLAUSE);
+            txn.execute(TagsOfPlacesTable.CREATE_TABLE_CLAUSE);
           });
         },
         version: 1,

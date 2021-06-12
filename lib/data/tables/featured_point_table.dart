@@ -1,22 +1,22 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/feature_table.dart';
-import 'package:krokapp_multiplatform/data/pojo/tables/point_table.dart';
+import 'package:krokapp_multiplatform/data/tables/features_table.dart';
+import 'package:krokapp_multiplatform/data/tables/points_table.dart';
 
 class FeaturedPointTable {
-  late PointTable pointTable;
-  late FeatureTable featureTable;
+  late PointsTable pointTable;
+  late FeaturesTable featureTable;
 
   FeaturedPointTable({
     required this.pointTable,
-    FeatureTable? featureTable,
+    FeaturesTable? featureTable,
   }) {
-    this.featureTable = featureTable ?? FeatureTable(this.pointTable.placeId, 0, 0);
+    this.featureTable = featureTable ?? FeaturesTable(this.pointTable.placeId, 0, 0);
   }
 
   FeaturedPointTable.fromJson(dynamic json) {
-    pointTable = PointTable.fromJson(json);
-    featureTable = FeatureTable.fromJson(json);
+    pointTable = PointsTable.fromJson(json);
+    featureTable = FeaturesTable.fromJson(json);
   }
 
   Map<String, dynamic> toJson() {

@@ -1,12 +1,14 @@
 import 'dart:async';
 
-import 'package:krokapp_multiplatform/data/db/observable_db_executor.dart';
 import 'package:krokapp_multiplatform/data/json_converter.dart';
+import 'package:krokapp_multiplatform/data/observable_db_executor.dart';
 
 abstract class CommonDao<T> {
-  Stream<List<T>> getAll();
-
   Future<void> add(List<T> entities);
+
+  Future<void> deleteAll();
+
+  Stream<List<T>> getAll();
 }
 
 class CommonDaoImpl<T> implements CommonDao<T> {
@@ -23,6 +25,9 @@ class CommonDaoImpl<T> implements CommonDao<T> {
   @override
   Future<void> add(List<T> entities) =>
       obsDbExecutor.add(tableName, converter.toJsonList(entities));
+
+  @override
+  Future<void> deleteAll() => obsDbExecutor.deleteAll(tableName);
 
   @override
   Stream<List<T>> getAll() => query(getSelectQuery(), getEngagedTables());
