@@ -31,6 +31,9 @@ class LanguagesRepository {
     return languages.map((e) => e.toLanguage()).toList();
   }
 
-  Future<void> setCurrentLanguage(Language language) =>
-      _currentLanguageIdDao.add([CurrentLanguageIdTable(language.id)]);
+  Future<void> setCurrentLanguage(Language language) async {
+    await _currentLanguageIdDao.deleteAll();
+    await _currentLanguageIdDao.add([CurrentLanguageIdTable(language.id)]);
+  }
+
 }
