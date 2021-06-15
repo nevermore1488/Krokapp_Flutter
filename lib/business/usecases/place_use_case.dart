@@ -20,7 +20,7 @@ class PlaceUseCase {
           ? _citiesRepository.getCitiesBySelectArgs(selectArgs)
           : _pointsRepository.getPointsBySelectArgs(selectArgs);
 
-  Future<void> savePlaceFeature(PlaceFeature placeFeature) =>
+  Future<void> savePointFeature(PlaceFeature placeFeature) =>
       _pointsRepository.savePointFeature(placeFeature);
 
   Future<void> loadPlaces() async {

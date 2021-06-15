@@ -39,7 +39,7 @@ class PlaceItem extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => vm.onPlaceVisitedClick(place),
+                  onPressed: () => vm.onPlaceFavoriteClick(place),
                   icon: _createFavoriteIcon(),
                 ),
               ],

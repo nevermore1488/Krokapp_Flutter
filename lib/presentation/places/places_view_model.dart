@@ -65,7 +65,7 @@ class PlacesViewModel {
   }
 
   void onPlaceFavoriteClick(Place place) {
-    _placeUseCase.savePlaceFeature(PlaceFeature(
+    _placeUseCase.savePointFeature(PlaceFeature(
       placeId: place.id,
       isFavorite: !place.isFavorite,
       isVisited: place.isVisited,
@@ -73,7 +73,7 @@ class PlacesViewModel {
   }
 
   void onPlaceVisitedClick(Place place) {
-    _placeUseCase.savePlaceFeature(PlaceFeature(
+    _placeUseCase.savePointFeature(PlaceFeature(
       placeId: place.id,
       isFavorite: place.isFavorite,
       isVisited: !place.isVisited,
