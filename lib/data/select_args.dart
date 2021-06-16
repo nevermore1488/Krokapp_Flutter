@@ -1,3 +1,5 @@
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
+
 class SelectArgs {
   PlaceType placeType;
   int? id;
@@ -13,5 +15,3 @@ class SelectArgs {
     this.isVisited = false,
   });
 }
-
-enum PlaceType { CITIES, POINTS }

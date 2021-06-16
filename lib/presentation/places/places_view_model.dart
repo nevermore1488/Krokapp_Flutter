@@ -41,11 +41,11 @@ class PlacesViewModel {
   Stream<String> getTitle() {
     if (selectArgs.cityId != null) {
       return _placeUseCase
-          .getPlacesBySelectArgs(SelectArgs(placeType: PlaceType.CITIES, id: selectArgs.cityId))
+          .getPlacesBySelectArgs(SelectArgs(placeType: PlaceType.city, id: selectArgs.cityId))
           .map((event) => event.first.title);
     } else if (selectArgs.id != null) {
       return _placeUseCase.getPlacesBySelectArgs(selectArgs).map((event) => event.first.title);
-    } else if (selectArgs.placeType == PlaceType.CITIES) {
+    } else if (selectArgs.placeType == PlaceType.city) {
       return Future.value(AppLocalizations.of(_context)!.cities_title).asStream();
     } else if (selectArgs.isFavorite == true) {
       return Future.value(AppLocalizations.of(_context)!.nav_menu_item_bookmarks).asStream();
@@ -81,9 +81,9 @@ class PlacesViewModel {
   }
 
   void _pushByPlaceId(int placeId) {
-    final selectArgs = SelectArgs(placeType: PlaceType.POINTS);
+    final selectArgs = SelectArgs(placeType: PlaceType.point);
 
-    if (this.selectArgs.placeType == PlaceType.CITIES)
+    if (this.selectArgs.placeType == PlaceType.city)
       selectArgs.cityId = placeId;
     else
       selectArgs.id = placeId;

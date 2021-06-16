@@ -139,6 +139,7 @@ class PointsTable {
   Place toPlace() => toPlaceDetail();
 
   PlaceDetail toPlaceDetail() => PlaceDetail(
+        PlaceType.point,
         placeId,
         name,
         logo,

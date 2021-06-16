@@ -16,7 +16,7 @@ class PlaceUseCase {
   Stream<List<Place>> getPlacesBySelectArgs(
     SelectArgs selectArgs,
   ) =>
-      selectArgs.placeType == PlaceType.CITIES
+      selectArgs.placeType == PlaceType.city
           ? _citiesRepository.getCitiesBySelectArgs(selectArgs)
           : _pointsRepository.getPointsBySelectArgs(selectArgs);
 

@@ -7,6 +7,7 @@ class PlaceDetail extends Place {
   final List<String> images;
 
   PlaceDetail(
+    PlaceType type,
     int id,
     String title,
     String logo,
@@ -21,6 +22,7 @@ class PlaceDetail extends Place {
     bool isFavorite = false,
     bool isVisited = false,
   }) : super(
+          type,
           id,
           title,
           logo,

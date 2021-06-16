@@ -2,6 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 
 class Place {
+  final PlaceType type;
   final int id;
   final String title;
   final String logo;
@@ -13,6 +14,7 @@ class Place {
   bool isVisited;
 
   Place(
+    this.type,
     this.id,
     this.title,
     this.logo, {
@@ -26,3 +28,5 @@ class Place {
 
   MarkerInfo toMarker() => MarkerInfo(id.toString(), title, LatLng(lat, lng));
 }
+
+enum PlaceType { city, point }

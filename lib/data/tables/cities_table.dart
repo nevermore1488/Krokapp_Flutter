@@ -70,7 +70,7 @@ class CitiesTable {
     return map;
   }
 
-  Place toPlace() => Place(placeId, name, logo);
+  Place toPlace() => Place(PlaceType.city, placeId, name, logo);
 }
 
 class CitiesJsonConverter extends JsonConverter<CitiesTable> {

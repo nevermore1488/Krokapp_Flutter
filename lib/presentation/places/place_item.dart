@@ -28,13 +28,9 @@ class PlaceItem extends StatelessWidget {
                 _createLogo(),
                 Expanded(
                   child: Container(
-                    padding: _getItemPadding(),
+                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 8),
                     child: Text(
                       place.title,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black87,
-                      ),
                     ),
                   ),
                 ),
@@ -56,11 +52,16 @@ class PlaceItem extends StatelessWidget {
     );
   }
 
-  EdgeInsets _getItemPadding() => EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8);
+  EdgeInsets _getItemPadding() => EdgeInsets.only(
+        left: 16,
+        right: 8,
+        top: 8 + getPaddingDifference(),
+        bottom: 8 + getPaddingDifference(),
+      );
 
   Widget _createLogo() => SizedBox(
-        width: 56,
-        height: 56,
+        width: 56 - getPaddingDifference(),
+        height: 56 - getPaddingDifference(),
         child: Stack(
           alignment: Alignment.bottomRight,
           children: <Widget>[
@@ -70,10 +71,12 @@ class PlaceItem extends StatelessWidget {
         ),
       );
 
+  double getPaddingDifference() => (place.type == PlaceType.city ? 8 : 0);
+
   Widget _createFavoriteIcon() => place.isShowFavorite
       ? Icon(
           place.isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: place.isFavorite ? Colors.red : Colors.black45,
+          color: place.isFavorite ? Colors.red : null,
         )
       : SizedBox.shrink();
 

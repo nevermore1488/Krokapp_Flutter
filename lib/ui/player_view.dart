@@ -24,8 +24,6 @@ class _PlayerViewState extends State<PlayerView> {
               height: 56,
               child: Icon(
                 value.isPlaying ? Icons.pause : Icons.play_arrow_outlined,
-                color: Colors.white,
-                size: 32,
               ),
             ),
           ),

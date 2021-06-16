@@ -11,11 +11,11 @@ class NavigationMenuDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createHeader(context),
-            _createMenuGroupTitle(AppLocalizations.of(context)!.nav_menu_group_settings),
+            _createMenuGroupTitle(context, AppLocalizations.of(context)!.nav_menu_group_settings),
             _createChooseLanguageItem(context),
             /* _createMenuItem("Excursion Setting", Icons.settings, () {}),*/
             Divider(),
-            _createMenuGroupTitle(AppLocalizations.of(context)!.nav_menu_group_personal),
+            _createMenuGroupTitle(context, AppLocalizations.of(context)!.nav_menu_group_personal),
             _createFavoritesItem(context),
             // _createMenuItem("Downloads", Icons.download_outlined, () {}),
             _createVisitedItem(context),
@@ -26,9 +26,6 @@ class NavigationMenuDrawer extends StatelessWidget {
       );
 
   Widget _createHeader(BuildContext context) => DrawerHeader(
-        decoration: BoxDecoration(
-          color: Colors.orange,
-        ),
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,12 +33,12 @@ class NavigationMenuDrawer extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 16),
-                child: Image.asset('drawables/krok_icon.png', color: Colors.white),
+                child: Image.asset('drawables/krok_icon.png'),
               ),
             ),
             Text(
               AppLocalizations.of(context)!.nav_menu_title,
-              style: TextStyle(color: Colors.white, fontSize: 21),
+              style: Theme.of(context).textTheme.headline6,
             ),
           ],
         ),
@@ -88,12 +85,9 @@ class NavigationMenuDrawer extends StatelessWidget {
         },
       );
 
-  Widget _createMenuGroupTitle(String title) => Padding(
+  Widget _createMenuGroupTitle(BuildContext context, String title) => Padding(
         padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-        child: Text(
-          title,
-          style: TextStyle(color: Colors.black54, fontSize: 15),
-        ),
+        child: Text(title),
       );
 
   Widget _createMenuItem(String name, IconData iconData, Function()? onClick) => ListTile(

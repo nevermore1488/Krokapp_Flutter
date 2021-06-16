@@ -42,7 +42,6 @@ class PlacesWithMapPage extends StatelessWidget {
       appBar: AppBar(
         title: _getTitle(vm),
         actions: [_createSwitchIcon(vm)],
-        brightness: Brightness.dark,
       ),
       body: Stack(
         children: [

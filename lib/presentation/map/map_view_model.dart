@@ -1,6 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
+import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_model.dart';
 import 'package:location/location.dart';
@@ -62,8 +63,8 @@ class MapViewModel {
 
   Stream<MapModel> _getMapModel(SelectArgs _selectArgs) => _placeUseCase
       .getPlacesBySelectArgs(
-        _selectArgs.placeType == PlaceType.CITIES
-            ? SelectArgs(placeType: PlaceType.POINTS)
+        _selectArgs.placeType == PlaceType.city
+            ? SelectArgs(placeType: PlaceType.point)
             : _selectArgs,
       )
       .map(
