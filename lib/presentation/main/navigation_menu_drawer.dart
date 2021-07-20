@@ -11,11 +11,13 @@ class NavigationMenuDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createHeader(context),
-            _createMenuGroupTitle(context, AppLocalizations.of(context)!.nav_menu_group_settings),
+            _createMenuGroupTitle(
+                context, AppLocalizations.of(context)!.nav_menu_group_settings),
             _createChooseLanguageItem(context),
             /* _createMenuItem("Excursion Setting", Icons.settings, () {}),*/
             Divider(),
-            _createMenuGroupTitle(context, AppLocalizations.of(context)!.nav_menu_group_personal),
+            _createMenuGroupTitle(
+                context, AppLocalizations.of(context)!.nav_menu_group_personal),
             _createFavoritesItem(context),
             // _createMenuItem("Downloads", Icons.download_outlined, () {}),
             _createVisitedItem(context),
@@ -53,7 +55,8 @@ class NavigationMenuDrawer extends StatelessWidget {
             DialogRoute(
               context: context,
               builder: (_) => Provider(
-                create: (_) => ChooseLanguageDialogViewModel(Provider.of(context), context),
+                create: (_) => ChooseLanguageDialogViewModel(
+                    Provider.of(context), context),
                 child: ChooseLanguageDialog(),
               ),
             ),
@@ -65,7 +68,7 @@ class NavigationMenuDrawer extends StatelessWidget {
         AppLocalizations.of(context)!.nav_menu_item_about_us,
         Icons.info_outline,
         () {
-          Navigator.popAndPushNamed(context, "/about_us");
+          Navigator.pushNamed(context, "/about_us");
         },
       );
 
@@ -73,7 +76,7 @@ class NavigationMenuDrawer extends StatelessWidget {
         AppLocalizations.of(context)!.nav_menu_item_bookmarks,
         Icons.favorite_outline,
         () {
-          Navigator.popAndPushNamed(context, "/favorites");
+          Navigator.pushNamed(context, "/favorites");
         },
       );
 
@@ -81,7 +84,7 @@ class NavigationMenuDrawer extends StatelessWidget {
         AppLocalizations.of(context)!.nav_menu_item_visited,
         Icons.check_circle_outline,
         () {
-          Navigator.popAndPushNamed(context, "/visited");
+          Navigator.pushNamed(context, "/visited");
         },
       );
 
@@ -90,7 +93,8 @@ class NavigationMenuDrawer extends StatelessWidget {
         child: Text(title),
       );
 
-  Widget _createMenuItem(String name, IconData iconData, Function()? onClick) => ListTile(
+  Widget _createMenuItem(String name, IconData iconData, Function()? onClick) =>
+      ListTile(
         title: Text(name),
         leading: Icon(iconData),
         onTap: onClick,

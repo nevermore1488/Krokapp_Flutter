@@ -14,21 +14,18 @@ import 'package:provider/provider.dart';
 
 class KrokApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    KrokAppViewModel vm = Provider.of(context);
-    vm.applySystemLocales(WidgetsBinding.instance!.window.locales);
+  Widget build(BuildContext context) => StreamBuilder<Locale>(
+        stream: Provider.of<KrokAppViewModel>(context)
+            .init((WidgetsBinding.instance!.window.locales)),
+        builder: (context, snapshot) => SnapshotView<Locale>(
+          snapshot: snapshot,
+          onHasData: (value) => _createMainScreen(context, value),
+          onLoading: createSplashScreen,
+        ),
+      );
 
-    return StreamBuilder<Locale>(
-      stream: vm.getCurrentLocale(),
-      builder: (context, snapshot) => SnapshotView<Locale>(
-        snapshot: snapshot,
-        onHasData: (value) => _createMainScreen(context, value),
-        onLoading: createSplashScreen,
-      ),
-    );
-  }
-
-  Widget _createMainScreen(BuildContext context, Locale selectedLocale) => Container(
+  Widget _createMainScreen(BuildContext context, Locale selectedLocale) =>
+      Container(
         child: MaterialApp(
           theme: ThemeData(
             primaryColor: Resources.COLOR_PRIMARY,
@@ -53,14 +50,16 @@ class KrokApp extends StatelessWidget {
                   drawer: NavigationMenuDrawer(),
                 ),
             '/about_us': (BuildContext context) => AboutUsPage(),
-            '/favorites': (BuildContext context) => createPlacesWithMapPageInProvider(
+            '/favorites': (BuildContext context) =>
+                createPlacesWithMapPageInProvider(
                   SelectArgs(
                     placeType: PlaceType.point,
                     isFavorite: true,
                   ),
                   Provider.of(context),
                 ),
-            '/visited': (BuildContext context) => createPlacesWithMapPageInProvider(
+            '/visited': (BuildContext context) =>
+                createPlacesWithMapPageInProvider(
                   SelectArgs(
                     placeType: PlaceType.point,
                     isVisited: true,

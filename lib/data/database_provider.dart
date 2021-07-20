@@ -10,7 +10,7 @@ import 'package:krokapp_multiplatform/data/tables/tags_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DbUseCase {
+class DatabaseProvider {
   static const KROK_DB_NAME = 'krok_database.db';
 
   ObservableDatabaseExecutor? _dbExecutor;

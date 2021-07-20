@@ -22,11 +22,4 @@ class PlaceUseCase {
 
   Future<void> savePointFeature(PlaceFeature placeFeature) =>
       _pointsRepository.savePointFeature(placeFeature);
-
-  Future<void> loadPlaces() async {
-    var citiesFuture = _citiesRepository.loadCities();
-    var pointsFuture = _pointsRepository.loadPoints();
-    await citiesFuture;
-    await pointsFuture;
-  }
 }

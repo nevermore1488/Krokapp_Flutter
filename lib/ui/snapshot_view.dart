@@ -24,7 +24,8 @@ class SnapshotView<T> extends StatelessWidget {
       return onLoading();
   }
 
-  static Widget createDefaultOnError(Object error) => Center(child: Text(error.toString()));
+  static Widget createDefaultOnError(Object error) => throw error;
 
-  static Widget createDefaultOnLoading() => Center(child: CircularProgressIndicator());
+  static Widget createDefaultOnLoading() =>
+      Center(child: CircularProgressIndicator());
 }

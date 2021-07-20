@@ -21,7 +21,7 @@ class CitiesRepository {
   Future<void> loadCities() async {
     var cities = await _citiesDao.getAll().first;
     if (cities.isEmpty) {
-      cities = await _citiesApi.getCities(1).first;
+      cities = await _citiesApi.getCities(111111).first;
       _citiesDao.add(cities);
     }
   }
