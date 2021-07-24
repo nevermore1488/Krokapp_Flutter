@@ -5,12 +5,21 @@ import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
-import 'package:krokapp_multiplatform/presentation/main/navigation_menu_drawer.dart';
+import 'package:krokapp_multiplatform/presentation/app/navigation_menu_drawer.dart';
+import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_page.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_with_map_page.dart';
 import 'package:krokapp_multiplatform/resources.dart';
 import 'package:krokapp_multiplatform/ui/rotate_container.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
+
+class KrokAppRoutes {
+  static const HOME = "/";
+  static const ABOUT_US = "/about_us";
+  static const FAVORITES = "/favorites";
+  static const VISITED = "/visited";
+  static const EXCURSION = "/excursion";
+}
 
 class KrokApp extends StatelessWidget {
   @override
@@ -42,15 +51,18 @@ class KrokApp extends StatelessWidget {
                   color: Resources.COLOR_ICON_PRIMARY,
                 ),
           ),
-          initialRoute: '/',
+          initialRoute: KrokAppRoutes.HOME,
           routes: {
-            '/': (BuildContext context) => createPlacesWithMapPageInProvider(
+            KrokAppRoutes.HOME: (BuildContext context) =>
+                createPlacesWithMapPageInProvider(
                   SelectArgs(placeType: PlaceType.city),
                   Provider.of(context),
                   drawer: NavigationMenuDrawer(),
                 ),
-            '/about_us': (BuildContext context) => AboutUsPage(),
-            '/favorites': (BuildContext context) =>
+            KrokAppRoutes.EXCURSION: (BuildContext context) =>
+                ExcursionSettingsPage(),
+            KrokAppRoutes.ABOUT_US: (BuildContext context) => AboutUsPage(),
+            KrokAppRoutes.FAVORITES: (BuildContext context) =>
                 createPlacesWithMapPageInProvider(
                   SelectArgs(
                     placeType: PlaceType.point,
@@ -58,7 +70,7 @@ class KrokApp extends StatelessWidget {
                   ),
                   Provider.of(context),
                 ),
-            '/visited': (BuildContext context) =>
+            KrokAppRoutes.VISITED: (BuildContext context) =>
                 createPlacesWithMapPageInProvider(
                   SelectArgs(
                     placeType: PlaceType.point,

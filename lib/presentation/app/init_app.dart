@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/loading_data_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
@@ -21,6 +22,7 @@ import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/tags_repository.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
+import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_view_model.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
@@ -90,6 +92,13 @@ class InitApp extends StatelessWidget {
           ),
           ProxyProvider<PointsRepository, MapUseCase>(
             update: (context, value, previous) => MapUseCase(value),
+          ),
+          ProxyProvider<TagsRepository, ExcursionUseCase>(
+            update: (context, value, previous) => ExcursionUseCase(value),
+          ),
+          ProxyProvider<ExcursionUseCase, ExcursionSettingsViewModel>(
+            update: (context, value, previous) =>
+                ExcursionSettingsViewModel(value),
           ),
         ],
         child: child,

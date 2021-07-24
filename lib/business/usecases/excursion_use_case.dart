@@ -1,3 +1,4 @@
+import 'package:krokapp_multiplatform/data/pojo/tag.dart';
 import 'package:krokapp_multiplatform/data/repositories/tags_repository.dart';
 
 class ExcursionUseCase {
@@ -6,4 +7,6 @@ class ExcursionUseCase {
   ExcursionUseCase(
     this._tagsRepository,
   );
+
+  Stream<List<Tag>> getTags() => _tagsRepository.getTags();
 }

@@ -2,6 +2,7 @@ import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/dao/selected_tags_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/tags_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/tags_of_places_dao.dart';
+import 'package:krokapp_multiplatform/data/pojo/tag.dart';
 import 'package:krokapp_multiplatform/data/tables/selected_tags_table.dart';
 
 class TagsRepository {
@@ -16,6 +17,8 @@ class TagsRepository {
     this._selectedTagsDao,
     this._tagsOfPlacesDao,
   );
+
+  Stream<List<Tag>> getTags() => _tagsDao.getTags();
 
   Future<void> loadTags() async {
     var tags = await _tagsDao.getAll().first;

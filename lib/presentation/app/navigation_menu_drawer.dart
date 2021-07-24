@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
+import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
 import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog.dart';
 import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog_view_model.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class NavigationMenuDrawer extends StatelessWidget {
             _createMenuGroupTitle(
                 context, AppLocalizations.of(context)!.nav_menu_group_settings),
             _createChooseLanguageItem(context),
-            /* _createMenuItem("Excursion Setting", Icons.settings, () {}),*/
+            _createExcursionItem(context),
             Divider(),
             _createMenuGroupTitle(
                 context, AppLocalizations.of(context)!.nav_menu_group_personal),
@@ -68,7 +69,7 @@ class NavigationMenuDrawer extends StatelessWidget {
         AppLocalizations.of(context)!.nav_menu_item_about_us,
         Icons.info_outline,
         () {
-          Navigator.pushNamed(context, "/about_us");
+          Navigator.pushNamed(context, KrokAppRoutes.ABOUT_US);
         },
       );
 
@@ -76,7 +77,7 @@ class NavigationMenuDrawer extends StatelessWidget {
         AppLocalizations.of(context)!.nav_menu_item_bookmarks,
         Icons.favorite_outline,
         () {
-          Navigator.pushNamed(context, "/favorites");
+          Navigator.pushNamed(context, KrokAppRoutes.FAVORITES);
         },
       );
 
@@ -84,7 +85,15 @@ class NavigationMenuDrawer extends StatelessWidget {
         AppLocalizations.of(context)!.nav_menu_item_visited,
         Icons.check_circle_outline,
         () {
-          Navigator.pushNamed(context, "/visited");
+          Navigator.pushNamed(context, KrokAppRoutes.VISITED);
+        },
+      );
+
+  Widget _createExcursionItem(BuildContext context) => _createMenuItem(
+        AppLocalizations.of(context)!.nav_menu_item_excursion_settings,
+        Icons.pin_drop_outlined,
+        () {
+          Navigator.pushNamed(context, KrokAppRoutes.EXCURSION);
         },
       );
 

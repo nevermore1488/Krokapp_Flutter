@@ -4,22 +4,22 @@ class SelectedTagsTable {
   static const String TABLE_NAME = "selected_tags";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
-      '$COLUMN_TAG_ID INTEGER PRIMARY KEY'
+      '$COLUMN_SELECTED_TAG_ID INTEGER PRIMARY KEY'
       ')';
 
-  static const String COLUMN_TAG_ID = "tag_id";
+  static const String COLUMN_SELECTED_TAG_ID = "selected_tag_id";
 
   int tagId = 0;
 
   SelectedTagsTable(this.tagId);
 
   SelectedTagsTable.fromJson(dynamic json) {
-    tagId = json[COLUMN_TAG_ID];
+    tagId = json[COLUMN_SELECTED_TAG_ID];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map[COLUMN_TAG_ID] = tagId;
+    map[COLUMN_SELECTED_TAG_ID] = tagId;
     return map;
   }
 }

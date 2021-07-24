@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
-import 'package:krokapp_multiplatform/data/pojo/language.dart';
 import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog_view_model.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
@@ -20,13 +19,17 @@ class ChooseLanguageDialog extends StatelessWidget {
           onHasData: (data) => Column(
             mainAxisSize: MainAxisSize.min,
             children: data.languages
-                .map((e) => RadioListTile<Language>(
+                .map((e) => RadioListTile<int>(
                       title: Text(e.name),
-                      value: e,
-                      groupValue: data.selectedLanguage,
-                      selected: data.selectedLanguage == e,
+                      value: e.id,
+                      groupValue: data.selectedLanguage.id,
+                      selected: data.selectedLanguage.id == e.id,
                       onChanged: (value) {
-                        if (value != null) vm.onNewLanguageSelected(value);
+                        if (value != null)
+                          vm.onNewLanguageSelected(
+                            data.languages
+                                .firstWhere((element) => element.id == value),
+                          );
                       },
                     ))
                 .toList(),

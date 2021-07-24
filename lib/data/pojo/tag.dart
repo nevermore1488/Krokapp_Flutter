@@ -1,11 +1,11 @@
-class Language {
+class Tag {
   int id;
-  String key;
   String name;
+  bool isChecked;
 
-  Language({
+  Tag({
     required this.id,
-    required this.key,
     required this.name,
+    required this.isChecked,
   });
 }
