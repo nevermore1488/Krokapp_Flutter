@@ -20,7 +20,7 @@ class ExcursionSettingsPage extends StatelessWidget {
             ),
           ),
           body: ListView(
-            children: [_createHeader(context, vm)] + _createTagItems(data),
+            children: [_createHeader(context, vm)] + _createTagItems(vm, data),
           ),
         ),
       ),
@@ -29,16 +29,35 @@ class ExcursionSettingsPage extends StatelessWidget {
   }
 
   Widget _createHeader(BuildContext context, ExcursionSettingsViewModel vm) =>
-      Container(
-        padding: EdgeInsets.all(16),
-        child: Text(AppLocalizations.of(context)!.how_much_time),
-      );
+      InkWell(
+          onTap: () => vm.onSelectTimeTextClicked(context),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Text(AppLocalizations.of(context)!.how_much_time),
+              ),
+              Container(
+                padding: EdgeInsets.all(16),
+                child: StreamBuilder<TimeOfDay>(
+                  stream: vm.time,
+                  builder: (context, snapshot) => SnapshotView<TimeOfDay>(
+                    snapshot: snapshot,
+                    onHasData: (data) => Text(
+                      "${data.hour}:${data.minute}",
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ));
 
-  List<Widget> _createTagItems(List<Tag> tags) => tags
-      .map((e) => CheckboxListTile(
-            value: e.isChecked,
-            title: Text(e.name),
-            onChanged: (b) => {},
-          ))
-      .toList();
+  List<Widget> _createTagItems(ExcursionSettingsViewModel vm, List<Tag> tags) =>
+      tags
+          .map((e) => CheckboxListTile(
+                value: e.isChecked,
+                title: Text(e.name),
+                onChanged: (b) => vm.onTagCheckChanged(e),
+              ))
+          .toList();
 }

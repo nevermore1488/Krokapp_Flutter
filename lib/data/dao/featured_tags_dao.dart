@@ -1,4 +1,3 @@
-
 import 'package:krokapp_multiplatform/data/dao/common_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/localized_dao.dart';
 import 'package:krokapp_multiplatform/data/observable_db_executor.dart';
@@ -23,6 +22,6 @@ class FeaturedTagsDaoImpl extends LocalizedDao<FeaturedTagTable>
 
   @override
   String beforeWhereStatement() => "LEFT JOIN ${TagFeaturesTable.TABLE_NAME}"
-      " ON ${TagsTable.TABLE_NAME}.${TagsTable.COLUMN_TAG_ID}"
+      " ON ${TagsTable.TABLE_NAME}.${TagsTable.COLUMN_ID}"
       " = ${TagFeaturesTable.TABLE_NAME}.${TagFeaturesTable.COLUMN_FEATURED_TAG_ID}";
 }

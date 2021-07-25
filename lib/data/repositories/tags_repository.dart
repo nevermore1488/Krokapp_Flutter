@@ -29,8 +29,7 @@ class TagsRepository {
     var tags = await _tagsDao.getAll().first;
     if (tags.isEmpty) {
       tags = await _tagsApi.getTags().first;
-      final checkedTags =
-          tags.map((e) => TagFeaturesTable(e.tagId, 1)).toList();
+      final checkedTags = tags.map((e) => TagFeaturesTable(e.id, 1)).toList();
 
       _tagsDao.add(tags);
       _tagFeaturesDao.add(checkedTags, onConflict: ConflictAlgorithm.ignore);
@@ -39,5 +38,9 @@ class TagsRepository {
 
   Future<void> saveSelectedTags(List<TagFeaturesTable> tags) async {
     _tagFeaturesDao.add(tags);
+  }
+
+  Future<void> saveTagCheckState(int tagId, bool isChecked) async {
+    _tagFeaturesDao.add([TagFeaturesTable(tagId, isChecked ? 1 : 0)]);
   }
 }
