@@ -12,13 +12,15 @@ class _PlayerViewState extends State<PlayerView> {
   PlayerModel? model;
 
   @override
-  Widget build(BuildContext context) => Consumer<PlayerModel>(builder: (context, value, child) {
+  Widget build(BuildContext context) =>
+      Consumer<PlayerModel>(builder: (context, value, child) {
         model = value;
         return Container(
           padding: EdgeInsets.all(8),
           child: ElevatedButton(
             onPressed: value.onPlayButtonClick,
-            style: ElevatedButton.styleFrom(shape: CircleBorder(), primary: Colors.orange),
+            style: ElevatedButton.styleFrom(
+                shape: CircleBorder(), primary: Colors.orange),
             child: SizedBox(
               width: 56,
               height: 56,

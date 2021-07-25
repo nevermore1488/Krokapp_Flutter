@@ -97,11 +97,14 @@ class PointsTable {
     photo = json[COLUMN_PHOTO];
     cityId = json[COLUMN_CITY_ID];
     visible = isApi ? json[COLUMN_VISIBLE] : (json[COLUMN_VISIBLE] == 1);
-    isExcursion = isApi ? json[COLUMN_IS_EXCURSION] : (json[COLUMN_IS_EXCURSION] == 1);
+    isExcursion =
+        isApi ? json[COLUMN_IS_EXCURSION] : (json[COLUMN_IS_EXCURSION] == 1);
 
     tags = json[_API_ONLY_TAGS] != null ? json[_API_ONLY_TAGS].cast<int>() : [];
     images = isApi
-        ? (json[COLUMN_IMAGES] != null ? json[COLUMN_IMAGES].cast<String>() : [])
+        ? (json[COLUMN_IMAGES] != null
+            ? json[COLUMN_IMAGES].cast<String>()
+            : [])
         : (json[COLUMN_IMAGES] as String)
             .split(',')
             .where((element) => element.isNotEmpty)
@@ -158,7 +161,8 @@ class PointsJsonConverter extends JsonConverter<PointsTable> {
   PointsJsonConverter({this.isApi = false});
 
   @override
-  PointsTable fromJson(Map<String, Object?> json) => PointsTable.fromJson(json, isApi: isApi);
+  PointsTable fromJson(Map<String, Object?> json) =>
+      PointsTable.fromJson(json, isApi: isApi);
 
   @override
   Map<String, Object?> toJson(PointsTable pojo) => pojo.toJson(isApi: isApi);

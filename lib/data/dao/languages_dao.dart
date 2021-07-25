@@ -8,7 +8,8 @@ abstract class LanguagesDao extends CommonDao<LanguagesTable> {
   Stream<List<LanguagesTable>> getVeryAll();
 }
 
-class LanguagesDaoImpl extends LocalizedDao<LanguagesTable> implements LanguagesDao {
+class LanguagesDaoImpl extends LocalizedDao<LanguagesTable>
+    implements LanguagesDao {
   LanguagesDaoImpl(ObservableDatabaseExecutor obsDbExecutor)
       : super(
           obsDbExecutor,
@@ -18,5 +19,6 @@ class LanguagesDaoImpl extends LocalizedDao<LanguagesTable> implements Languages
         );
 
   @override
-  Stream<List<LanguagesTable>> getVeryAll() => query("SELECT * FROM $tableName", [tableName]);
+  Stream<List<LanguagesTable>> getVeryAll() =>
+      query("SELECT * FROM $tableName", [tableName]);
 }

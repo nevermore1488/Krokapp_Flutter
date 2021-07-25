@@ -39,7 +39,8 @@ class LanguagesTable {
 
 class LanguagesJsonConverter extends JsonConverter<LanguagesTable> {
   @override
-  LanguagesTable fromJson(Map<String, Object?> json) => LanguagesTable.fromJson(json);
+  LanguagesTable fromJson(Map<String, Object?> json) =>
+      LanguagesTable.fromJson(json);
 
   @override
   Map<String, Object?> toJson(LanguagesTable pojo) => pojo.toJson();

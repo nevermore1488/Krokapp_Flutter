@@ -1,8 +1,8 @@
 import 'package:krokapp_multiplatform/data/dao/common_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/localized_dao.dart';
 import 'package:krokapp_multiplatform/data/observable_db_executor.dart';
-import 'package:krokapp_multiplatform/data/tables/cities_table.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
+import 'package:krokapp_multiplatform/data/tables/cities_table.dart';
 
 abstract class CitiesDao extends CommonDao<CitiesTable> {
   Stream<List<CitiesTable>> getCitiesBySelectArgs(SelectArgs selectArgs);

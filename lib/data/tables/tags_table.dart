@@ -22,11 +22,11 @@ class TagsTable {
   String tagLabel = "";
 
   TagsTable(
-      this.id,
-      this.tagId,
-      this.lang,
-      this.tagLabel,
-      );
+    this.id,
+    this.tagId,
+    this.lang,
+    this.tagLabel,
+  );
 
   TagsTable.fromJson(dynamic json) {
     id = json[COLUMN_ID];
@@ -44,7 +44,8 @@ class TagsTable {
     return map;
   }
 
-  Tag toTag(bool isChecked) => Tag(id: id, name: tagLabel, isChecked: isChecked);
+  Tag toTag(bool isChecked) =>
+      Tag(id: id, name: tagLabel, isChecked: isChecked);
 }
 
 class TagsJsonConverter extends JsonConverter<TagsTable> {

@@ -79,7 +79,8 @@ class CitiesJsonConverter extends JsonConverter<CitiesTable> {
   CitiesJsonConverter({this.isApi = false});
 
   @override
-  CitiesTable fromJson(Map<String, Object?> json) => CitiesTable.fromJson(json, isApi: isApi);
+  CitiesTable fromJson(Map<String, Object?> json) =>
+      CitiesTable.fromJson(json, isApi: isApi);
 
   @override
   Map<String, Object?> toJson(CitiesTable pojo) => pojo.toJson(isApi: isApi);

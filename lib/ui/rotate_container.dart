@@ -10,7 +10,8 @@ class RotateContainer extends StatefulWidget {
   State<RotateContainer> createState() => _RotateContainerState();
 }
 
-class _RotateContainerState extends State<RotateContainer> with TickerProviderStateMixin {
+class _RotateContainerState extends State<RotateContainer>
+    with TickerProviderStateMixin {
   late AnimationController animationController;
 
   @override

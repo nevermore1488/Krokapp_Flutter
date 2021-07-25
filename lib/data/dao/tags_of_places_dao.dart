@@ -4,7 +4,8 @@ import 'package:krokapp_multiplatform/data/tables/tags_of_places_table.dart';
 
 abstract class TagsOfPlacesDao extends CommonDao<TagsOfPlacesTable> {}
 
-class TagsOfPlacesDaoImpl extends CommonDaoImpl<TagsOfPlacesTable> implements TagsOfPlacesDao {
+class TagsOfPlacesDaoImpl extends CommonDaoImpl<TagsOfPlacesTable>
+    implements TagsOfPlacesDao {
   TagsOfPlacesDaoImpl(ObservableDatabaseExecutor obsDbExecutor)
       : super(
           obsDbExecutor,
