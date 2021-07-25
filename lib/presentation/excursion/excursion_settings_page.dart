@@ -20,17 +20,25 @@ class ExcursionSettingsPage extends StatelessWidget {
             ),
           ),
           body: ListView(
-            children: data
-                .map((e) => CheckboxListTile(
-                      value: e.isChecked,
-                      title: Text(e.name),
-                      onChanged: (b) => {},
-                    ))
-                .toList(),
+            children: [_createHeader(context, vm)] + _createTagItems(data),
           ),
         ),
       ),
       stream: vm.getTags(),
     );
   }
+
+  Widget _createHeader(BuildContext context, ExcursionSettingsViewModel vm) =>
+      Container(
+        padding: EdgeInsets.all(16),
+        child: Text(AppLocalizations.of(context)!.how_much_time),
+      );
+
+  List<Widget> _createTagItems(List<Tag> tags) => tags
+      .map((e) => CheckboxListTile(
+            value: e.isChecked,
+            title: Text(e.name),
+            onChanged: (b) => {},
+          ))
+      .toList();
 }

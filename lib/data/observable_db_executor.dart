@@ -6,9 +6,14 @@ import 'package:sqflite/sqlite_api.dart';
 abstract class ObservableDatabaseExecutor {
   Future<List<Map<String, Object?>>> rawQuery(String query);
 
-  Stream<List<Map<String, Object?>>> observableRawQuery(String query, List<String> engagedTables);
+  Stream<List<Map<String, Object?>>> observableRawQuery(
+      String query, List<String> engagedTables);
 
-  Future<void> add(String tableName, List<Map<String, Object?>> entities);
+  Future<void> add(
+    String tableName,
+    List<Map<String, Object?>> entities,
+    ConflictAlgorithm onConflict,
+  );
 
   Future<void> deleteAll(String tableName);
 }
@@ -21,24 +26,32 @@ class ObservableDatabaseExecutorImpl implements ObservableDatabaseExecutor {
   ObservableDatabaseExecutorImpl(this._db);
 
   @override
-  Future<List<Map<String, Object?>>> rawQuery(String query) => _db.rawQuery(query);
+  Future<List<Map<String, Object?>>> rawQuery(String query) =>
+      _db.rawQuery(query);
 
   @override
-  Stream<List<Map<String, Object?>>> observableRawQuery(String query, List<String> engagedTables) =>
+  Stream<List<Map<String, Object?>>> observableRawQuery(
+    String query,
+    List<String> engagedTables,
+  ) =>
       _changedTables.stream
-          .where(
-              (event) => (event as List<String>).any((element) => engagedTables.contains(element)))
+          .where((event) => (event as List<String>)
+              .any((element) => engagedTables.contains(element)))
           .asyncMap((event) => _db.rawQuery(query))
           .mergeWith([_db.rawQuery(query).asStream()]);
 
   @override
-  Future<void> add(String tableName, List<Map<String, Object?>> entities) async {
+  Future<void> add(
+    String tableName,
+    List<Map<String, Object?>> entities,
+    ConflictAlgorithm onConflict,
+  ) async {
     Batch batch = _db.batch();
     entities.forEach((element) {
       batch.insert(
         tableName,
         element,
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        conflictAlgorithm: onConflict,
       );
     });
     await batch.commit();

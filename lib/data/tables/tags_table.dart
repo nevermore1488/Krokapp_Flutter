@@ -1,4 +1,5 @@
 import 'package:krokapp_multiplatform/data/json_converter.dart';
+import 'package:krokapp_multiplatform/data/pojo/tag.dart';
 
 class TagsTable {
   static const String TABLE_NAME = "tags";
@@ -42,6 +43,8 @@ class TagsTable {
     map[COLUMN_TAG_LABEL] = tagLabel;
     return map;
   }
+
+  Tag toTag(bool isChecked) => Tag(id: id, name: tagLabel, isChecked: isChecked);
 }
 
 class TagsJsonConverter extends JsonConverter<TagsTable> {

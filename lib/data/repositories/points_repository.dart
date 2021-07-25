@@ -1,19 +1,19 @@
 import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/dao/featured_points_dao.dart';
-import 'package:krokapp_multiplatform/data/dao/features_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/palce_features_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/points_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/tags_of_places_dao.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_feature.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/data/tables/featured_point_table.dart';
-import 'package:krokapp_multiplatform/data/tables/features_table.dart';
+import 'package:krokapp_multiplatform/data/tables/place_features_table.dart';
 import 'package:krokapp_multiplatform/data/tables/tags_of_places_table.dart';
 
 class PointsRepository {
   PointsApi _pointsApi;
   PointsDao _pointsDao;
-  FeatureDao _featureDao;
+  PlaceFeaturesDao _featureDao;
   FeaturedPointsDao _featurePointsDao;
   TagsOfPlacesDao _tagsOfPlacesDao;
 
@@ -32,7 +32,7 @@ class PointsRepository {
 
   Future<void> savePointFeature(PlaceFeature placeFeature) async {
     _featureDao.add([
-      FeaturesTable(
+      PlaceFeaturesTable(
         placeFeature.placeId,
         placeFeature.isFavorite ? 1 : 0,
         placeFeature.isVisited ? 1 : 0,

@@ -8,10 +8,11 @@ import 'package:krokapp_multiplatform/data/api.dart';
 import 'package:krokapp_multiplatform/data/dao/cities_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/current_language_id_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/featured_points_dao.dart';
-import 'package:krokapp_multiplatform/data/dao/features_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/featured_tags_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/palce_features_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/languages_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/points_dao.dart';
-import 'package:krokapp_multiplatform/data/dao/selected_tags_dao.dart';
+import 'package:krokapp_multiplatform/data/dao/tag_features_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/tags_dao.dart';
 import 'package:krokapp_multiplatform/data/dao/tags_of_places_dao.dart';
 import 'package:krokapp_multiplatform/data/database_provider.dart';
@@ -64,7 +65,8 @@ class InitApp extends StatelessWidget {
             update: (context, value, previous) => TagsRepository(
               TagsApiImpl(),
               TagsDaoImpl(value),
-              SelectedTagsDaoImpl(value),
+              FeaturedTagsDaoImpl(value),
+              TagFeaturesDaoImpl(value),
               TagsOfPlacesDaoImpl(value),
             ),
           ),
@@ -72,7 +74,7 @@ class InitApp extends StatelessWidget {
             update: (context, value, previous) => PointsRepository(
               PointsApiImpl(),
               PointsDaoImpl(value),
-              FeatureDaoImpl(value),
+              PlaceFeaturesDaoImpl(value),
               FeaturedPointsDaoImpl(value),
               TagsOfPlacesDaoImpl(value),
             ),

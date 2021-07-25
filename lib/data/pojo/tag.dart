@@ -1,7 +1,7 @@
 class Tag {
-  int id;
-  String name;
-  bool isChecked;
+  final int id;
+  final String name;
+  final bool isChecked;
 
   Tag({
     required this.id,
