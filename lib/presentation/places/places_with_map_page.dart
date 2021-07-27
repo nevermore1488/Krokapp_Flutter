@@ -8,6 +8,7 @@ import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_page.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/place_item.dart';
+import 'package:krokapp_multiplatform/presentation/places/place_map_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_view_model.dart';
 import 'package:krokapp_multiplatform/ui/player_view.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
@@ -97,7 +98,8 @@ class PlacesWithMapPage extends StatelessWidget {
                         aspectRatio: 1.5,
                         child: PageView(
                           controller: PageController(),
-                          children: data.images.map((e) => Image.network(e)).toList(),
+                          children:
+                              data.images.map((e) => Image.network(e)).toList(),
                         ),
                       ),
                       ChangeNotifierProvider(
@@ -105,7 +107,8 @@ class PlacesWithMapPage extends StatelessWidget {
                         child: PlayerView(),
                       ),
                       Container(
-                        padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                        padding:
+                            EdgeInsets.only(bottom: 16, left: 16, right: 16),
                         child: HtmlWidget(data.text),
                       ),
                     ],
@@ -113,7 +116,8 @@ class PlacesWithMapPage extends StatelessWidget {
         ),
       );
 
-  Widget _createMapPage(BuildContext context, PlacesViewModel vm) => StreamBuilder<bool>(
+  Widget _createMapPage(BuildContext context, PlacesViewModel vm) =>
+      StreamBuilder<bool>(
         stream: vm.getIsShowMap(),
         builder: (context, snapshot) => SnapshotView<bool>(
           snapshot: snapshot,
@@ -121,7 +125,7 @@ class PlacesWithMapPage extends StatelessWidget {
             if (!data) return SizedBox.shrink();
 
             return Provider<MapViewModel>(
-              create: (_) => MapViewModel(
+              create: (_) => PlaceMapViewModel(
                 vm.selectArgs,
                 Provider.of(context),
                 Provider.of(context),
@@ -137,7 +141,8 @@ class PlacesWithMapPage extends StatelessWidget {
           stream: vm.getIsShowPlaces(),
           builder: (context, snapshot) => SnapshotView<bool>(
             snapshot: snapshot,
-            onHasData: (data) => Icon(data ? Icons.map_outlined : Icons.list_alt),
+            onHasData: (data) =>
+                Icon(data ? Icons.map_outlined : Icons.list_alt),
           ),
         ),
         onPressed: vm.onSwitchIconClicked,

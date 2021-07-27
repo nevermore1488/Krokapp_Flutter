@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
-import 'package:krokapp_multiplatform/presentation/map/map_model.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
+import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
-class MapPage extends StatelessWidget {
+class MapPage extends StatefulWidget {
+  @override
+  State<MapPage> createState() => _MapPageState();
+}
+
+class _MapPageState extends State<MapPage> {
   static const _DEFAULT_ZOOM = 11.0;
 
   @override
   Widget build(BuildContext context) {
     MapViewModel vm = Provider.of(context);
-    return StreamBuilder<MapModel>(
-      stream: vm.getMapModel(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var model = snapshot.data!;
+    vm.onViewInit();
 
-          return GoogleMap(
-            initialCameraPosition: _createDefaultCameraPosition(model.startLocation!),
-            myLocationButtonEnabled: true,
-            myLocationEnabled: model.currentLocation != null,
-            markers: _createMarkers(model.markers),
-            polylines: _createRoute(model.route),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        } else
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-      },
+    return StreamBuilder(
+      stream: vm.onViewUpdate,
+      builder: (context, snapshot) => SnapshotView(
+        snapshot: snapshot,
+        onHasData: (_) => GoogleMap(
+          initialCameraPosition: _createDefaultCameraPosition(vm.startLocation),
+          myLocationButtonEnabled: true,
+          myLocationEnabled: vm.isShowCurrentLocation(),
+          markers: _createMarkers(vm.markers),
+          polylines: _createRoute(vm.route),
+        ),
+      ),
     );
   }
 
@@ -48,11 +45,22 @@ class MapPage extends StatelessWidget {
 
   Set<Polyline> _createRoute(List<LatLng> route) => [
         Polyline(
-            polylineId: PolylineId("undefined"), points: route, color: Colors.orange, width: 5),
+          polylineId: PolylineId("undefined"),
+          points: route,
+          color: Colors.orange,
+          width: 5,
+        ),
       ].toSet();
 
-  CameraPosition _createDefaultCameraPosition(LatLng location) => CameraPosition(
+  CameraPosition _createDefaultCameraPosition(LatLng location) =>
+      CameraPosition(
         target: location,
         zoom: _DEFAULT_ZOOM,
       );
+
+  @override
+  void dispose() {
+    Provider.of<MapViewModel>(context).onViewDispose();
+    super.dispose();
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:krokapp_multiplatform/business/location_manager.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/loading_data_use_case.dart';
@@ -98,6 +99,9 @@ class InitApp extends StatelessWidget {
               FeaturedPointsDaoImpl(appAsyncDependencies.dbExecutor),
               TagsOfPlacesDaoImpl(appAsyncDependencies.dbExecutor),
             ),
+          ),
+          Provider<LocationManager>(
+            create: (context) => LocationManagerImpl(),
           ),
           ProxyProvider<LanguagesRepository, LanguageUseCase>(
             update: (context, value, previous) => LanguageUseCase(value),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:krokapp_multiplatform/business/player_model.dart';
+import 'package:krokapp_multiplatform/ui/player_model.dart';
 import 'package:provider/provider.dart';
 
 class PlayerView extends StatefulWidget {
