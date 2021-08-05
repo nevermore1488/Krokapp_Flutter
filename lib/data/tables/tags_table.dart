@@ -5,8 +5,8 @@ class TagsTable {
   static const String TABLE_NAME = "tags";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
-      '$COLUMN_TAG_ID INTEGER PRIMARY KEY,'
-      '$COLUMN_ID INTEGER,'
+      '$COLUMN_ID INTEGER PRIMARY KEY,'
+      '$COLUMN_TAG_ID INTEGER ,'
       '$COLUMN_LANG INTEGER,'
       '$COLUMN_TAG_LABEL STRING'
       ')';

@@ -25,6 +25,7 @@
   "delete_city_message": "Вы уверены, что хотите удалить этот место?",
   "was_here": "Я тут был",
   "was_not_here": "Я тут не был",
+  "excursion_title": "Экскурсия",
   "excursion_time": "%s ч: %s мин",
   "how_much_time": "Сколько у вас свободного времени?",
   "apply": "Применить",

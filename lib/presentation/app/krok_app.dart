@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
+import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/app/navigation_menu_drawer.dart';
+import 'package:krokapp_multiplatform/presentation/excursion/excursion_page.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_page.dart';
+import 'package:krokapp_multiplatform/presentation/excursion/excursion_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_with_map_page.dart';
 import 'package:krokapp_multiplatform/resources.dart';
 import 'package:krokapp_multiplatform/ui/rotate_container.dart';
@@ -19,6 +22,7 @@ class KrokAppRoutes {
   static const FAVORITES = "/favorites";
   static const VISITED = "/visited";
   static const EXCURSION = "/excursion";
+  static const EXCURSION_SETTINGS = "/excursion_settings";
 }
 
 class KrokApp extends StatelessWidget {
@@ -59,8 +63,20 @@ class KrokApp extends StatelessWidget {
                   Provider.of(context),
                   drawer: NavigationMenuDrawer(),
                 ),
-            KrokAppRoutes.EXCURSION: (BuildContext context) =>
+            KrokAppRoutes.EXCURSION_SETTINGS: (BuildContext context) =>
                 ExcursionSettingsPage(),
+            KrokAppRoutes.EXCURSION: (BuildContext context) =>
+                Provider<ExcursionViewModel>(
+                  create: (_) => ExcursionViewModel(
+                    ExcursionUseCase(
+                      Provider.of(context),
+                      Provider.of(context),
+                    ),
+                    context,
+                    Provider.of(context),
+                  ),
+                  child: ExcursionPage(),
+                ),
             KrokAppRoutes.ABOUT_US: (BuildContext context) => AboutUsPage(),
             KrokAppRoutes.FAVORITES: (BuildContext context) =>
                 createPlacesWithMapPageInProvider(

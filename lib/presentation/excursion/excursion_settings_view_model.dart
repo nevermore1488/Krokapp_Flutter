@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/excursion_settings_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/tag.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ExcursionSettingsViewModel {
-  ExcursionUseCase _excursionUseCase;
+  ExcursionSettingsUseCase _excursionUseCase;
 
   final _timeController = BehaviorSubject<TimeOfDay>();
   late Stream<TimeOfDay> time;

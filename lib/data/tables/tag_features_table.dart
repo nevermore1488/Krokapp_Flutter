@@ -20,7 +20,7 @@ class TagFeaturesTable {
   );
 
   TagFeaturesTable.fromJson(dynamic json) {
-    tagId = json[COLUMN_FEATURED_TAG_ID];
+    tagId = json[COLUMN_FEATURED_TAG_ID] ?? 0;
     isChecked = json[COLUMN_IS_CHECKED] ?? 0;
   }
 

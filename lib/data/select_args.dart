@@ -6,6 +6,7 @@ class SelectArgs {
   int? cityId;
   bool isFavorite;
   bool isVisited;
+  bool isExcursion;
 
   SelectArgs({
     required this.placeType,
@@ -13,5 +14,6 @@ class SelectArgs {
     this.cityId,
     this.isFavorite = false,
     this.isVisited = false,
+    this.isExcursion = false,
   });
 }

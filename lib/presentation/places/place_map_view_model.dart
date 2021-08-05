@@ -20,7 +20,8 @@ class PlaceMapViewModel extends MapViewModel {
     super.onViewInit();
 
     final markersSubscription = _createMarkers().listen((event) {
-      this.markers = event;
+      this.markers.clear();
+      this.markers.addAll(event);
       updateView();
     });
 

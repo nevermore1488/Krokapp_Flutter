@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/business/location_manager.dart';
-import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/excursion_settings_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/loading_data_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/map_use_case.dart';
@@ -118,14 +118,16 @@ class InitApp extends StatelessWidget {
           ProxyProvider<PointsRepository, MapUseCase>(
             update: (context, value, previous) => MapUseCase(value),
           ),
-          ProxyProvider2<TagsRepository, ExcursionRepository, ExcursionUseCase>(
-            update: (context, tags, ex, previous) => ExcursionUseCase(tags, ex),
+          ProxyProvider2<TagsRepository, ExcursionRepository,
+              ExcursionSettingsUseCase>(
+            update: (context, tags, ex, previous) =>
+                ExcursionSettingsUseCase(tags, ex),
           ),
           ProxyProvider<LoadingDataUseCase, KrokAppViewModel>(
             update: (context, loadingDataUseCase, previous) =>
                 KrokAppViewModel(loadingDataUseCase),
           ),
-          ProxyProvider<ExcursionUseCase, ExcursionSettingsViewModel>(
+          ProxyProvider<ExcursionSettingsUseCase, ExcursionSettingsViewModel>(
             update: (_, value, previous) => ExcursionSettingsViewModel(value),
           ),
         ],

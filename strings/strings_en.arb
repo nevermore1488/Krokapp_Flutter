@@ -25,6 +25,7 @@
   "delete_city_message": "Are you sure you want to delete this place?",
   "was_here": "I was here",
   "was_not_here": "I was not here",
+  "excursion_title": "Excursion",
   "excursion_time": "%s h: %s min",
   "how_much_time": "How much time do you have?",
   "excursion_select_all_tags": "Select all tags",

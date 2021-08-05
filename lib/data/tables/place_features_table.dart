@@ -4,12 +4,12 @@ class PlaceFeaturesTable {
   static const String TABLE_NAME = "place_features";
 
   static const String CREATE_TABLE_CLAUSE = 'CREATE TABLE $TABLE_NAME('
-      '$FEATURED_COLUMN_PLACE_ID INTEGER PRIMARY KEY,'
+      '$COLUMN_FEATURED_PLACE_ID INTEGER PRIMARY KEY,'
       ' $COLUMN_IS_FAVORITE INTEGER,'
       ' $COLUMN_IS_VISITED INTEGER'
       ')';
 
-  static const String FEATURED_COLUMN_PLACE_ID = "featured_place_id";
+  static const String COLUMN_FEATURED_PLACE_ID = "featured_place_id";
   static const String COLUMN_IS_FAVORITE = "is_favorite";
   static const String COLUMN_IS_VISITED = "is_visited";
 
@@ -24,14 +24,14 @@ class PlaceFeaturesTable {
   );
 
   PlaceFeaturesTable.fromJson(dynamic json) {
-    featuredPlaceId = json[FEATURED_COLUMN_PLACE_ID] ?? 0;
+    featuredPlaceId = json[COLUMN_FEATURED_PLACE_ID] ?? 0;
     isFavorite = json[COLUMN_IS_FAVORITE] ?? 0;
     isVisited = json[COLUMN_IS_VISITED] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map[FEATURED_COLUMN_PLACE_ID] = featuredPlaceId;
+    map[COLUMN_FEATURED_PLACE_ID] = featuredPlaceId;
     map[COLUMN_IS_FAVORITE] = isFavorite;
     map[COLUMN_IS_VISITED] = isVisited;
     return map;
@@ -40,7 +40,8 @@ class PlaceFeaturesTable {
 
 class PlaceFeaturesJsonConverter extends JsonConverter<PlaceFeaturesTable> {
   @override
-  PlaceFeaturesTable fromJson(Map<String, Object?> json) => PlaceFeaturesTable.fromJson(json);
+  PlaceFeaturesTable fromJson(Map<String, Object?> json) =>
+      PlaceFeaturesTable.fromJson(json);
 
   @override
   Map<String, Object?> toJson(PlaceFeaturesTable pojo) => pojo.toJson();

@@ -25,6 +25,7 @@
   "delete_city_message": "Вы ўпэўненыя, што жадаеце выдаліць гэтуае месца?",
   "was_here": "Я тут быў",
   "was_not_here": "Я тут не быў",
+  "excursion_title": "Экскурсія",
   "excursion_time": "%s г: %s мін",
   "how_much_time": "Колькі вы маеце вольнага часу?",
   "apply": "Прымяніць",

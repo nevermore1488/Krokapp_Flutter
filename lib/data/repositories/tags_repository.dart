@@ -29,7 +29,10 @@ class TagsRepository {
     var tags = await _tagsDao.getAll().first;
     if (tags.isEmpty) {
       tags = await _tagsApi.getTags().first;
-      final checkedTags = tags.map((e) => TagFeaturesTable(e.id, 1)).toList();
+      final checkedTags = List.generate(
+        4,
+        (index) => TagFeaturesTable(index + 1, 1),
+      );
 
       _tagsDao.add(tags);
       _tagFeaturesDao.add(checkedTags, onConflict: ConflictAlgorithm.ignore);

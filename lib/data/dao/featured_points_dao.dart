@@ -6,6 +6,8 @@ import 'package:krokapp_multiplatform/data/tables/cities_table.dart';
 import 'package:krokapp_multiplatform/data/tables/featured_point_table.dart';
 import 'package:krokapp_multiplatform/data/tables/place_features_table.dart';
 import 'package:krokapp_multiplatform/data/tables/points_table.dart';
+import 'package:krokapp_multiplatform/data/tables/tag_features_table.dart';
+import 'package:krokapp_multiplatform/data/tables/tags_of_places_table.dart';
 
 abstract class FeaturedPointsDao extends CommonDao<FeaturedPointTable> {
   Stream<List<FeaturedPointTable>> getPointsBySelectArgs(SelectArgs selectArgs);
@@ -27,7 +29,7 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable>
   @override
   String beforeWhereStatement() => "LEFT JOIN ${PlaceFeaturesTable.TABLE_NAME}"
       " ON ${PointsTable.TABLE_NAME}.${PointsTable.COLUMN_PLACE_ID}"
-      " = ${PlaceFeaturesTable.TABLE_NAME}.${PlaceFeaturesTable.FEATURED_COLUMN_PLACE_ID}";
+      " = ${PlaceFeaturesTable.TABLE_NAME}.${PlaceFeaturesTable.COLUMN_FEATURED_PLACE_ID}";
 
   @override
   Stream<List<FeaturedPointTable>> getPointsBySelectArgs(
@@ -41,6 +43,8 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable>
       selectionWhere = "${PlaceFeaturesTable.COLUMN_IS_FAVORITE} = 1";
     } else if (selectArgs.isVisited) {
       selectionWhere = "${PlaceFeaturesTable.COLUMN_IS_VISITED} = 1";
+    } else if (selectArgs.isExcursion) {
+      selectionWhere = _getExcursionSelectionWhere();
     } else
       return getAll();
 
@@ -51,4 +55,12 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable>
       getEngagedTables() + queryTables,
     );
   }
+
+  String _getExcursionSelectionWhere() => "${PointsTable.COLUMN_PLACE_ID} IN ("
+      "SELECT ${TagsOfPlacesTable.COLUMN_PLACE_ID} FROM "
+      "${TagsOfPlacesTable.TABLE_NAME} WHERE ${TagsOfPlacesTable.COLUMN_TAG_ID} IN ("
+      "SELECT ${TagFeaturesTable.COLUMN_FEATURED_TAG_ID} FROM "
+      "${TagFeaturesTable.TABLE_NAME} WHERE ${TagFeaturesTable.COLUMN_IS_CHECKED} = 1"
+      ")"
+      ")";
 }

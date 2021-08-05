@@ -90,7 +90,7 @@ class NavigationMenuDrawer extends StatelessWidget {
       );
 
   Widget _createExcursionItem(BuildContext context) => _createMenuItem(
-        AppLocalizations.of(context)!.nav_menu_item_excursion_settings,
+        AppLocalizations.of(context)!.excursion_title,
         Icons.pin_drop_outlined,
         () {
           Navigator.pushNamed(context, KrokAppRoutes.EXCURSION);
