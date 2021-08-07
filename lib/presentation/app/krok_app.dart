@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
+import 'package:krokapp_multiplatform/map/excursion_path_creator.dart';
 import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/app/navigation_menu_drawer.dart';
@@ -68,10 +69,8 @@ class KrokApp extends StatelessWidget {
             KrokAppRoutes.EXCURSION: (BuildContext context) =>
                 Provider<ExcursionViewModel>(
                   create: (_) => ExcursionViewModel(
-                    ExcursionUseCase(
-                      Provider.of(context),
-                      Provider.of(context),
-                    ),
+                    ExcursionUseCase(Provider.of(context), Provider.of(context),
+                        ExcursionPathCreator()),
                     context,
                     Provider.of(context),
                   ),

@@ -9,4 +9,6 @@ class Resources {
 
   static final COLOR_ICON = Color.fromARGB(255, 125, 125, 125);
   static final COLOR_ICON_PRIMARY = COLOR_TEXT;
+
+  static final GOOGLE_MAP_API_KEY = "AIzaSyAaxz0y3SvUkDYxkdxKxeEbmJ2XXVaLU8Q";
 }

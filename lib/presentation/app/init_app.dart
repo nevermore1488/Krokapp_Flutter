@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:krokapp_multiplatform/business/location_manager.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_settings_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/loading_data_use_case.dart';
@@ -23,9 +22,11 @@ import 'package:krokapp_multiplatform/data/repositories/excursion_repository.dar
 import 'package:krokapp_multiplatform/data/repositories/languages_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/points_repository.dart';
 import 'package:krokapp_multiplatform/data/repositories/tags_repository.dart';
+import 'package:krokapp_multiplatform/map/location_manager.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_view_model.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,8 +89,8 @@ class InitApp extends StatelessWidget {
           ),
           Provider<ExcursionRepository>(
             create: (context) => ExcursionRepository(
-              appAsyncDependencies.sharedPreferences,
-            ),
+                appAsyncDependencies.sharedPreferences,
+                Resources.GOOGLE_MAP_API_KEY),
           ),
           Provider<PointsRepository>(
             create: (context) => PointsRepository(

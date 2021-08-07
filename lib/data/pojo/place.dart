@@ -26,6 +26,8 @@ class Place {
     this.isVisited = false,
   });
 
+  LatLng getLatLng() => LatLng(lat, lng);
+
   MarkerInfo toMarker() => MarkerInfo(id.toString(), title, LatLng(lat, lng));
 }
 
