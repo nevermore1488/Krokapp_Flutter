@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
 import 'package:krokapp_multiplatform/map/location_manager.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
@@ -28,11 +29,11 @@ class ExcursionViewModel extends MapViewModel {
 
   _setupExcursion() async {
     var currentLocationData = await currentLocation!.getLocation();
-    var currentLatLng = MINSK_RAILROAD_LOCATION;
-    /* LatLng(
+    //var currentLatLng = MINSK_RAILROAD_LOCATION;
+     var currentLatLng =  LatLng(
       currentLocationData.latitude!,
       currentLocationData.longitude!,
-    );*/
+    );
 
     var pointsSub =
         _excursionUseCase.getExcursionPoints(currentLatLng).listen((event) {

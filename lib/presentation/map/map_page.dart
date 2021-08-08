@@ -48,7 +48,7 @@ class _MapPageState extends State<MapPage> {
           polylineId: PolylineId("undefined"),
           points: route,
           color: Colors.orange,
-          width: 5,
+          width: 3,
         ),
       ].toSet();
 

@@ -43,18 +43,7 @@ class KrokApp extends StatelessWidget {
         child: MaterialApp(
           theme: ThemeData(
             primaryColor: Resources.COLOR_PRIMARY,
-            textTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: Resources.COLOR_TEXT,
-                ),
-            primaryTextTheme: Theme.of(context).primaryTextTheme.apply(
-                  bodyColor: Resources.COLOR_TEXT_PRIMARY,
-                ),
-            iconTheme: Theme.of(context).iconTheme.copyWith(
-                  color: Resources.COLOR_ICON,
-                ),
-            primaryIconTheme: Theme.of(context).iconTheme.copyWith(
-                  color: Resources.COLOR_ICON_PRIMARY,
-                ),
+            primaryColorBrightness: Brightness.dark,
           ),
           initialRoute: KrokAppRoutes.HOME,
           routes: {
@@ -102,7 +91,7 @@ class KrokApp extends StatelessWidget {
 
   static Widget createSplashScreen() => MaterialApp(
         home: Container(
-          color: Resources.COLOR_PRIMARY,
+          color: Colors.white,
           alignment: Alignment.center,
           child: RotateContainer(
             child: SizedBox(
