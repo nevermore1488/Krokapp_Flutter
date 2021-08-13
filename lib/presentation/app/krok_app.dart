@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
@@ -42,9 +43,11 @@ class KrokApp extends StatelessWidget {
       Container(
         child: MaterialApp(
           theme: ThemeData(
-            primaryColor: Resources.COLOR_PRIMARY,
-            primaryColorBrightness: Brightness.dark,
-          ),
+              primaryColor: Resources.COLOR_PRIMARY,
+              primaryColorBrightness: Brightness.dark,
+              appBarTheme: AppBarTheme(
+                brightness: Brightness.dark,
+              )),
           initialRoute: KrokAppRoutes.HOME,
           routes: {
             KrokAppRoutes.HOME: (BuildContext context) =>

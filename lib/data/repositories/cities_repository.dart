@@ -21,7 +21,9 @@ class CitiesRepository {
   Future<void> loadCities() async {
     var cities = await _citiesDao.getAll().first;
     if (cities.isEmpty) {
-      cities = await _citiesApi.getCities(111111).first;
+      cities = (await _citiesApi.getCities(111111))
+          .where((element) => element.name.replaceAll(' ', '').isNotEmpty)
+          .toList();
       _citiesDao.add(cities);
     }
   }

@@ -28,7 +28,7 @@ class TagsRepository {
   Future<void> loadTags() async {
     var tags = await _tagsDao.getAll().first;
     if (tags.isEmpty) {
-      tags = await _tagsApi.getTags().first;
+      tags = await _tagsApi.getTags();
       final checkedTags = List.generate(
         4,
         (index) => TagFeaturesTable(index + 1, 1),

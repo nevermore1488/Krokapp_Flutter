@@ -31,6 +31,8 @@ import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+AppAsyncDependencies? _appAsyncDependencies;
+
 class AppAsyncDependencies {
   ObservableDatabaseExecutor dbExecutor;
   SharedPreferences sharedPreferences;
@@ -49,15 +51,19 @@ class InitApp extends StatelessWidget {
           snapshot: snapshot,
           onHasData: (value) =>
               _createAppDependencies(snapshot.data!, context, KrokApp()),
-          onLoading: KrokApp.createSplashScreen,
+          onLoading: () => KrokApp.createSplashScreen(),
         ),
       );
 
-  Future<AppAsyncDependencies> obtainAsyncDependencies() async =>
-      AppAsyncDependencies(
+  Future<AppAsyncDependencies> obtainAsyncDependencies() async {
+    if (_appAsyncDependencies == null) {
+      _appAsyncDependencies = AppAsyncDependencies(
         dbExecutor: await DatabaseProvider().obtainDbExecutor(),
         sharedPreferences: await SharedPreferences.getInstance(),
       );
+    }
+    return _appAsyncDependencies!;
+  }
 
   Widget _createAppDependencies(
     AppAsyncDependencies appAsyncDependencies,

@@ -17,15 +17,18 @@ class LanguagesRepository {
     this._currentLanguageIdDao,
   );
 
-  Stream<Language?> getCurrentLanguage() =>
-      _languagesDao.getAll().mapFirstOrNull().map((event) => event?.toLanguage());
+  Stream<Language?> getCurrentLanguage() => _languagesDao
+      .getAll()
+      .mapFirstOrNull()
+      .map((event) => event?.toLanguage());
 
-  Stream<List<Language>> getLanguages() => _languagesDao.getVeryAll().asLanguages();
+  Stream<List<Language>> getLanguages() =>
+      _languagesDao.getVeryAll().asLanguages();
 
   Future<List<Language>> loadLanguages() async {
     List<LanguagesTable> languages = await _languagesDao.getVeryAll().first;
     if (languages.isEmpty) {
-      languages = await _api.getLanguages().first;
+      languages = await _api.getLanguages();
       _languagesDao.add(languages);
     }
     return languages.map((e) => e.toLanguage()).toList();
@@ -35,5 +38,4 @@ class LanguagesRepository {
     await _currentLanguageIdDao.deleteAll();
     await _currentLanguageIdDao.add([CurrentLanguageIdTable(language.id)]);
   }
-
 }

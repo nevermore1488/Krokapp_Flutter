@@ -43,8 +43,8 @@ class PointsRepository {
   Future<void> loadPoints() async {
     var points = await _pointsDao.getAll().first;
     if (points.isEmpty) {
-      points = (await _pointsApi.getPoints(111111).first)
-          .where((element) => element.name.isNotEmpty)
+      points = (await _pointsApi.getPoints(111111))
+          .where((element) => element.name.replaceAll(' ', '').isNotEmpty)
           .toList();
       final tagsOfPointsGrouped = points
           .where((element) => element.lang == 1)
