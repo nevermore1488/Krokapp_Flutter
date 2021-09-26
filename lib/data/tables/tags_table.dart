@@ -45,7 +45,7 @@ class TagsTable {
   }
 
   Tag toTag(bool isChecked) =>
-      Tag(id: id, name: tagLabel, isChecked: isChecked);
+      Tag(id: tagId, name: tagLabel, isChecked: isChecked);
 }
 
 class TagsJsonConverter extends JsonConverter<TagsTable> {

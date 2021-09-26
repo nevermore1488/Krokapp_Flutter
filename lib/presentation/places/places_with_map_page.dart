@@ -102,10 +102,7 @@ class PlacesWithMapPage extends StatelessWidget {
                               data.images.map((e) => Image.network(e)).toList(),
                         ),
                       ),
-                      ChangeNotifierProvider(
-                        create: (context) => vm.getPlayerModel(data),
-                        child: PlayerView(),
-                      ),
+                      _createPlayerView(vm, data),
                       Container(
                         padding:
                             EdgeInsets.only(bottom: 16, left: 16, right: 16),
@@ -115,6 +112,14 @@ class PlacesWithMapPage extends StatelessWidget {
                   )),
         ),
       );
+
+  Widget _createPlayerView(PlacesViewModel vm, PlaceDetail data) =>
+      data.sound.isNotEmpty
+          ? ChangeNotifierProvider(
+              create: (context) => vm.getPlayerModel(data),
+              child: PlayerView(),
+            )
+          : SizedBox.shrink();
 
   Widget _createMapPage(BuildContext context, PlacesViewModel vm) =>
       StreamBuilder<bool>(
