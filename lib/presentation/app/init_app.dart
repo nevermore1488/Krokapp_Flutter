@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_settings_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
@@ -49,8 +51,10 @@ class InitApp extends StatelessWidget {
         future: obtainAsyncDependencies(),
         builder: (_, snapshot) => SnapshotView<AppAsyncDependencies>(
           snapshot: snapshot,
-          onHasData: (value) =>
-              _createAppDependencies(snapshot.data!, context, KrokApp()),
+          onHasData: (value) {
+            debugPrint("KEKW");
+            return _createAppDependencies(snapshot.data!, context, KrokApp());
+          },
           onLoading: () => KrokApp.createSplashScreen(),
         ),
       );
