@@ -31,7 +31,7 @@ class KrokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StreamBuilder<Locale>(
         stream: Provider.of<KrokAppViewModel>(context)
-            .init((WidgetsBinding.instance!.window.locales)),
+            .getLocale((WidgetsBinding.instance!.window.locales)),
         builder: (context, snapshot) => SnapshotView<Locale>(
           snapshot: snapshot,
           onHasData: (value) => _createMainScreen(context, value),

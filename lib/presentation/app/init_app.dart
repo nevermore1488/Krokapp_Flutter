@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:krokapp_multiplatform/business/usecases/excursion_settings_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/language_use_case.dart';
@@ -121,10 +119,10 @@ class InitApp extends StatelessWidget {
             update: (context, cities, points, previous) =>
                 PlaceUseCase(cities, points),
           ),
-          ProxyProvider4<LanguagesRepository, CitiesRepository,
-              PointsRepository, TagsRepository, LoadingDataUseCase>(
-            update: (context, languages, cities, points, tags, previous) =>
-                LoadingDataUseCase(languages, cities, points, tags),
+          ProxyProvider3<CitiesRepository, PointsRepository, TagsRepository,
+              LoadingDataUseCase>(
+            update: (context, cities, points, tags, previous) =>
+                LoadingDataUseCase(cities, points, tags),
           ),
           ProxyProvider<PointsRepository, MapUseCase>(
             update: (context, value, previous) => MapUseCase(value),
@@ -134,9 +132,9 @@ class InitApp extends StatelessWidget {
             update: (context, tags, ex, previous) =>
                 ExcursionSettingsUseCase(tags, ex),
           ),
-          ProxyProvider<LoadingDataUseCase, KrokAppViewModel>(
-            update: (context, loadingDataUseCase, previous) =>
-                KrokAppViewModel(loadingDataUseCase),
+          ProxyProvider2<LoadingDataUseCase, LanguageUseCase, KrokAppViewModel>(
+            update: (context, loadingDataUseCase, languageUseCase, previous) =>
+                KrokAppViewModel(loadingDataUseCase, languageUseCase),
           ),
           ProxyProvider<ExcursionSettingsUseCase, ExcursionSettingsViewModel>(
             update: (_, value, previous) => ExcursionSettingsViewModel(value),
