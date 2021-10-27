@@ -46,6 +46,7 @@ class KrokApp extends StatelessWidget {
               primaryColor: Resources.COLOR_PRIMARY,
               primaryColorBrightness: Brightness.dark,
               appBarTheme: AppBarTheme(
+                color: Resources.COLOR_PRIMARY,
                 brightness: Brightness.dark,
               )),
           initialRoute: KrokAppRoutes.HOME,

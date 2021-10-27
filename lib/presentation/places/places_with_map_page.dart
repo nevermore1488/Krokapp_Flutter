@@ -102,7 +102,10 @@ class PlacesWithMapPage extends StatelessWidget {
                               data.images.map((e) => Image.network(e)).toList(),
                         ),
                       ),
-                      _createPlayerView(vm, data),
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        child: _createPlayerView(vm, data),
+                      ),
                       Container(
                         padding:
                             EdgeInsets.only(bottom: 16, left: 16, right: 16),

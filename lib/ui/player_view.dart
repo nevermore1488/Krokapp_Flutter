@@ -15,18 +15,15 @@ class _PlayerViewState extends State<PlayerView> {
   Widget build(BuildContext context) =>
       Consumer<PlayerModel>(builder: (context, value, child) {
         model = value;
-        return Container(
-          padding: EdgeInsets.all(8),
-          child: ElevatedButton(
-            onPressed: value.onPlayButtonClick,
-            style: ElevatedButton.styleFrom(
-                shape: CircleBorder(), primary: Colors.orange),
-            child: SizedBox(
-              width: 56,
-              height: 56,
-              child: Icon(
-                value.isPlaying ? Icons.pause : Icons.play_arrow_outlined,
-              ),
+        return ElevatedButton(
+          onPressed: value.onPlayButtonClick,
+          style: ElevatedButton.styleFrom(
+              shape: CircleBorder(), primary: Colors.orange),
+          child: SizedBox(
+            width: 56,
+            height: 56,
+            child: Icon(
+              value.isPlaying ? Icons.pause : Icons.play_arrow_outlined,
             ),
           ),
         );
