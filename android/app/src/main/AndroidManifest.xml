@@ -10,7 +10,7 @@
 
     <application
         android:icon="@mipmap/launcher_icon"
-        android:label="krokapp_multiplatform"
+        android:label="KrokApp"
         android:usesCleartextTraffic="true"
         >
         <activity
