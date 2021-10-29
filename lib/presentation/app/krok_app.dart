@@ -101,7 +101,7 @@ class KrokApp extends StatelessWidget {
             child: SizedBox(
               width: 160,
               height: 160,
-              child: Image(image: AssetImage('drawables/ic_krokapp.png')),
+              child: Image(image: AssetImage('assets/icons/ic_krokapp.png')),
             ),
           ),
         ),

@@ -36,7 +36,7 @@ class NavigationMenuDrawer extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 16),
-                child: Image.asset('drawables/ic_krokapp.png'),
+                child: Image.asset('assets/icons/3.0x/ic_krokapp.png'),
               ),
             ),
             Text(
