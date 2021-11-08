@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/strings.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app.dart';
 import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog.dart';
 import 'package:krokapp_multiplatform/presentation/language/choose_language_dialog_view_model.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 import 'package:provider/provider.dart';
 
 class NavigationMenuDrawer extends StatelessWidget {
@@ -36,11 +37,17 @@ class NavigationMenuDrawer extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 16),
-                child: Image.asset('assets/icons/3.0x/ic_krokapp.png'),
+                child: FittedBox(
+                  child:
+                      Image.asset(Provider.of<Resources>(context).appLogoPath),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             Text(
-              AppLocalizations.of(context)!.nav_menu_title,
+              Provider.of<BuildType>(context) == BuildType.krokapp
+                  ? AppLocalizations.of(context)!.nav_menu_title
+                  : AppLocalizations.of(context)!.nav_menu_title_bnr,
               style: Theme.of(context).textTheme.headline6,
             ),
           ],
@@ -89,13 +96,16 @@ class NavigationMenuDrawer extends StatelessWidget {
         },
       );
 
-  Widget _createExcursionItem(BuildContext context) => _createMenuItem(
-        AppLocalizations.of(context)!.excursion_title,
-        Icons.pin_drop_outlined,
-        () {
-          Navigator.pushNamed(context, KrokAppRoutes.EXCURSION);
-        },
-      );
+  Widget _createExcursionItem(BuildContext context) =>
+      Provider.of<BuildType>(context) == BuildType.krokapp
+          ? _createMenuItem(
+              AppLocalizations.of(context)!.excursion_title,
+              Icons.pin_drop_outlined,
+              () {
+                Navigator.pushNamed(context, KrokAppRoutes.EXCURSION);
+              },
+            )
+          : SizedBox.shrink();
 
   Widget _createMenuGroupTitle(BuildContext context, String title) => Padding(
         padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),

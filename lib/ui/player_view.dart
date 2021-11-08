@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 import 'package:krokapp_multiplatform/ui/player_model.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _PlayerViewState extends State<PlayerView> {
         return ElevatedButton(
           onPressed: value.onPlayButtonClick,
           style: ElevatedButton.styleFrom(
-              shape: CircleBorder(), primary: Colors.orange),
+              shape: CircleBorder(), primary: Provider.of<Resources>(context).colorPrimary),
           child: SizedBox(
             width: 56,
             height: 56,

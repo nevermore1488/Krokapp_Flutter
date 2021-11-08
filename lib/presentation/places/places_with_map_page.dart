@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:krokapp_multiplatform/business/usecases/build_route_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/pojo/place_detail.dart';
@@ -10,8 +11,10 @@ import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/place_item.dart';
 import 'package:krokapp_multiplatform/presentation/places/place_map_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_view_model.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 import 'package:krokapp_multiplatform/ui/player_view.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
+import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:provider/provider.dart';
 
 Widget createPlacesWithMapPageInProvider(
@@ -92,27 +95,55 @@ class PlacesWithMapPage extends StatelessWidget {
           stream: vm.getPlaceDetail(),
           builder: (context, snapshot) => SnapshotView<PlaceDetail>(
               snapshot: snapshot,
-              onHasData: (data) => ListView(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 1.5,
-                        child: PageView(
-                          controller: PageController(),
-                          children:
-                              data.images.map((e) => Image.network(e)).toList(),
-                        ),
+              onHasData: (data) {
+                final _currentPageNotifier = ValueNotifier<int>(0);
+
+                return ListView(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: Stack(
+                        children: [
+                          PageView(
+                            controller: PageController(),
+                            children: data.images
+                                .map((e) => Image.network(e))
+                                .toList(),
+                            onPageChanged: (int index) {
+                              _currentPageNotifier.value = index;
+                            },
+                          ),
+                          Positioned(
+                            left: 0.0,
+                            right: 0.0,
+                            bottom: 0.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CirclePageIndicator(
+                                itemCount: data.images.length,
+                                currentPageNotifier: _currentPageNotifier,
+                                dotColor: Colors.white,
+                                selectedDotColor:
+                                    Provider.of<Resources>(context)
+                                        .colorPrimary,
+                                selectedSize: 10.0,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        child: _createPlayerView(vm, data),
-                      ),
-                      Container(
-                        padding:
-                            EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                        child: HtmlWidget(data.text),
-                      ),
-                    ],
-                  )),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      child: _createPlayerView(vm, data),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                      child: HtmlWidget(data.text),
+                    ),
+                  ],
+                );
+              }),
         ),
       );
 
@@ -137,6 +168,8 @@ class PlacesWithMapPage extends StatelessWidget {
                 vm.selectArgs,
                 Provider.of(context),
                 Provider.of(context),
+                Provider.of(context),
+                BuildRouteUseCase(Provider.of(context)),
               ),
               child: MapPage(),
             );

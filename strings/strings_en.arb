@@ -1,6 +1,7 @@
 {
   "app_name": "KrokApp",
   "nav_menu_title": "KrokApp, your guide",
+   "nav_menu_title_bnr": "BNR",
   "nav_menu_item_bookmarks": "Bookmarks",
   "nav_menu_item_downloaded": "Downloads",
   "nav_menu_item_visited": "Visited",

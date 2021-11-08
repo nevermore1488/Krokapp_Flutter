@@ -7,25 +7,18 @@ import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/map/excursion_path_creator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ExcursionUseCase {
+class GetExcursionPointsUseCase {
   PointsRepository _pointsRepository;
   ExcursionRepository _excursionRepository;
   ExcursionPathCreator _excursionPathCreator;
 
-  ExcursionUseCase(
+  GetExcursionPointsUseCase(
     this._pointsRepository,
     this._excursionRepository,
     this._excursionPathCreator,
   );
 
-  Stream<List<LatLng>> getExcursionRoute(LatLng currentLocation) =>
-      getExcursionPoints(currentLocation).switchMap((points) =>
-          _excursionRepository
-              .getRouteBetweenPoints(
-                  [currentLocation] + points.map((e) => e.latLng).toList())
-              .asStream());
-
-  Stream<List<MarkerInfo>> getExcursionPoints(LatLng currentLocation) =>
+  Stream<List<MarkerInfo>> invoke(LatLng currentLocation) =>
       _pointsRepository
           .getPointsBySelectArgs(
             SelectArgs(placeType: PlaceType.point, isExcursion: true),

@@ -51,7 +51,7 @@ class FeaturedPointsDaoImpl extends LocalizedDao<FeaturedPointTable>
     List<String> queryTables =
         selectArgs.cityId != null ? [CitiesTable.TABLE_NAME] : [];
     return query(
-      "${getSelectQuery()} and $selectionWhere",
+      "${getSelectQuery()} and $selectionWhere order by place_id",
       getEngagedTables() + queryTables,
     );
   }

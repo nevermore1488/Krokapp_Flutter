@@ -7,17 +7,20 @@ import 'package:krokapp_multiplatform/data/tables/cities_table.dart';
 import 'package:krokapp_multiplatform/data/tables/languages_table.dart';
 import 'package:krokapp_multiplatform/data/tables/points_table.dart';
 import 'package:krokapp_multiplatform/data/tables/tags_table.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 
 const _KROK_API = "http://krokapp.by/api/";
+const _BNR_API = "http://bnr.krokam.by/api/";
 
 class CommonApi<T> {
   JsonConverter _jsonConverter;
-  String host;
+  BuildType buildType;
 
-  CommonApi(this._jsonConverter, {this.host = _KROK_API});
+  CommonApi(this._jsonConverter, {this.buildType = BuildType.krokapp});
 
   Future<List<T>> get(String path) async {
-    final response = await http.get(Uri.parse(_KROK_API + path));
+    String host = buildType == BuildType.krokapp ? _KROK_API : _BNR_API;
+    final response = await http.get(Uri.parse(host + path));
     if (response.statusCode == 200) {
       return _jsonConverter.fromJsonList(jsonDecode(response.body)).cast();
     } else {
@@ -31,11 +34,16 @@ abstract class CitiesApi {
 }
 
 class CitiesApiImpl extends CommonApi<CitiesTable> implements CitiesApi {
-  CitiesApiImpl() : super(CitiesJsonConverter(isApi: true));
+  BuildType _buildType;
+
+  CitiesApiImpl(this._buildType)
+      : super(CitiesJsonConverter(isApi: true), buildType: _buildType);
 
   @override
   Future<List<CitiesTable>> getCities(int weirdParam) {
-    return get('get_cities/$weirdParam');
+    String path =
+        _buildType == BuildType.krokapp ? 'get_cities/' : 'get_sections/';
+    return get('$path$weirdParam');
   }
 }
 
@@ -44,11 +52,16 @@ abstract class PointsApi {
 }
 
 class PointsApiImpl extends CommonApi<PointsTable> implements PointsApi {
-  PointsApiImpl() : super(PointsJsonConverter(isApi: true));
+  BuildType _buildType;
+
+  PointsApiImpl(this._buildType)
+      : super(PointsJsonConverter(isApi: true), buildType: _buildType);
 
   @override
   Future<List<PointsTable>> getPoints(int weirdParam) {
-    return get('get_points/$weirdParam');
+    String path =
+        _buildType == BuildType.krokapp ? 'get_points/' : 'get_exhibits/';
+    return get('$path$weirdParam');
   }
 }
 
@@ -58,7 +71,8 @@ abstract class LanguagesApi {
 
 class LanguagesApiImpl extends CommonApi<LanguagesTable>
     implements LanguagesApi {
-  LanguagesApiImpl() : super(LanguagesJsonConverter());
+  LanguagesApiImpl(BuildType buildType)
+      : super(LanguagesJsonConverter(), buildType: buildType  );
 
   @override
   Future<List<LanguagesTable>> getLanguages() => get('get_languages');
@@ -69,8 +83,13 @@ abstract class TagsApi {
 }
 
 class TagsApiImpl extends CommonApi<TagsTable> implements TagsApi {
-  TagsApiImpl() : super(TagsJsonConverter());
+  BuildType _buildType;
+
+  TagsApiImpl(this._buildType)
+      : super(TagsJsonConverter(), buildType: _buildType);
 
   @override
-  Future<List<TagsTable>> getTags() => get('get_tags');
+  Future<List<TagsTable>> getTags() => _buildType == BuildType.krokapp
+      ? get('get_tags')
+      : Future.value(List.empty());
 }

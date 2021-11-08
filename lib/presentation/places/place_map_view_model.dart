@@ -1,31 +1,40 @@
+import 'package:krokapp_multiplatform/business/usecases/build_route_use_case.dart';
 import 'package:krokapp_multiplatform/business/usecases/place_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/map/location_manager.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 
 class PlaceMapViewModel extends MapViewModel {
   SelectArgs _selectArgs;
   PlaceUseCase _placeUseCase;
+  BuildType _buildType;
 
   PlaceMapViewModel(
     this._selectArgs,
     this._placeUseCase,
+    this._buildType,
     LocationManager locationManager,
-  ) : super(locationManager);
+    BuildRouteUseCase buildRouteUseCase,
+  ) : super(locationManager, buildRouteUseCase);
 
   @override
   void onViewInit() {
     super.onViewInit();
 
-    final markersSubscription = _createMarkers().listen((event) {
-      this.markers.clear();
-      this.markers.addAll(event);
-      updateView();
-    });
+    setupMarkers(_createMarkers());
+  }
 
-    subscriptions.add(markersSubscription);
+  @override
+  void onLocationObtained() {
+    if (currentLocation != null &&
+        _selectArgs.placeType == PlaceType.point &&
+        _buildType == BuildType.bnr) {
+
+      setupExcursion((currentLocation) => _createMarkers());
+    }
   }
 
   Stream<List<MarkerInfo>> _createMarkers() {

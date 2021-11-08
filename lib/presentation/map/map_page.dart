@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
+import 'package:krokapp_multiplatform/resources.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class MapPage extends StatefulWidget {
@@ -24,6 +26,7 @@ class _MapPageState extends State<MapPage> {
         snapshot: snapshot,
         onHasData: (_) => GoogleMap(
           initialCameraPosition: _createDefaultCameraPosition(vm.startLocation),
+          onMapCreated: (controller) => _onMapCreated(controller, vm),
           myLocationButtonEnabled: true,
           myLocationEnabled: vm.isShowCurrentLocation(),
           markers: _createMarkers(vm.markers),
@@ -31,6 +34,15 @@ class _MapPageState extends State<MapPage> {
         ),
       ),
     );
+  }
+
+  void _onMapCreated(GoogleMapController controller, MapViewModel vm) async {
+    LocationData? currentLocation = await vm.currentLocation?.getLocation();
+    if (vm.isNeedMoveToCurrentLocation && currentLocation != null) {
+      controller.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(currentLocation.latitude!, currentLocation.longitude!), _DEFAULT_ZOOM));
+      vm.onMovedToCurrentLocation();
+    }
   }
 
   Set<Marker> _createMarkers(List<MarkerInfo> markers) => markers
@@ -47,7 +59,7 @@ class _MapPageState extends State<MapPage> {
         Polyline(
           polylineId: PolylineId("undefined"),
           points: route,
-          color: Colors.orange,
+          color: Provider.of<Resources>(context).colorPrimary,
           width: 3,
         ),
       ].toSet();
@@ -60,7 +72,7 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void dispose() {
-    Provider.of<MapViewModel>(context).onViewDispose();
+    Provider.of<MapViewModel>(context, listen: false).onViewDispose();
     super.dispose();
   }
 }

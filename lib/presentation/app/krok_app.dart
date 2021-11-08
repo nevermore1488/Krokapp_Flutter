@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/strings.dart';
-import 'package:krokapp_multiplatform/business/usecases/excursion_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/build_route_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/excursion_settings_use_case.dart';
+import 'package:krokapp_multiplatform/business/usecases/get_excursion_points_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/map/excursion_path_creator.dart';
@@ -10,11 +12,11 @@ import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/app/navigation_menu_drawer.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_page.dart';
-import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_page.dart';
+import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_with_map_page.dart';
 import 'package:krokapp_multiplatform/resources.dart';
-import 'package:krokapp_multiplatform/ui/rotate_container.dart';
+import 'package:krokapp_multiplatform/ui/custom_animated_container.dart';
 import 'package:krokapp_multiplatform/ui/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +37,12 @@ class KrokApp extends StatelessWidget {
         builder: (context, snapshot) => SnapshotView<Locale>(
           snapshot: snapshot,
           onHasData: (value) => _createMainScreen(context, value),
-          onLoading: createSplashScreen,
+          onLoading: () {
+            return createSplashScreen(
+              Provider.of(context),
+              Provider.of<Resources>(context).appLogoPath,
+            );
+          },
         ),
       );
 
@@ -43,10 +50,10 @@ class KrokApp extends StatelessWidget {
       Container(
         child: MaterialApp(
           theme: ThemeData(
-              primaryColor: Resources.COLOR_PRIMARY,
+              primaryColor: Provider.of<Resources>(context).colorPrimary,
               primaryColorBrightness: Brightness.dark,
               appBarTheme: AppBarTheme(
-                color: Resources.COLOR_PRIMARY,
+                color: Provider.of<Resources>(context).colorPrimary,
                 brightness: Brightness.dark,
               )),
           initialRoute: KrokAppRoutes.HOME,
@@ -58,14 +65,26 @@ class KrokApp extends StatelessWidget {
                   drawer: NavigationMenuDrawer(),
                 ),
             KrokAppRoutes.EXCURSION_SETTINGS: (BuildContext context) =>
-                ExcursionSettingsPage(),
+                Provider<ExcursionSettingsViewModel>(
+                  create: (_) => ExcursionSettingsViewModel(
+                    ExcursionSettingsUseCase(
+                      Provider.of(context),
+                      Provider.of(context),
+                    ),
+                  ),
+                  child: ExcursionPage(),
+                ),
             KrokAppRoutes.EXCURSION: (BuildContext context) =>
                 Provider<ExcursionViewModel>(
                   create: (_) => ExcursionViewModel(
-                    ExcursionUseCase(Provider.of(context), Provider.of(context),
-                        ExcursionPathCreator()),
+                    GetExcursionPointsUseCase(
+                      Provider.of(context),
+                      Provider.of(context),
+                      ExcursionPathCreator(),
+                    ),
                     context,
                     Provider.of(context),
+                    BuildRouteUseCase(Provider.of(context)),
                   ),
                   child: ExcursionPage(),
                 ),
@@ -93,15 +112,22 @@ class KrokApp extends StatelessWidget {
         ),
       );
 
-  static Widget createSplashScreen() => MaterialApp(
+  static Widget createSplashScreen(BuildType buildType, String logoPath) =>
+      MaterialApp(
         home: Container(
           color: Colors.white,
           alignment: Alignment.center,
-          child: RotateContainer(
+          child: CustomAnimatedContainer(
+            buildType == BuildType.krokapp
+                ? AnimationType.rotate
+                : AnimationType.scale,
             child: SizedBox(
               width: 160,
               height: 160,
-              child: Image(image: AssetImage('assets/icons/ic_krokapp.png')),
+              child: FittedBox(
+                child: Image(image: AssetImage(logoPath)),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         ),
