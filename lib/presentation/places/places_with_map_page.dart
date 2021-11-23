@@ -167,7 +167,7 @@ class PlacesWithMapPage extends StatelessWidget {
               create: (_) => PlaceMapViewModel(
                 vm.selectArgs,
                 Provider.of(context),
-                Provider.of(context),
+                Provider.of<Resources>(context).isSetupExcursionOnPoints,
                 Provider.of(context),
                 BuildRouteUseCase(Provider.of(context)),
               ),

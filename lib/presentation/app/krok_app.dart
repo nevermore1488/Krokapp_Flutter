@@ -12,6 +12,7 @@ import 'package:krokapp_multiplatform/presentation/about_us_page.dart';
 import 'package:krokapp_multiplatform/presentation/app/krok_app_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/app/navigation_menu_drawer.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_page.dart';
+import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_page.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_settings_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/excursion/excursion_view_model.dart';
 import 'package:krokapp_multiplatform/presentation/places/places_with_map_page.dart';
@@ -39,7 +40,7 @@ class KrokApp extends StatelessWidget {
           onHasData: (value) => _createMainScreen(context, value),
           onLoading: () {
             return createSplashScreen(
-              Provider.of(context),
+              Provider.of<Resources>(context).splashScreenLogoAnimationType,
               Provider.of<Resources>(context).appLogoPath,
             );
           },
@@ -72,7 +73,7 @@ class KrokApp extends StatelessWidget {
                       Provider.of(context),
                     ),
                   ),
-                  child: ExcursionPage(),
+                  child: ExcursionSettingsPage(),
                 ),
             KrokAppRoutes.EXCURSION: (BuildContext context) =>
                 Provider<ExcursionViewModel>(
@@ -112,15 +113,16 @@ class KrokApp extends StatelessWidget {
         ),
       );
 
-  static Widget createSplashScreen(BuildType buildType, String logoPath) =>
+  static Widget createSplashScreen(
+    AnimationType splashScreenLogoAnimationType,
+    String logoPath,
+  ) =>
       MaterialApp(
         home: Container(
           color: Colors.white,
           alignment: Alignment.center,
           child: CustomAnimatedContainer(
-            buildType == BuildType.krokapp
-                ? AnimationType.rotate
-                : AnimationType.scale,
+            splashScreenLogoAnimationType,
             child: SizedBox(
               width: 160,
               height: 160,

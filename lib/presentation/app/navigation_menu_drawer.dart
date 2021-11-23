@@ -45,9 +45,7 @@ class NavigationMenuDrawer extends StatelessWidget {
               ),
             ),
             Text(
-              Provider.of<BuildType>(context) == BuildType.krokapp
-                  ? AppLocalizations.of(context)!.nav_menu_title
-                  : AppLocalizations.of(context)!.nav_menu_title_bnr,
+              Provider.of<Resources>(context).getNavigationMenuTitle(context),
               style: Theme.of(context).textTheme.headline6,
             ),
           ],
@@ -97,7 +95,7 @@ class NavigationMenuDrawer extends StatelessWidget {
       );
 
   Widget _createExcursionItem(BuildContext context) =>
-      Provider.of<BuildType>(context) == BuildType.krokapp
+      Provider.of<Resources>(context).isShowExcursionMenuItem
           ? _createMenuItem(
               AppLocalizations.of(context)!.excursion_title,
               Icons.pin_drop_outlined,

@@ -42,9 +42,9 @@ class AppAsyncDependencies {
 }
 
 class InitApp extends StatelessWidget {
-  BuildType _buildType;
+  Resources _resources;
 
-  InitApp(this._buildType);
+  InitApp(this._resources);
 
   @override
   Widget build(BuildContext context) => FutureBuilder<AppAsyncDependencies>(
@@ -55,8 +55,8 @@ class InitApp extends StatelessWidget {
             return _createAppDependencies(snapshot.data!, context, KrokApp());
           },
           onLoading: () => KrokApp.createSplashScreen(
-            _buildType,
-            Resources(context, _buildType).appLogoPath,
+            _resources.splashScreenLogoAnimationType,
+            _resources.appLogoPath,
           ),
         ),
       );
@@ -79,26 +79,23 @@ class InitApp extends StatelessWidget {
       MultiProvider(
         providers: [
           Provider<Resources>(
-            create: (context) => Resources(context, _buildType),
-          ),
-          Provider<BuildType>(
-            create: (context) => _buildType,
+            create: (context) => _resources,
           ),
           Provider<LanguagesRepository>(
             create: (context) => LanguagesRepository(
-                LanguagesApiImpl(_buildType),
+                LanguagesApiImpl(_resources.baseUrl),
                 LanguagesDaoImpl(appAsyncDependencies.dbExecutor),
                 CurrentLanguageIdDaoImpl(appAsyncDependencies.dbExecutor)),
           ),
           Provider<CitiesRepository>(
             create: (context) => CitiesRepository(
-              CitiesApiImpl(_buildType),
+              CitiesApiImpl(_resources.baseUrl, _resources.getCitiesPath),
               CitiesDaoImpl(appAsyncDependencies.dbExecutor),
             ),
           ),
           Provider<TagsRepository>(
             create: (context) => TagsRepository(
-              TagsApiImpl(_buildType),
+              TagsApiImpl(_resources.baseUrl, _resources.isLoadTags),
               TagsDaoImpl(appAsyncDependencies.dbExecutor),
               FeaturedTagsDaoImpl(appAsyncDependencies.dbExecutor),
               TagFeaturesDaoImpl(appAsyncDependencies.dbExecutor),
@@ -117,7 +114,7 @@ class InitApp extends StatelessWidget {
           ),
           Provider<PointsRepository>(
             create: (context) => PointsRepository(
-              PointsApiImpl(_buildType),
+              PointsApiImpl(_resources.baseUrl, _resources.getPointsPath),
               PointsDaoImpl(appAsyncDependencies.dbExecutor),
               PlaceFeaturesDaoImpl(appAsyncDependencies.dbExecutor),
               FeaturedPointsDaoImpl(appAsyncDependencies.dbExecutor),

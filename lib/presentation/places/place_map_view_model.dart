@@ -5,17 +5,16 @@ import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/select_args.dart';
 import 'package:krokapp_multiplatform/map/location_manager.dart';
 import 'package:krokapp_multiplatform/presentation/map/map_view_model.dart';
-import 'package:krokapp_multiplatform/resources.dart';
 
 class PlaceMapViewModel extends MapViewModel {
   SelectArgs _selectArgs;
   PlaceUseCase _placeUseCase;
-  BuildType _buildType;
+  bool _isSetupExcursionOnPoints;
 
   PlaceMapViewModel(
     this._selectArgs,
     this._placeUseCase,
-    this._buildType,
+    this._isSetupExcursionOnPoints,
     LocationManager locationManager,
     BuildRouteUseCase buildRouteUseCase,
   ) : super(locationManager, buildRouteUseCase);
@@ -31,8 +30,7 @@ class PlaceMapViewModel extends MapViewModel {
   void onLocationObtained() {
     if (currentLocation != null &&
         _selectArgs.placeType == PlaceType.point &&
-        _buildType == BuildType.bnr) {
-
+        _isSetupExcursionOnPoints) {
       setupExcursion((currentLocation) => _createMarkers());
     }
   }

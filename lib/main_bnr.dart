@@ -7,5 +7,5 @@ import 'package:krokapp_multiplatform/resources.dart';
 void main() {
   // needed for fixing images uploading error on api < 23
   HttpOverrides.global = new MyHttpOverrides();
-  runApp(InitApp(BuildType.bnr));
+  runApp(InitApp(Resources(BuildType.bnr)));
 }
