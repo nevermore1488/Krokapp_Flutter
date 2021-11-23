@@ -65,20 +65,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
-    flavorDimensions "app"
-    productFlavors {
-
-        krokapp {
-            dimension "app"
-            applicationId "by.ssrlab.krokapp"
-        }
-
-        bnr {
-            dimension "app"
-            applicationId "by.ssrlab.bnr"
-        }
-    }
 }
 
 flutter {
