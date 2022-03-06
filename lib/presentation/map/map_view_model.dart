@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:krokapp_multiplatform/data/pojo/lat_lng.dart';
 import 'package:krokapp_multiplatform/business/usecases/build_route_use_case.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/map/location_manager.dart';
 import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 
-const MINSK_RAILROAD_LOCATION = LatLng(53.891178, 27.551021);
+final MINSK_RAILROAD_LOCATION = LatLng(53.891178, 27.551021);
 
 abstract class MapViewModel {
   LocationManager _locationManager;

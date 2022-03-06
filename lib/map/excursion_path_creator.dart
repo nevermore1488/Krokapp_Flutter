@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:krokapp_multiplatform/data/pojo/lat_lng.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 
 class ExcursionPathCreator {
@@ -40,8 +40,8 @@ class ExcursionPathCreator {
   }
 
   double _distanceBetween(LatLng p1, LatLng p2) {
-    var latSquareDiff = pow((p1.latitude - p2.latitude).abs(), 2.0);
-    var lngSquareDiff = pow((p1.longitude - p2.longitude).abs(), 2.0);
+    var latSquareDiff = pow((p1.lat - p2.lat).abs(), 2.0);
+    var lngSquareDiff = pow((p1.lng - p2.lng).abs(), 2.0);
     return sqrt(latSquareDiff + lngSquareDiff);
   }
 }

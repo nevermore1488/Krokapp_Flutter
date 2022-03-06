@@ -13,7 +13,7 @@ import 'package:krokapp_multiplatform/resources.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(InitApp(Resources(BuildType.krokapp)));
+    await tester.pumpWidget(InitApp(Resources()));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

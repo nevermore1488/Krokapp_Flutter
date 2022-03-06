@@ -1,4 +1,4 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:krokapp_multiplatform/data/pojo/lat_lng.dart';
 
 class MarkerInfo {
   final String id;

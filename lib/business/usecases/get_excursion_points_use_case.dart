@@ -1,4 +1,4 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:krokapp_multiplatform/data/pojo/lat_lng.dart';
 import 'package:krokapp_multiplatform/data/pojo/marker_info.dart';
 import 'package:krokapp_multiplatform/data/pojo/place.dart';
 import 'package:krokapp_multiplatform/data/repositories/excursion_repository.dart';

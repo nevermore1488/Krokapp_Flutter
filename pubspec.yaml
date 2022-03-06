@@ -27,7 +27,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  google_maps_flutter: ^2.0.6
   provider: ^5.0.0
   http: ^0.13.3
   sqflite: ^2.0.0+3
@@ -39,8 +38,8 @@ dependencies:
   audioplayers: ^0.20.1
   location: ^4.2.0
   shared_preferences: ^2.0.6
-  flutter_polyline_points: ^1.0.0
   page_view_indicators: ^2.0.0
+  yandex_mapkit: ^2.0.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
